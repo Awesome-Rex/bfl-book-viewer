@@ -1,0 +1,64 @@
+@use "../../helpers";
+@use "../../resources";
+@use "../../resources/appearance/effects";
+@use "../basic";
+@use "../components";
+
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+
+    border: var(--line-width) solid var(--bfl-grey);
+    /* width: 100%; */
+    padding:1em;
+
+    background-color: var(--bfl-white);
+    @include effects.drop-out();
+
+    z-index: 1;
+
+    #navbar-logo {
+        cursor: pointer;
+    
+        margin:auto 2em;
+        height: var(--navbar-height);
+    }
+
+    nav {
+        // display: flex;
+    }
+
+    .right-navbar {
+        flex-shrink: 1;
+        flex-grow: 1;
+        flex-basis: 140px;
+    }
+
+    .right-navbar .content {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+    
+        float: right;
+
+        > * {
+            display: inline-block;
+            flex-shrink: 0;
+        
+            margin: auto 0.5em;
+        }
+
+        > * > h2 {
+            color: var(--bfl-purple);
+            text-decoration: none;
+
+            :hover > h2 {
+                color: var(--bfl-gold);
+                text-decoration: underline;
+            }
+        }
+    }
+}

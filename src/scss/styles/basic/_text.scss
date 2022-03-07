@@ -1,0 +1,89 @@
+@use "../../helpers";
+@use "../../helpers/styles";
+@use "../../resources/appearance/colours";
+@use "../../resources/appearance/fonts";
+@use "../../resources/designations/themes";
+@use "../../resources/appearance/effects";
+// @use "../../helpers/mixins" as *;
+
+:root {
+    //
+}
+
+* {
+    font-family: Roboto;
+
+    color: var(--col-black);
+
+    @include themes.dark {
+        color: var(--col-white);
+    }
+}
+
+@include styles.total-heading {
+    color: var(--col-gold);
+
+    @include styles.major-heading {
+
+        @include styles.title {
+
+        }
+
+        @include styles.subtitle {
+
+        }
+    }
+
+    @include styles.heading {
+        
+        h1 {
+
+        }
+        h2 {
+
+        }
+        h3 {
+
+        }
+        h4 {
+
+        }
+        h5 {
+
+        }
+        h6 {
+            
+        }
+    }
+
+    @include themes.dark {
+        color: var(--col-white);
+    }
+}
+
+a {
+    color: var(--col-gold);
+}
+
+hr {
+    border-width: calc(var(--line-minor-width) / 2);
+
+    color: var(--col-black);
+
+    @include themes.dark {
+        color: var(--col-white);
+        background-color: var(--col-white);
+    }
+}
+
+ul {
+
+}
+
+ol {
+
+}
+
+li {
+
+}

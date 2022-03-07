@@ -1,0 +1,85 @@
+@use "./variables";
+
+//CUSTOM ELEMENT SELECTOR
+@mixin custom-selector ($selector: null, $pre: null, $post: null) {
+    $new-selector: "&";
+    @if ($selector != null) {
+        $new-selector: $selector;
+    }
+
+    @if ($pre != null) {
+        $new-selector: $pre + $new-selector;
+    }
+    @if ($post != null) {
+        $new-selector: $new-selector + $post;
+    }
+
+    @if ($selector != null) {
+        @at-root #{unquote(#{$new-selector})} {
+            @content;
+        }
+    } @else {
+        #{unquote(#{$new-selector})} {
+            @content;
+        }
+    }
+}
+
+//BREAKPOINT SELECTOR
+@mixin custom-breakpoint($amount: 0, $below: null) {
+    @if ($below == null) {
+        @media (min-width: $amount) {
+            @content;
+        }
+    } @else {
+        @media (max-width: $amount) {
+            @content;
+        }
+    }
+}
+
+// @function map-index($map, $item, $use-value: null) {
+//     $index: 0;
+
+//     @each $key, $value in $map {
+//         @if ($use-value == null) {
+//             @if ($key == $item) {
+//                 @return $index;
+//             }
+//         } @else {
+//             @if ($value == $item) {
+//                 @return $index;
+//             }
+//         }
+
+//         $index: $index + 1;
+//     }
+
+//     @return null;
+// }
+
+// @function map-nth($map, $n, $use-value: null) {
+//     $index: 0;
+
+//     @each $key, $value in $map {
+//         @if ($index == $n) {
+//             @if ($use-value == null) {
+//                 @return $key;
+//             } @else {
+//                 @return $value;
+//             }
+//         }
+
+//         $index: $index + 1;
+//     }
+
+//     @return null;
+// }
+
+// @function map-set-nth($map, $n, $item, $use-value: null) {
+//     @if ($use-value == null) {
+    
+//     } @else {
+
+//     }
+// }

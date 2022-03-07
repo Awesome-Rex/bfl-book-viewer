@@ -1,0 +1,278 @@
+@use "../../helpers";
+@use "../../resources";
+@use "../../resources/appearance/effects";
+@use "../basic";
+
+.book-player {
+    cursor: crosshair;
+
+    position: relative;
+
+    & > .page {
+        &, & * {
+            
+        }
+
+        & > img {
+            width: 100%;
+        }
+    }
+
+    .progress-zone {
+        position: absolute;
+    
+        bottom: calc(var(--progress-zone-bottom) * -1);
+    
+        width: 100%;
+        height: calc(var(--progress-zone-top) + var(--progress-zone-bottom));
+    
+        z-index: 1;
+
+        > div {
+            position: absolute;
+        
+            bottom: calc(var(--progress-zone-bottom) * 1);
+        
+            height: 0;
+            width: 100%;
+        }
+
+        & ~ .progress-area {
+            pointer-events: none;
+        
+            position: absolute;
+        
+            bottom: 0;
+        
+            width: 100%;
+            height: var(--progress-area-height);
+        
+            background-image: linear-gradient(to top, var(--area), transparent);
+        
+            opacity: 0;
+        
+            z-index: auto;
+        
+            transition: var(--area-anim);
+        }
+
+        &:hover ~ .progress-area {
+            opacity: 1;
+        }
+    }
+}
+
+.book-player .progress { //background-color
+    cursor: pointer;
+
+    appearance: none;
+
+    position: absolute;
+
+    bottom: calc(var(--progress-min) / -2);
+    
+    margin: 0;
+    border-bottom-left-radius: 1vh;
+    width: 100%;
+    height: var(--progress-min);
+    
+    outline: none;
+    background: linear-gradient(to right, var(--col-purple-dark) 0%, var(--col-purple-dark) var(--progress), transparent var(--progress), transparent 100%);
+    
+    transform: translateY(50%);
+
+    z-index: 2;
+
+    transition: height 30ms ease-in-out;
+
+    @at-root .book-player .progress-zone:hover .progress {
+        height: var(--progress-near);
+
+        transition: width 40ms ease-in-out;
+    }
+
+    @at-root .book-player .progress-zone:hover .progress:hover {
+        height: var(--progress-max);
+    }
+}
+
+.book-player .progress::-webkit-slider-thumb { //use background
+    appearance: none;
+
+    width: var(--point-min);
+    height: var(--point-min);
+
+    border-radius: 100%;
+    background-color: var(--col-purple-dark);
+    @include effects.drop-out; 
+
+    transition: width 30ms linear, height 30ms linear;
+
+    @at-root .book-player .progress-zone:hover .progress::-webkit-slider-thumb {
+        width: var(--point-near);
+        height: var(--point-near);
+    
+        transition: width 30ms ease-in-out, height 30ms ease-in-out;
+    }
+
+    @at-root .book-player .progress-zone:hover .progress:hover::-webkit-slider-thumb {
+        width: var(--point-most);
+        height: var(--point-most);
+    
+        transition: width 40ms linear, height 40ms linear;
+    }
+
+    @at-root .book-player progress-zone:hover .progress:hover::-webkit-slider-thumb:hover {
+        width: var(--point-max);
+        height: var(--point-max);
+    }
+
+    @at-root .book-player progress-zone:hover .progress::-webkit-slider-thumb:active {
+        width: var(--point-max);
+        height: var(--point-max);
+    }
+}
+
+/*STYLING PAGE BUTTONS*/
+
+.book-player .page-zone {
+    position: absolute;
+
+    top: 0;
+
+    width: var(--page-zone-width);
+    height: 100%;
+
+    z-index: 1;
+}
+
+.book-player .arrow {
+    user-select: none;
+
+    position: absolute;
+
+    top: 50%;
+
+    width: 20px;
+    
+    @include effects.drop-out(true);
+    opacity: 0;
+
+    transform: translateY(-50%);
+
+    transition: opacity 80ms linear, left 120ms ease, right  120ms ease;
+}
+
+.book-player .page-area {
+    pointer-events: none;
+
+    display: block;
+    position: absolute;
+
+    top:0;
+
+    width: var(--page-area-width);
+    height: 100%;
+
+    opacity: 0;
+
+    transition: var(--area-anim);
+}
+
+.book-player .page-active {
+    pointer-events: none;
+
+    position: absolute;
+
+    top:0;
+
+    width: calc(100% / var(--page-per-view));
+    height: 100%;
+
+    background-color: transparent;
+}
+
+.book-player .page-zone:hover {
+    cursor: pointer;
+}
+
+.book-player .page-zone:hover .arrow {
+    opacity: 0.5;
+
+    transition: opacity 60ms linear, left 120ms ease, right  120ms ease;
+}
+
+.book-player .page-zone:hover + .page-area {
+    opacity: 1;
+
+    transition: none;
+}
+
+.book-player .page-zone:hover:active .arrow {
+    opacity: 1;
+}
+
+.book-player .page-zone:hover:active + .page-area {
+    // opacity: 0.1;
+    opacity: 0;
+}
+
+.book-player .page-zone:hover:active + .page-area + .page-active {
+    // background-color: var(--page-turn);
+}
+
+/*STYLING SPECIFIC PAGE BUTTONS*/
+
+.book-player .page-zone.next {
+    right: 0;
+}
+
+.book-player .arrow.next {
+    right: 0;
+}
+
+.book-player .page-area.next {
+    right: 0;
+
+    background-image: linear-gradient(to left, var(--area), transparent);
+}
+
+.book-player .page-active.next {
+    right: 0;
+}
+
+.book-player .page-zone.next:hover .arrow.next {
+    right: var(--page-arrow-distance);
+}
+
+.book-player .page-zone.next:hover:active + .page-area.next + .page-active.next {
+    background-image: linear-gradient(to right, var(--page-turn), transparent);
+}
+
+.book-player .page-zone.last {
+    left: 0;
+}
+
+.book-player .arrow.last {
+    left: 0;
+
+    transform: translateY(-50%) scaleX(-1);
+}
+
+.book-player .page-area.last {
+    left: 0;
+
+    background-image: linear-gradient(to right, var(--area), transparent);
+}
+
+.book-player .page-active.last {
+    left: 0;
+}
+
+.book-player .page-zone.last:hover .arrow.last {
+    left: var(--page-arrow-distance);
+}
+
+.book-player .page-zone.last:hover:active + .page-area.last + .page-active.last {
+    background-image: linear-gradient(to left, var(--page-turn), transparent);
+}

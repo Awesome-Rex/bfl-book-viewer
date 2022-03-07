@@ -1,0 +1,7 @@
+@use "./breakpoints";
+
+:root {
+    --max-content-width: map-get($breakpoints, "lg");
+
+
+}

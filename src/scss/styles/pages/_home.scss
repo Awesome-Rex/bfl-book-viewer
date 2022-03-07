@@ -1,0 +1,57 @@
+@use "../../helpers";
+@use "../../resources";
+@use "../../resources/appearance/effects";
+@use "../../resources//layout/breakpoints";
+@use "../basic";
+@use "../components";
+@use "../layout";
+
+.book-player {
+    /*layout*/
+
+    --progress-zone-top: 4em;
+    --progress-zone-bottom: 2em;
+
+    --progress-area-height: 30%;
+
+    --progress-min: var(--line-width);
+    --progress-near: 4px;
+    --progress-max: 8px;
+
+    --point-min: var(--progress-min);
+    --point-near: 10px;
+    --point-most: 16px;
+    --point-max: 22px;
+
+
+    --page-zone-width: 25%;
+
+    --page-area-width: 14em;
+
+    --page-arrow-distance: 36px;
+
+    /*styling*/
+
+    --major: var(var(--bfl-purple));
+
+    --area: #00000022;
+    --area-anim: opacity 100ms linear;
+
+    --page-turn: #00000011;
+
+    /*data*/
+    --page-per-view: 2;
+
+    --total-pages: 10;
+    --current-page: 1;
+    --progress: calc(var(--current-page) / var(--total-pages)) * 100%;
+}
+
+.book-player {
+    margin: 1cm auto;
+    max-width: #{map-get(breakpoints.$breakpoints, xl)};
+    /* max-height:; */
+
+    // box-shadow: var(--drop-out);
+    @include effects.drop-out();
+}

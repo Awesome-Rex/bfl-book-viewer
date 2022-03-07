@@ -1,0 +1,139 @@
+@use "../layout/breakpoints";
+@use "../../helpers/mixins";
+@use "../appearance/effects";
+
+:root {
+    @extend ._layout-default;
+}
+
+//LAYOUT THEMES
+._layout-default {
+    //
+}
+
+//TOOLS
+@mixin xs($below: null) {
+    @include breakpoint (xs, $below) {
+        @content;
+    }
+}
+
+@mixin sm($below: null) {
+    @include breakpoint (sm, $below) {
+        @content;
+    }
+}
+
+@mixin md($below: null) {
+    @include breakpoint (md, $below) {
+        @content;
+    }
+}
+
+@mixin lg($below: null) {
+    @include breakpoint (lg, $below) {
+        @content;
+    }
+}
+
+@mixin xl($below: null) {
+    @include breakpoint (xl, $below) {
+        @content;
+    }
+}
+
+@mixin breakpoint($breakpoint: xs, $below: null) {
+    $amount: map-get(breakpoints.$breakpoints, $breakpoint);
+
+    @if ($below != null) {
+        $index: index(map-keys(breakpoints.$breakpoints), $breakpoint) + 1;
+        $length: length(map-keys(breakpoints.$breakpoints));
+        @if ($index <= $length) {
+            $amount: #{nth(map-values(breakpoints.$breakpoints), $index) - 1};
+        } @else {
+            $amount: 100vw;
+        }
+    }
+
+    @include mixins.custom-breakpoint($amount, $below) {
+        @content;
+    }
+}
+
+.responsive-test {
+    // font-family: Arial;
+    // font-weight: bold;
+    // background-color: white;
+
+    &::before {
+        content: "Breakpoint Test: ";
+    }
+
+    &::after {
+        content: "N/A";
+
+        @include xs {
+            color: purple;
+            content: "Extra Small (xs)";
+        }
+        @include sm {
+            color: blue;
+            content: "Small (sm)";
+        }
+        @include md {
+            color: green;
+            content: "Medium (md)";
+        }
+        @include lg {
+            color: orange;
+            content: "Large (lg)";
+        }
+        @include xl {
+            color: red;
+            content: "Extra Large (xl)";
+        }
+        @include mixins.custom-breakpoint(1400px) {
+            color: brown;
+            content: "GIGANTIC";
+        }
+    }
+}
+
+.responsive-test-below {
+    // font-family: Arial;
+    // font-weight: bold;
+    // background-color: white;
+
+    &::before {
+        content: "Breakpoint Test (Below): ";
+    }
+
+    &::after {
+        content: "N/A";
+
+        // @include mixins.custom-breakpoint(1400px, true) {
+        //     color: brown;
+        //     content: "GIGANTIC";
+        // }
+        @include xl(true) {
+            color: red;
+            content: "Extra Large (xl)";
+        }
+        @include lg(true) {
+            color: orange;
+            content: "Large (lg)";
+        }
+        @include md(true) {
+            color: green;
+            content: "Medium (md)";
+        }
+        @include sm(true) {
+            color: blue;
+            content: "Small (sm)";
+        }
+        @include xs(true) {
+            color: purple;
+            content: "Extra Small (xs)";
+        }
+    }
+}
