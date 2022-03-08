@@ -575,4 +575,49 @@ header .right-navbar .content > * > h2 :hover > h2 {
   box-shadow: var(--drop-out);
 }
 
-/*# sourceMappingURL=/_home.78e58b84.css.map */
+@font-face {
+  font-family: Roboto;
+  src: url("../../fonts/Roboto/Roboto-Regular.ttf");
+}
+@font-face {
+  font-family: Roboto;
+  src: url("../../fonts/Roboto/Roboto-Bold.ttf"), sans-serif;
+  font-weight: bold;
+}
+@font-face {
+  font-family: Roboto;
+  src: url("../../fonts/Roboto/Roboto-Italic.ttf"), sans-serif;
+  font-style: italic;
+}
+@font-face {
+  font-family: Roboto;
+  src: url("../../fonts/Roboto/Roboto-BoldItalic.ttf"), sans-serif;
+  font-weight: bold;
+  font-style: italic;
+}
+@font-face {
+  font-family: Roboto-Thin;
+  src: url("../../fonts/Roboto/Roboto-Thin.ttf"), sans-serif;
+}
+@font-face {
+  font-family: Roboto-Thin;
+  src: url("../../fonts/Roboto/Roboto-Medium.ttf"), sans-serif;
+  font-weight: bold;
+}
+@font-face {
+  font-family: Roboto-Thin;
+  src: url("../../fonts/Roboto/Roboto-ThinItalic.ttf"), sans-serif;
+  font-style: italic;
+}
+@font-face {
+  font-family: Roboto-Thin;
+  src: url("../../fonts/Roboto/Roboto-MediumItalic.ttf"), sans-serif;
+  font-weight: bold;
+  font-style: italic;
+}
+@font-face {
+  font-family: Asap;
+  src: url("../../fonts/Asap/Asap-VariableFont_wght.ttf"), sans-serif;
+}
+
+/*# sourceMappingURL=main.css.map */

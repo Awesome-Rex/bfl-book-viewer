@@ -1,3 +1,29 @@
 @use "./variables";
 @use "./mixins";
 
+@function map-length($map){
+    @return length(map-keys($map));
+}
+@function map-index($map, $item, $use-value: null) {
+    @if ($use-value == null) {
+        @return index(map-keys($map), $item);
+    } @else {
+        @return index(map-values($map), $item);
+    }
+}
+
+@function map-nth($map, $n, $use-value: null) {
+    @if ($use-value == null) {
+        @return nth(map-keys($map), $n);
+    } @else {
+        @return nth(map-values($map), $n);
+    }
+}
+
+// @function map-set-nth($map, $n, $item, $use-value: null) {
+//     @if ($use-value == null) {
+        
+//     } @else {
+
+//     }
+// }

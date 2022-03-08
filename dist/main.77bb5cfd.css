@@ -102,7 +102,7 @@ body {
 .responsive-test-below::after {
   content: "N/A";
 }
-@media (max-width: 100vw) {
+@media (max-width: 1399px) {
   .responsive-test-below::after {
     color: red;
     content: "Extra Large (xl)";

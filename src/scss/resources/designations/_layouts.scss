@@ -1,6 +1,7 @@
 @use "../layout/breakpoints";
 @use "../../helpers/mixins";
 @use "../appearance/effects";
+@use "../../helpers/functions";
 
 :root {
     @extend ._layout-default;
@@ -43,28 +44,35 @@
 }
 
 @mixin breakpoint($breakpoint: xs, $below: null) {
-    $amount: map-get(breakpoints.$breakpoints, $breakpoint);
+    // $amount: map-get(breakpoints.$breakpoints, $breakpoint);
 
-    @if ($below != null) {
-        $index: index(map-keys(breakpoints.$breakpoints), $breakpoint) + 1;
-        $length: length(map-keys(breakpoints.$breakpoints));
-        @if ($index <= $length) {
-            $amount: #{nth(map-values(breakpoints.$breakpoints), $index) - 1};
-        } @else {
-            $amount: 100vw;
+    // @if ($below != null) {
+    //     $index: index(map-keys(breakpoints.$breakpoints), $breakpoint) + 1;
+    //     $length: length(map-keys(breakpoints.$breakpoints));
+    //     @if ($index <= $length) {
+    //         $amount: #{nth(map-values(breakpoints.$breakpoints), $index) - 1};
+    //     } @else {
+    //         $amount: 100vw;
+    //     }
+    // }
+
+    // @include mixins.custom-breakpoint($amount, $below) {
+    //     @content;
+    // }
+
+    @if ($below == null) {
+        @include mixins.custom-breakpoint(breakpoints.get-min($breakpoint)) {
+            @content;
         }
-    }
-
-    @include mixins.custom-breakpoint($amount, $below) {
-        @content;
+    } @else {
+        @include mixins.custom-breakpoint(breakpoints.get-max($breakpoint), $below) {
+            @content;
+        }
     }
 }
 
 .responsive-test {
-    // font-family: Arial;
-    // font-weight: bold;
-    // background-color: white;
-
+    
     &::before {
         content: "Breakpoint Test: ";
     }
@@ -100,9 +108,6 @@
 }
 
 .responsive-test-below {
-    // font-family: Arial;
-    // font-weight: bold;
-    // background-color: white;
 
     &::before {
         content: "Breakpoint Test (Below): ";
@@ -111,10 +116,6 @@
     &::after {
         content: "N/A";
 
-        // @include mixins.custom-breakpoint(1400px, true) {
-        //     color: brown;
-        //     content: "GIGANTIC";
-        // }
         @include xl(true) {
             color: red;
             content: "Extra Large (xl)";
