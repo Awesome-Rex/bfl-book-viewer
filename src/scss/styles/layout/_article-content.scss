@@ -1,0 +1,11 @@
+.article-content {
+    position: relative;
+
+    padding: 1em;
+
+    > div {
+        width: 100%;
+        max-width: var(--max-article-width);
+        margin: auto;
+    }
+}

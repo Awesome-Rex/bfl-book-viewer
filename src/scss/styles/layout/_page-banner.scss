@@ -3,11 +3,9 @@
 
     padding: 1em;
 
-    // @include drop-out();
-
     > div {
         width: 100%;
-        max-width: var(--max-info-width);
+        max-width: var(--max-article-width);
         margin: auto;
     }
 }

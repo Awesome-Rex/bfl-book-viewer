@@ -1,17 +1,17 @@
 @use "../../helpers";
 @use "../../resources";
 @use "../../resources/appearance/effects";
-@use "../../resources//layout/breakpoints";
+@use "../../resources/layout/breakpoints";
 @use "../basic";
 @use "../components";
-
+// @use "./../functions";
 
 .book-info {
     padding: 2em 1em;
 
     @include effects.drop-out();
 
-    z-index: 1;
+    z-index: 2;
 
     background-color: var(--col-purple-dark);
 
@@ -19,7 +19,7 @@
         display: flex;
         flex-wrap: wrap;
     
-        max-width: map-get(breakpoints.$breakpoints, xl);
+        max-width: var(--max-article-width);
 
         justify-content:space-between;
     
@@ -37,7 +37,8 @@
             vertical-align: top;
         
             /* height: 16em; */
-            height: 6cm;
+            // height: 6cm;
+            width: 4cm;
         
             // box-shadow: var(--drop-out);
             @include effects.drop-out(true);
@@ -51,13 +52,13 @@
     
         // padding: 0 1em;
 
-        .book-info .title {
-            margin: 0 auto;
-        
+        .title {
             text-decoration: none;
 
             > * {
                 margin: 0 auto;
+
+                text-decoration: none;
             }
         }
 

@@ -14,64 +14,88 @@
     <script type="text/javascript" src="./js/index.js"></script>
 </head>
 <body>
-    <header>
-        <nav class="left-navbar">
-            <a href="http://thebfl.org/"><img src="http://thebfl.org/wp-content/uploads/elementor/thumbs/BLACKSTONE-LOGO-p7i29faa7pmhur49pn8dwqvicg42dh1d5ycagajfnk.jpg" id="navbar-logo"/></a>
-            <!-- <a href="http://thebfl.org/"><img src="images/BLACKSTONE-LOGO (3).png" id="navbar-logo"/></a> -->
-        </nav>
-        <nav class="right-navbar">
-            <div class="content">
-                <a href="http://thebfl.org/"><h2>Home</h2></a>
-                <a href="https://www.knowledgebookstore.com/"><h2>Read</h2></a>
-                <a href="http://thebfl.org/"><h2>About Us</h2></a>
-                <a href="http://thebfl.org/"><h2>Contact</h2></a>
-            <div>
-        </nav>
-    </header>
-    <p style="font-family: Arial; font-size: 0.8em; font-weight: bold; background: white; margin: 0.5em; padding: 0.2em; position:fixed; right: 0; bottom: 1.5em; opacity: 0.5; z-index: 100;" class="responsive-test"></p>
-    <p style="font-family: Arial; font-size: 0.8em; font-weight: bold; background: white; margin: 0.5em; padding: 0.2em; position: fixed; right: 0; bottom: 0em; opacity: 0.5; z-index: 100;" class="responsive-test-below"></p>
-    <div id="content">
-        <div class="book-player" style="--progress:66%">
-            <div class="page" draggable="false">
-                <img draggable="false" src="https://childrensbooks.tv/wp-content/uploads/2020/12/The-Cat-In-the-Hat-book-read-aloud-06-1024x576.jpg"/>
-            </div>
-
-            <div class="page-zone next">
-                <img class="arrow next" src="../images/Arrow.svg">
-            </div>
-            <div class="page-area next"></div>
-            <div class="page-active next"></div>
-
-            <div class="page-zone last">
-                <img class="arrow last" src="../images/Arrow.svg">
-            </div>
-            <div class="page-area last"></div>
-            <div class="page-active last"></div>
-
-            <div class="progress-zone">
-                <div>
-                    <input class="progress"type="range" min="0" max="100" value="66">
+    <header id="navbar">
+        <div class="content">
+            <nav class="left-navbar">
+                <a href="http://thebfl.org/"><img src="http://thebfl.org/wp-content/uploads/elementor/thumbs/BLACKSTONE-LOGO-p7i29faa7pmhur49pn8dwqvicg42dh1d5ycagajfnk.jpg" id="navbar-logo"/></a>
+                <!-- <a href="http://thebfl.org/"><img src="images/BLACKSTONE-LOGO (3).png" id="navbar-logo"/></a> -->
+            </nav>
+            <nav class="right-navbar">
+                <div class="content">
+                    <a href="http://thebfl.org/"><h2>Home</h2></a>
+                    <a href="https://www.knowledgebookstore.com/"><h2>Read</h2></a>
+                    <a href="#"><h2>The Brotherhood</h2></a>
+                    <a href="#"><h2>Volunteer</h2></a>
+                    <a href="http://thebfl.org/"><h2>About Us</h2></a>
+                    <a href="http://thebfl.org/"><h2>Contact</h2></a>
                 </div>
-            </div>
-            <div class="progress-area"></div>
+            </nav>
         </div>
+    </header>
+    <p style="font-family: Arial; font-size: 0.8em; font-weight: bold; background: white; margin: 0.5em; padding: 0.2em; position:fixed; right: 0; bottom: 1.5em; opacity: 0.5; z-index: 16;" class="responsive-test"></p>
+    <p style="font-family: Arial; font-size: 0.8em; font-weight: bold; background: white; margin: 0.5em; padding: 0.2em; position: fixed; right: 0; bottom: 0em; opacity: 0.5; z-index: 16;" class="responsive-test-below"></p>
+    <div class="scroll-container-x chunk" style="position:relative; z-index: 10;">
+        <div>
+            <div class="book-player" style="--progress:66%; z-index:10;">
+                <div class="page" draggable="false">
+                    <img draggable="false" src="https://childrensbooks.tv/wp-content/uploads/2020/12/The-Cat-In-the-Hat-book-read-aloud-06-1024x576.jpg"/>
+                </div>
 
-        <div class="_theme-dark book-info page-banner">
+                <div class="page-zone next">
+                    <img class="arrow next" src="../images/Arrow.svg">
+                </div>
+                <div class="page-area next"></div>
+                <div class="page-active next"></div>
+
+                <div class="page-zone last">
+                    <img class="arrow last" src="../images/Arrow.svg">
+                </div>
+                <div class="page-area last"></div>
+                <div class="page-active last"></div>
+
+                <div class="progress-zone">
+                    <div>
+                        <input class="progress"type="range" min="0" max="100" value="66">
+                    </div>
+                </div>
+                <div class="progress-area"></div>
+            </div>
+        </div>
+    </div>
+    <div id="content">
+        <div class="_theme-dark book-info page-banner"">
             <div class="content">
                 <a class="cover" href="https://www.amazon.ca/Cat-Hat-Dr-Seuss/dp/039480001X">
                     <img src="https://upload.wikimedia.org/wikipedia/en/1/10/The_Cat_in_the_Hat.png">
                 </a>
 
                 <div class="info">
-                    <a class="title white-link" href="https://www.amazon.ca/Cat-Hat-Dr-Seuss/dp/039480001X"><h1>The Cat in the Hat</h1></a>
+                    <a class="title" href="https://www.amazon.ca/Cat-Hat-Dr-Seuss/dp/039480001X"><h1>The Cat in the Hat</h1></a>
                     <hr/>
                     <div class="tags">
-                        <a class="author white-link" href="https://www.seussville.com/">Dr. Seuss</a>
+                        <a class="author" href="https://www.seussville.com/">Dr. Seuss</a>
                         <!-- <hr/> -->
                         <span class="date">March 12, 1957</span>
                     </div>
                     <p class="description">
                         The Cat in the Hat is a tall anthropomorphic cat, who wears a red and white-striped hat and a red bow tie and sometimes has an umbrella with him mostly green, blue or red. He is a farm cat of Dr. Seuss's short story The Cat in the Hat.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="author-info page-banner">
+            <div class="content">
+                <a class="portrait" href="#">
+                    <img src="https://cdn.vox-cdn.com/thumbor/iPafxYKSD_GagC6EiDyOff3NIB8=/0x0:3948x4018/1200x800/filters:focal(1371x986:2001x1616)/cdn.vox-cdn.com/uploads/chorus_image/image/68899768/1134107254.0.jpg"/>
+                </a>
+                <div class="info">
+                    <div class="tags">
+                        <a class="name" href="#"><h2>Dr. Seuss</h2></a>
+                        <span class="lifespan">March 2, 1904 - September 24, 1991</span>
+                    </div>
+                    <hr/>
+                    <p class="description">
+                        Theodor Seuss Geisel (/suːs ˈɡaɪzəl, zɔɪs -/ (audio speaker iconlisten);[2][3][4] March 2, 1904 – September 24, 1991)[5] was an American children's author, political cartoonist, illustrator, poet, animator, and filmmaker. He is known for his work writing and illustrating more than 60 books under the pen name Dr. Seuss (/suːs, zuːs/,[4][6]). His work includes many of the most popular children's books of all time, selling over 600 million copies and being translated into more than 20 languages by the time of his death.[7]
                     </p>
                 </div>
             </div>

@@ -1,7 +1,12 @@
 @use "./breakpoints";
 
 :root {
-    --max-content-width: map-get($breakpoints, "lg");
+    --max-article-width: #{breakpoints.get-max(lg)};
+    --max-jumbotron-width: #{breakpoints.get-max(xl)};
 
+    --max-viewer-width: #{breakpoints.get-avg(xl)};
+    --min-viewer-width: #{breakpoints.get-max(xs)};
 
+    --navbar-height: 10em;
+    --navbar-max-height: 12em;
 }

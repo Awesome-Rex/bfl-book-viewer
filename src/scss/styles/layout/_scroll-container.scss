@@ -1,0 +1,37 @@
+@use "../../helpers/mixins";
+
+.scroll-container-x {
+    &, &.bit {
+        @include mixins.scroll-container-x(1em, 1em);
+    }
+    &.chunk {
+        @include mixins.scroll-container-x(4em, 4em);
+    }
+    &.partial {
+        @include mixins.scroll-container-x(15vh, 15vh);
+    }
+    &.segment {
+        @include mixins.scroll-container-x(50vh, 50vh);
+    }
+    &.screen {
+        @include mixins.scroll-container-x(100vh, 100vh);
+    }
+}
+
+.scroll-container-y {
+    &, &.bit {
+        @include mixins.scroll-container-y(1em, 1em);
+    }
+    &.chunk {
+        @include mixins.scroll-container-y(4em, 4em);
+    }
+    &.partial {
+        @include mixins.scroll-container-y(15vw, 15vw);
+    }
+    &.segment {
+        @include mixins.scroll-container-y(50vw, 50vw);
+    }
+    &.screen {
+        @include mixins.scroll-container-y(100vw, 100vw);
+    }
+}

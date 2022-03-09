@@ -1,4 +1,5 @@
-@use "./variables";
+// @use "./variables";
+// @use "./functions";
 
 //CUSTOM ELEMENT SELECTOR
 @mixin custom-selector ($selector: null, $pre: null, $post: null) {
@@ -35,5 +36,35 @@
         @media (max-width: $amount) {
             @content;
         }
+    }
+}
+
+//SCROLL CONTAINERS
+//for small mobile devices (invisible scrollbars, touch-screen scrolling for large content)
+@mixin scroll-container-x ($reserve-top: 1em, $reserve-bottom: 1em) {
+    overflow-x: scroll;
+    overflow-y: visible;
+
+    margin-top: $reserve-top * -1;
+    margin-bottom: $reserve-bottom * -1;
+    padding-top: $reserve-top;
+    padding-bottom: $reserve-bottom;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+@mixin scroll-container-y ($reserve-left: 1em, $reserve-right: 1em) {
+    overflow-x: visible;
+    overflow-y: scroll;
+    
+    margin-left: $reserve-left * -1;
+    margin-right: $reserve-right * -1;
+    padding-left: $reserve-left;
+    padding-right: $reserve-right;
+
+    &::-webkit-scrollbar {
+        display: none;
     }
 }

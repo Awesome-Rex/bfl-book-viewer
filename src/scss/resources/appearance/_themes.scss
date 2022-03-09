@@ -1,4 +1,4 @@
-@use "../appearance";
+// @use "../appearance";
 @use "../appearance/colours";
 @use "../../helpers/variables";
 @use "../../helpers/mixins";
@@ -41,6 +41,7 @@
     // --theme-error: var(--col-red-pink);
 }
 
+/*
 // @mixin theme-light($selector: null) {
 //     @if ($selector) {
 //         ._theme-light & {
@@ -64,7 +65,7 @@
 //         }
 //     }
 // }
-
+*/
 @mixin light($selector: null) {
     @include mixins.custom-selector($selector, "._theme-light ") {
         @content;

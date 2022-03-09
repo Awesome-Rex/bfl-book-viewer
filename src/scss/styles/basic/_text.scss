@@ -2,7 +2,7 @@
 @use "../../helpers/styles";
 @use "../../resources/appearance/colours";
 @use "../../resources/appearance/fonts";
-@use "../../resources/designations/themes";
+@use "../../resources/appearance/themes";
 @use "../../resources/appearance/effects";
 // @use "../../helpers/mixins" as *;
 
@@ -63,25 +63,32 @@
 
 a {
     color: var(--col-gold);
+
+    text-decoration-thickness: var(--line-width);
 }
 
 hr {
-    border-width: calc(var(--line-minor-width) / 2);
+    border-width: calc(var(--line-width) / 2);
 
-    color: var(--col-black);
+    border-color: var(--col-black);
 
     @include themes.dark {
-        color: var(--col-white);
-        background-color: var(--col-white);
+        border-color: var(--col-white);
     }
 }
 
 ul {
 
+    li {
+
+    }
 }
 
 ol {
 
+    li {
+
+    }
 }
 
 li {

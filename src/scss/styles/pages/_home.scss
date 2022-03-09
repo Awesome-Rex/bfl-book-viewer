@@ -1,7 +1,7 @@
 @use "../../helpers";
 @use "../../resources";
 @use "../../resources/appearance/effects";
-@use "../../resources//layout/breakpoints";
+@use "../../resources/layout/breakpoints";
 @use "../basic";
 @use "../components";
 @use "../layout";
@@ -48,10 +48,16 @@
 }
 
 .book-player {
-    margin: 1cm auto;
-    max-width: #{map-get(breakpoints.$breakpoints, xl)};
+    // margin: 1cm auto;
+    margin: 0 0;
+    max-width: var(--max-viewer-width);
+    min-width: var(--min-viewer-width);
     /* max-height:; */
 
     // box-shadow: var(--drop-out);
     @include effects.drop-out();
+
+    @include breakpoints.md {
+        margin: 1cm auto;
+    }
 }
