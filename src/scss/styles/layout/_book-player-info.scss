@@ -1,0 +1,294 @@
+@use "../../helpers";
+@use "../../resources";
+@use "../../resources/appearance/effects";
+@use "../../resources/layout/breakpoints";
+@use "../basic";
+@use "../components";
+// @use "./../functions";
+
+.book-player-info {
+    padding: 1em 1em;
+
+    @include effects.drop-out();
+
+    background-color: var(--col-purple-dark);
+
+    > div {
+        display: flex;
+
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+    
+        max-width: var(--max-article-width);
+
+        justify-content:space-between;
+    
+        gap: 1em;
+    }
+
+    .image {
+        margin-bottom: 0.5em;
+    
+        img {
+            display: inline-block;
+            vertical-align: top;
+            
+            @include effects.drop-out(true);
+        }
+    }
+
+    .info {
+        flex-basis: 0;
+        flex-grow: 1;
+        flex-shrink: 1;
+    
+        .title {
+            text-align: center;
+
+            text-decoration: none;
+
+            > * {
+                margin: 0 auto;
+
+                text-decoration: none;
+            }
+
+            + hr {
+                color: var(--col-white);
+            }
+
+            // @include breakpoints.sm {
+            //     text-align: left;
+            // }
+        }
+
+        .tags {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+
+            gap:1em;
+
+            margin-bottom: 1em;
+
+            > * {
+                flex-shrink: 0;
+                font-weight: bold;
+                text-decoration: none;
+            }
+        }
+
+        .description {
+            margin-block-end: 0;
+            width: calc(100% - 1em);
+        }
+    }
+
+    @include breakpoints.sm {
+        > div {
+            flex-direction: row;
+            justify-content: center;
+            align-items:flex-start;
+        }
+
+        .title {
+            text-align: left !important;
+        }
+
+        .image {
+            margin-bottom: 0;
+        }
+
+        .tags {
+            justify-content: flex-start !important;
+
+            margin-bottom: 0.5em !important;
+        }
+    }
+}
+
+.book-player-info.book {
+    padding-top: 2em;
+    padding-bottom: 2em;
+
+    background-color: var(--col-purple-dark);
+
+    .image {
+
+
+        img {
+            width: 5cm;
+        }
+    }
+
+    .title {
+
+        > * {
+            color: var(--col-white);
+        }
+    }
+
+    .tags {
+        > * {
+
+        }
+
+        .author {
+
+        }
+
+        .date {
+
+        }
+    }
+
+    @include breakpoints.sm() {
+        @include breakpoints.md(true) {
+            .image img {
+                width: 3cm !important;
+            }
+        }
+    }
+}
+
+.book-player-info.author {
+    background-color: var(--col-gold-dim);
+    
+    .image {
+
+
+        img {
+            border-radius: 100%;;
+            height: 3cm;
+            width: 3cm;
+            object-fit: cover;
+            object-position: center;
+
+            @include breakpoints.sm() {
+                @include breakpoints.md(true) {
+                    width: 2cm;
+                    height: 2cm;
+                }
+            }
+        }
+    }
+
+    .title {
+
+        > * {
+            color: var(--col-black);
+        }
+    }
+
+    .tags {
+        > * {
+
+        }
+
+        .lifespan {
+
+        }
+    }
+
+    @include breakpoints.sm() {
+        @include breakpoints.md(true) {
+            .image img {
+                width: 2cm !important;
+                height: 2cm !important;
+            }
+        }
+    }
+}
+
+.book-player-info.reader {
+    background-color: var(--col-grey-light);
+
+    .image {
+
+
+        img {
+            border-radius: 100%;;
+            height: 2cm;
+            width: 2cm;
+            object-fit: cover;
+            object-position: center;
+        }
+    }
+
+    .title {
+
+        > * {
+            color: var(--col-black);
+        }
+    }
+
+    .tags {
+        > * {
+
+        }
+
+        .date {
+
+        }
+    }
+
+    @include breakpoints.sm() {
+        @include breakpoints.md(true) {
+            .image img {
+                width: 2cm !important;
+                height: 2cm !important;
+            }
+        }
+    }
+}
+
+
+.book-player-info.editor {
+    background-color: var(--col-white);
+
+    box-shadow: none;
+    border-bottom: var(--line-width) solid var(--col-grey-light);
+
+    padding-top: 1cm;
+    padding-bottom: 1cm;
+
+    z-index: -1;
+
+    .image {
+
+
+        img {
+            border-radius: 100%;;
+            height: 1.5cm;
+            width: 1.5cm;
+            object-fit: cover;
+            object-position: center;
+        }
+    }
+
+    .title {
+
+        > * {
+            color: var(--col-black);
+        }
+    }
+
+    .tags {
+        > * {
+
+        }
+
+        .position {
+
+        }
+
+        .last-date {
+
+        }
+
+        .initial-date {
+
+        }
+    }
+}

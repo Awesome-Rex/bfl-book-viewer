@@ -49,9 +49,10 @@
 
 .book-player {
     // margin: 1cm auto;
-    margin: 0 0;
+    margin: 0 0 0.5cm 0;
     max-width: var(--max-viewer-width);
     min-width: var(--min-viewer-width);
+    // max-height: 90vh;
     /* max-height:; */
 
     // box-shadow: var(--drop-out);
@@ -59,5 +60,17 @@
 
     @include breakpoints.md {
         margin: 1cm auto;
+    }
+}
+
+.book-player-info {
+    &.book {
+        z-index: 2;
+    }
+    &.author {
+        z-index: 1;
+    }
+    &.reader {
+        z-index: 0;
     }
 }

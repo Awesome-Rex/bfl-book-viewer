@@ -35,7 +35,7 @@
     #navbar-logo {
         cursor: pointer;
     
-        margin: auto 2em;
+        // margin: auto 2em;
         // height: var(--navbar-height);
         height: var(--navbar-max-height);
 
@@ -85,7 +85,7 @@
             text-decoration: none;
 
             @at-root #navbar .right-navbar .content a:hover h2 {
-                // color: var(--col-gold);
+                // color: var(--col-gold-dim);
                 text-decoration: underline;
             }
         }

@@ -21,7 +21,7 @@
 }
 
 @include styles.total-heading {
-    color: var(--col-gold);
+    color: var(--col-gold-dim);
 
     @include styles.major-heading {
 
@@ -62,7 +62,7 @@
 }
 
 a {
-    color: var(--col-gold);
+    color: var(--col-gold-dim);
 
     text-decoration-thickness: var(--line-width);
 }

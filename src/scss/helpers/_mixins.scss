@@ -29,11 +29,11 @@
 //BREAKPOINT SELECTOR
 @mixin custom-breakpoint($amount: 0, $below: null) {
     @if ($below == null) {
-        @media (min-width: $amount) {
+        @media screen and (min-width: $amount) {
             @content;
         }
     } @else {
-        @media (max-width: $amount) {
+        @media screen and (max-width: $amount) {
             @content;
         }
     }
