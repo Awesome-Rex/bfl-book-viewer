@@ -62,6 +62,14 @@ body {
   --drop-in: inset var(--drop-out);
 }
 
+._theme-light, :root {
+  --text-colour: var(--col-black);
+}
+
+._theme-dark {
+  --text-colour: var(--col-white);
+}
+
 /*
 // @mixin theme-light($selector: null) {
 //     @if ($selector) {
@@ -172,6 +180,7 @@ body {
   --max-jumbotron-width: 1599px;
   --max-viewer-width: calc(2800px / 2);
   --min-viewer-width: 479px;
+  --max-info-width: var(--max-viewer-width);
   --navbar-height: 10em;
   --navbar-max-height: 8em;
 }
@@ -180,12 +189,18 @@ body {
   font-family: Roboto;
   color: var(--col-black);
 }
+*.theme-dark {
+  color: var(--col-white);
+}
 ._theme-dark * {
   color: var(--col-white);
 }
 
 h1, h2, h3, h4, h5, h6 {
   color: var(--col-gold-dim);
+}
+h1.theme-dark, h2.theme-dark, h3.theme-dark, h4.theme-dark, h5.theme-dark, h6.theme-dark {
+  color: var(--col-white);
 }
 ._theme-dark h1, ._theme-dark h2, ._theme-dark h3, ._theme-dark h4, ._theme-dark h5, ._theme-dark h6 {
   color: var(--col-white);
@@ -194,12 +209,18 @@ h1, h2, h3, h4, h5, h6 {
 ._title {
   color: var(--col-gold-dim);
 }
+._title.theme-dark {
+  color: var(--col-white);
+}
 ._theme-dark ._title {
   color: var(--col-white);
 }
 
 ._subtitle {
   color: var(--col-gold-dim);
+}
+._subtitle.theme-dark {
+  color: var(--col-white);
 }
 ._theme-dark ._subtitle {
   color: var(--col-white);
@@ -213,6 +234,9 @@ a {
 hr {
   border-width: calc(var(--line-width) / 2);
   border-color: var(--col-black);
+}
+hr.theme-dark {
+  border-color: var(--col-white);
 }
 ._theme-dark hr {
   border-color: var(--col-white);
@@ -534,6 +558,18 @@ hr {
   display: none;
 }
 
+.wrap-container {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+.wrap-container > * {
+  flex-basis: auto;
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+
 .page-banner {
   position: relative;
   padding: 1em;
@@ -552,6 +588,41 @@ hr {
   width: 100%;
   max-width: var(--max-article-width);
   margin: auto;
+}
+
+.rect-link {
+  --background: white;
+  --icon-size: 2cm;
+}
+
+.rect-link {
+  display: inline-block;
+  padding: 1em;
+  background: var(--background);
+  text-decoration: none;
+}
+.rect-link .icon {
+  display: block;
+  width: var(--icon-size);
+  height: var(--icon-size);
+  margin-right: auto;
+}
+.rect-link .title {
+  display: block;
+  font-size: 2em;
+  font-weight: bold;
+  text-align: left;
+  margin-top: 0.5em;
+  margin-bottom: 0.25em;
+}
+.rect-link .subtitle {
+  display: block;
+  font-weight: bold;
+  text-align: left;
+  margin-bottom: 0.75em;
+}
+.rect-link .description {
+  display: block;
 }
 
 #navbar {
@@ -611,7 +682,7 @@ hr {
   text-decoration: underline;
 }
 
-@media screen and (min-width: 960px) {
+@media screen and (min-width: 720px) {
   #navbar > .content {
     row-gap: auto;
   }
@@ -627,17 +698,29 @@ hr {
   }
 }
 
+#footer {
+  height: 2cm;
+  background-color: var(--col-purple-dark);
+}
+#footer > .content {
+  box-sizing: border-box;
+  margin: auto auto;
+  width: 100%;
+  max-width: var(--max-article-width);
+  padding: 1em;
+}
+#footer .description {
+  text-align: center;
+}
 .book-player-info {
   padding: 1em 1em;
-  box-shadow: var(--drop-out);
-  background-color: var(--col-purple-dark);
 }
 .book-player-info > div {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  max-width: var(--max-article-width);
+  max-width: var(--max-info-width);
   justify-content: space-between;
   gap: 1em;
 }
@@ -669,14 +752,24 @@ hr {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 1em;
+  row-gap: 6px;
+  padding: 0 calc(var(--line-width) / 2);
   margin-bottom: 1em;
 }
 .book-player-info .info .tags > * {
   flex-shrink: 0;
+  margin: 0 calc(var(--line-width) / -2);
+  border-left: var(--line-width) solid var(--col-black);
+  border-right: var(--line-width) solid var(--col-black);
+  padding: 0 0.5em;
   font-weight: bold;
   text-decoration: none;
 }
+._theme-dark.book-player-info .info .tags > * {
+  border-left: var(--line-width) solid var(--col-white);
+  border-right: var(--line-width) solid var(--col-white);
+}
+
 .book-player-info .info .description {
   margin-block-end: 0;
   width: calc(100% - 1em);
@@ -768,7 +861,6 @@ hr {
   border-bottom: var(--line-width) solid var(--col-grey-light);
   padding-top: 1cm;
   padding-bottom: 1cm;
-  z-index: -1;
 }
 .book-player-info.editor .image img {
   border-radius: 100%;

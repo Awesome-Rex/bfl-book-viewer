@@ -1,0 +1,57 @@
+@use "../../helpers";
+@use "../../resources";
+@use "../../resources/appearance/effects";
+@use "../basic";
+
+.rect-link {
+    --background: white;
+    --icon-size: 2cm;
+}
+
+.rect-link {
+    display: inline-block;
+
+    padding: 1em;
+
+    background: var(--background);
+
+    text-decoration: none;
+    
+    .icon {
+        display: block;
+
+        width: var(--icon-size);
+        height: var(--icon-size);
+
+        // margin: auto auto;
+        margin-right: auto;
+    }
+
+    .title {
+        display: block;
+
+        font-size: 2em;
+        font-weight: bold;
+        // text-align: center;
+        text-align: left;
+
+        margin-top: 0.5em;
+        margin-bottom: 0.25em;
+    }
+
+    .subtitle {
+        display: block;
+
+        font-weight: bold;
+        // text-align: center;
+        text-align: left;
+
+        margin-bottom: 0.75em;
+    }
+
+    .description {
+        display: block;
+
+        // text-align: center;
+    }
+}

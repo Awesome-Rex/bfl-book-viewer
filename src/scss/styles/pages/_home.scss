@@ -1,4 +1,6 @@
 @use "../../helpers";
+@use "../../helpers/mixins";
+@use "../../helpers/styles";
 @use "../../resources";
 @use "../../resources/appearance/effects";
 @use "../../resources/layout/breakpoints";
@@ -64,6 +66,8 @@
 }
 
 .book-player-info {
+    @include effects.drop-out();
+
     &.book {
         z-index: 2;
     }
@@ -72,5 +76,47 @@
     }
     &.reader {
         z-index: 0;
+    }
+    &.editor {
+        z-index: -1;
+
+        box-shadow: none;
+    }
+}
+
+.bottom-wrap {
+    display: flex;
+    flex-direction:column;
+    align-items: stretch;
+    justify-content:flex-start;
+    flex-wrap: wrap;
+
+    gap: 1em;
+    padding: 1em 0;
+
+    > .rect-link {
+        flex-basis: auto;
+        flex-grow: 0;
+        flex-shrink: 0;
+    }
+
+    @include breakpoints.md {
+        flex-direction: row !important;
+        align-items: flex-start !important;
+        justify-content:flex-start !important;
+
+        > .rect-link {
+            width: 8cm;
+            height: 8cm;
+        }
+    }
+}
+
+#content .article-content {
+    padding-top: 1cm;
+    padding-bottom: 2cm;
+
+    @include styles.heading {
+        color: var(--col-black);
     }
 }

@@ -6,6 +6,7 @@
 
     --max-viewer-width: #{breakpoints.get-avg(xl)};
     --min-viewer-width: #{breakpoints.get-max(xs)};
+    --max-info-width: var(--max-viewer-width);
 
     --navbar-height: 10em;
     --navbar-max-height: 8em;

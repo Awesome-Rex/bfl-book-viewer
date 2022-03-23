@@ -9,6 +9,8 @@
 }
 
 ._theme-light {
+    --text-colour: var(--col-black);
+
     // --theme-primary: var(--col-purple-dark);
     // --theme-secondary: var(--col-gold-dim);
     // --theme-tertiary: var(--col-light-grey);
@@ -26,6 +28,8 @@
 }
 
 ._theme-dark {
+    --text-colour: var(--col-white);
+
     // --theme-primary: var(--col-purple-dark);
     // --theme-secondary: var(--col-white);
     // --theme-tertiary: var(--col-gold-dim);
@@ -67,12 +71,20 @@
 // }
 */
 @mixin light($selector: null) {
+    @include mixins.custom-selector($selector, null, ".theme-light") {
+        @content;
+    }
+
     @include mixins.custom-selector($selector, "._theme-light ") {
         @content;
     }
 }
 
 @mixin dark($selector: null) {
+    @include mixins.custom-selector($selector, null, ".theme-dark") {
+        @content;
+    }
+
     @include mixins.custom-selector($selector, "._theme-dark ") {
         @content;
     }
