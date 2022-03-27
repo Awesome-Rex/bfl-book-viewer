@@ -3,89 +3,13 @@
 @use "../../helpers/variables";
 @use "../../helpers/mixins";
 
-:root {
-    @extend ._theme-light;
-    // @include _theme-default();
-}
-
-._theme-light {
-    --text-colour: var(--col-black);
-
-    // --theme-primary: var(--col-purple-dark);
-    // --theme-secondary: var(--col-gold-dim);
-    // --theme-tertiary: var(--col-light-grey);
-
-    // --theme-bg: var(--col-white);
-    // --theme-bg-major: var(--col-light-grey);
-    // --theme-fg: var(--col-black);
-    // --theme-fg-minor: var(--var-black-dim);
-
-    // --theme-link: var(--col-gold-dim);
-    // --theme-link-hover: var();
-
-    // --theme-special: var(--col-gold-dim);
-    // --theme-error: var(--col-red-pink);
-}
-
-._theme-dark {
-    --text-colour: var(--col-white);
-
-    // --theme-primary: var(--col-purple-dark);
-    // --theme-secondary: var(--col-white);
-    // --theme-tertiary: var(--col-gold-dim);
-
-    // --theme-bg: var(--theme-primary);
-    // --theme-bg-major: var(--theme-primary);
-    // --theme-fg: var(--col-white);
-    // --theme-fg-minor: var(--col-light-grey);
-
-
-
-    // --theme-special: var(--col-gold-dim);
-    // --theme-error: var(--col-red-pink);
-}
-
-/*
-// @mixin theme-light($selector: null) {
-//     @if ($selector) {
-//         ._theme-light & {
-//             @content;
-//         }
-//     } @else {
-//         @at-root ._theme-light & {
-//             @content;
-//         }
-//     }
-// }
-
-// @mixin theme-dark {
-//     @if ($selector) {
-//         ._theme-dark & {
-//             @content;
-//         }
-//     } @else {
-//         @at-root ._theme-dark & {
-//             @content;
-//         }
-//     }
-// }
-*/
-@mixin light($selector: null) {
-    @include mixins.custom-selector($selector, null, ".theme-light") {
-        @content;
-    }
-
-    @include mixins.custom-selector($selector, "._theme-light ") {
+@mixin light {
+    @include mixins.custom-selector(".-theme-light") {
         @content;
     }
 }
-
-@mixin dark($selector: null) {
-    @include mixins.custom-selector($selector, null, ".theme-dark") {
-        @content;
-    }
-
-    @include mixins.custom-selector($selector, "._theme-dark ") {
+@mixin dark {
+    @include mixins.custom-selector(".-theme-dark") {
         @content;
     }
 }

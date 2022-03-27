@@ -1,8 +1,9 @@
 @use "../../helpers";
 @use "../../helpers/styles";
+@use "../../resources/appearance";
+@use "../../resources/appearance/themes";
 @use "../../resources/appearance/colours";
 @use "../../resources/appearance/fonts";
-@use "../../resources/appearance/themes";
 @use "../../resources/appearance/effects";
 // @use "../../helpers/mixins" as *;
 
@@ -56,7 +57,7 @@
         }
     }
 
-    @include themes.dark {
+    @include themes.dark { //POTENTIAL ERROR!!!!!!! alternative: (h1, h2, h3, h4, h5, h6 ----> :is(h1, h2, h3, h4, h5, h6) or :where(h1, h2, h3, h4, h5, h6))
         color: var(--col-white);
     }
 }
@@ -71,9 +72,13 @@ hr {
     border-width: calc(var(--line-width) / 2);
 
     border-color: var(--col-black);
+    color: var(--col-black);
+    background-color: var(--col-black);
 
     @include themes.dark {
         border-color: var(--col-white);
+        color: var(--col-white);
+        background-color: var(--col-white);
     }
 }
 

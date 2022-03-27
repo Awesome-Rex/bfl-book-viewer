@@ -11,10 +11,14 @@
 .book-player {
     /*layout*/
 
-    --progress-zone-top: 4em;
-    --progress-zone-bottom: 2em;
+    --progress-zone-size: 8em;
+    // --progress-zone-top: 6em;
+    // --progress-zone-bottom: 6em;
+    // --progress-zone-top: 20%;
+    // --progress-zone-bottom: 20%;
 
-    --progress-area-height: 30%;
+    --progress-area-height: 33%;
+    // --progress-area-height: 8em;
 
     --progress-min: var(--line-width);
     --progress-near: 4px;
@@ -46,19 +50,22 @@
 
     --total-pages: 10;
     --current-page: 1;
-    --progress: calc(var(--current-page) / var(--total-pages)) * 100%;
 }
 
 .book-player {
-    // margin: 1cm auto;
-    margin: 0 0 0.5cm 0;
-    max-width: var(--max-viewer-width);
-    min-width: var(--min-viewer-width);
-    // max-height: 90vh;
-    /* max-height:; */
+    & {
+        width: auto;
+        height: auto;
 
-    // box-shadow: var(--drop-out);
-    @include effects.drop-out();
+        min-width: var(--min-viewer-width);
+        max-width: var(--max-viewer-width);
+
+        @include effects.drop-out();
+    }
+
+    @include breakpoints.min {
+        margin: 0;
+    }
 
     @include breakpoints.md {
         margin: 1cm auto;
@@ -85,25 +92,30 @@
 }
 
 .bottom-wrap {
-    display: flex;
-    flex-direction:column;
-    align-items: stretch;
-    justify-content:flex-start;
-    flex-wrap: wrap;
+    & {
+        display: flex;
+        flex-wrap: wrap;
 
-    gap: 1em;
-    padding: 1em 0;
+        gap: 1em;
+        padding: 1em 0;
+    }
 
-    > .rect-link {
-        flex-basis: auto;
-        flex-grow: 0;
-        flex-shrink: 0;
+    @include breakpoints.min {
+        flex-direction:column;
+        align-items: stretch;
+        justify-content:flex-start;
+
+        > .rect-link {
+            flex-basis: auto;
+            flex-grow: 0;
+            flex-shrink: 0;
+        }
     }
 
     @include breakpoints.md {
-        flex-direction: row !important;
-        align-items: flex-start !important;
-        justify-content:flex-start !important;
+        flex-direction: row;
+        align-items: flex-start;
+        justify-content:flex-start;
 
         > .rect-link {
             width: 8cm;

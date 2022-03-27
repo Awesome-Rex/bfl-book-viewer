@@ -2,10 +2,10 @@
 
 .scroll-container-x {
     &, &.bit {
-        @include mixins.scroll-container-x(1em, 1em);
+        @include mixins.scroll-container-x(1rem, 1rem);
     }
     &.chunk {
-        @include mixins.scroll-container-x(4em, 4em);
+        @include mixins.scroll-container-x(4rem, 4rem);
     }
     &.partial {
         @include mixins.scroll-container-x(15vh, 15vh);
@@ -20,10 +20,10 @@
 
 .scroll-container-y {
     &, &.bit {
-        @include mixins.scroll-container-y(1em, 1em);
+        @include mixins.scroll-container-y(1rem, 1rem);
     }
     &.chunk {
-        @include mixins.scroll-container-y(4em, 4em);
+        @include mixins.scroll-container-y(4rem, 4rem);
     }
     &.partial {
         @include mixins.scroll-container-y(15vw, 15vw);

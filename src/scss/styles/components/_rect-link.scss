@@ -12,6 +12,7 @@
     display: inline-block;
 
     padding: 1em;
+    padding-bottom: 2em;
 
     background: var(--background);
 
@@ -24,7 +25,7 @@
         height: var(--icon-size);
 
         // margin: auto auto;
-        margin-right: auto;
+        // margin-right: auto;
     }
 
     .title {
@@ -35,8 +36,8 @@
         // text-align: center;
         text-align: left;
 
-        margin-top: 0.5em;
-        margin-bottom: 0.25em;
+        margin-top: 1rem;
+        margin-bottom: 0.5rem;
     }
 
     .subtitle {
@@ -46,7 +47,7 @@
         // text-align: center;
         text-align: left;
 
-        margin-bottom: 0.75em;
+        margin-bottom: 0.75rem;
     }
 
     .description {

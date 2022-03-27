@@ -1,27 +1,70 @@
-// @use "./variables";
-// @use "./functions";
+@use "./variables";
+@use "./functions";
 
 //CUSTOM ELEMENT SELECTOR
-@mixin custom-selector ($selector: null, $pre: null, $post: null) {
-    $new-selector: "&";
-    @if ($selector != null) {
-        $new-selector: $selector;
+//*currently INCOMPAITBLE with :is(), :where(), etc
+
+@mixin custom-selector($rule, $selectors: "@at-root #{&}") {
+    $at-root: false;
+    @if (str-index($selectors, "@at-root") != null) {
+        $at-root:true;
+
+        $selectors: str-slice($selectors, str-length("@at-root") + 2);
     }
 
-    @if ($pre != null) {
-        $new-selector: $pre + $new-selector;
-    }
-    @if ($post != null) {
-        $new-selector: $new-selector + $post;
-    }
+    @each $parse in selector-parse($selectors) { //split commas (a, b) => (a) (b)
+        // @debug "======================================================";
+        // @debug "BEFORE --- [#{$parse}]";
+        $parse: functions.selector-split($parse);
+        // @debug "AFTER --- [#{$parse}]";
+        // @debug length($parse);
 
-    @if ($selector != null) {
-        @at-root #{unquote(#{$new-selector})} {
-            @content;
-        }
-    } @else {
-        #{unquote(#{$new-selector})} {
-            @content;
+        @for $selector-index from 1 through length($parse) { //split nested (a b) => (a) (b)
+            // @debug "-------------------";
+            // @debug "[#{$parse}] (#{length($parse)})";
+            $selector: nth($parse, $selector-index);
+
+            $new-parse-1: "*";
+            $new-parse-2: "*";
+            @for $element-index from 1 through length($parse) { //split nested (a b) => (a) (b)
+                $element: nth($parse, $element-index);
+                
+                @if ($selector-index == $element-index) {
+                    $element-1: selector-unify("*", $rule);
+                    $element-2: selector-unify($element, $rule);
+                    
+                    $new-parse-1: selector-nest(selector-nest($new-parse-1, $element-1), $element);
+                    $new-parse-2: selector-nest($new-parse-2, $element-2);
+               } @else {
+                    $new-parse-1: selector-nest($new-parse-1, $element);
+                    $new-parse-2: selector-nest($new-parse-2, $element);
+                }
+            }
+
+            $new-parse-1: nth($new-parse-1, 1);
+            $new-parse-2: nth($new-parse-2, 1);
+
+            $new-parse-1: str-slice(inspect($new-parse-1), str-length("*") + 2);
+            $new-parse-2: str-slice(inspect($new-parse-2), str-length("*") + 2);
+
+            // @debug $new-parse-1;
+            // @debug $new-parse-2;
+
+            @if ($at-root == false) {
+                #{unquote(#{$new-parse-1})} {
+                    @content;
+                }
+                #{unquote(#{$new-parse-2})} {
+                    @content;
+                }
+            } @else if ($at-root == true) {
+                @at-root #{unquote(#{$new-parse-1})} {
+                    @content;
+                }
+                @at-root #{unquote(#{$new-parse-2})} {
+                    @content;
+                }
+            }
         }
     }
 }
@@ -43,7 +86,7 @@
 //for small mobile devices (invisible scrollbars, touch-screen scrolling for large content)
 @mixin scroll-container-x ($reserve-top: 1em, $reserve-bottom: 1em) {
     overflow-x: scroll;
-    overflow-y: visible;
+    overflow-y:hidden;
 
     margin-top: $reserve-top * -1;
     margin-bottom: $reserve-bottom * -1;
@@ -56,7 +99,7 @@
 }
 
 @mixin scroll-container-y ($reserve-left: 1em, $reserve-right: 1em) {
-    overflow-x: visible;
+    overflow-x:hidden;
     overflow-y: scroll;
     
     margin-left: $reserve-left * -1;
@@ -66,5 +109,27 @@
 
     &::-webkit-scrollbar {
         display: none;
+    }
+}
+
+//Input Cursor
+@mixin screen-mouse { /* mouse, touch pad */
+    @media (hover: hover) and (pointer: fine) {
+        @content;
+    }
+}
+@mixin screen-stylus { /* stylus-based screens */
+    @media (hover: none) and (pointer: fine) {
+        @content;
+    }
+}
+@mixin screen-touch { /* smartphones, touchscreens */
+    @media (hover: none) and (pointer: coarse) { 
+        @content;
+    }
+}
+@mixin screen-controller { /* Nintendo Wii controller, Microsoft Kinect */
+    @media (hover: hover) and (pointer: coarse) {
+        @content;
     }
 }
