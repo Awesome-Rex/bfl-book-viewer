@@ -123,8 +123,6 @@
     @return $reverse-string;
 }
 
-
-
 //SELECTOR FUNCTIONS
 @function opening($string) {
     $string: str-reverse($string);
@@ -188,21 +186,9 @@
         }
     }
 
-    // @if (str-index($string, ">") != null and str-index($string, ">") == 1) {
-    //     @return false;
-    // }
-    // @if (str-index($string, "+") != null and str-index($string, "+") == 1) {
-    //     @return false;
-    // }
-    // @if (str-index($string, "~") != null and str-index($string, "~") == 1) {
-    //     @return false;
-    // }
-    // @if (str-index($string, ":") != null and str-index($string, ":") == 1) {
-    //     @return false;
-    // }
-    // @if (str-index($string, "::") != null and str-index($string, "::") == 1) {
-    //     @return false;
-    // }
+    @if (str-index($string, " ") != null and str-index($string, " ") == 1) {
+        @return false;
+    }
 
     @return true;
 }

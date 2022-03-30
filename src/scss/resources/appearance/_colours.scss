@@ -1,22 +1,35 @@
+@use "sass:color";
+
 :root {
-    --col-white: #ffffff;
-    --col-black: #000000;
-
-    --col-grey-light:#f3f0f0;
-    --col-grey-dark: #555555;
-
-    --col-slate: #99aabc;
-
-    --col-mud: #6d4634;
-    --col-mud-light: #b89a5c;
+    $colours: (
+        "white": #ffffff,
+        "black": #000000,
     
-    --col-purple: #551fa7;
-    --col-purple-light: #653aa4;
-    --col-purple-dark: #573164;
+        "grey-light":#f3f0f0,
+        "grey-dark": #555555,
+        "black-not": hsl(206, 9%, 15%),
     
-    --col-red-pink: #f45b4f;
+        "slate": #99aabc,
+    
+        "mud": #6d4634,
+        "mud-light": #b89a5c,
+        
+        "purple": #551fa7,
+        "purple-light": #653aa4,
+        "purple-dark": #573164,
+        
+        "red-pink": #f45b4f,
+    
+        "gold": #fbd500,
+        "gold-dark": #6b5b02,
+        "gold-dim": #d4af37
+    );
 
-    --col-gold: #fbd500;
-    --col-gold-dark: #6b5b02;
-    --col-gold-dim: #d4af37;
+    @each $key, $value in $colours {
+        --col-#{$key}: #{"hsl(#{color.hue($value)}, #{color.saturation($value)}, #{color.lightness($value)})"};
+    }
+
+    @each $key, $value in $colours {
+        --colm-#{$key}: #{color.hue($value)}, #{color.saturation($value)}, #{color.lightness($value)};
+    }
 }

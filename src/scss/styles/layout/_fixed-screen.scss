@@ -1,0 +1,24 @@
+@use "../../helpers";
+@use "../../helpers/variables";
+@use "../../helpers/mixins";
+@use "../../helpers/styles";
+@use "../../resources";
+@use "../../resources/appearance/effects";
+@use "../../resources/layout/breakpoints";
+@use "../../resources/layout/sizes";
+@use "../basic";
+@use "../components";
+
+#fixed-screen {
+    pointer-events: none;
+
+    display: inline-block;
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    z-index: 1000;
+}

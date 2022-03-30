@@ -1,14 +1,35 @@
 @use "../../helpers";
+@use "../../helpers/variables";
 @use "../../helpers/mixins";
 @use "../../helpers/styles";
 @use "../../resources";
 @use "../../resources/appearance/effects";
 @use "../../resources/layout/breakpoints";
+@use "../../resources/layout/sizes";
 @use "../basic";
 @use "../components";
 @use "../layout";
 
-.book-player {
+:root {
+    --max-viewer-width: #{breakpoints.get-avg(xl)};
+    --min-viewer-width: #{breakpoints.get-max(xs)};
+    --max-viewer-height: calc(100vh - 2em);
+    --min-viewer-height: 6cm;
+    
+    --max-info-width: var(--max-viewer-width);
+    --max-info-desc: 16em;
+
+    --max-book-info: 6cm;
+    --min-book-info: 4cm;
+}
+
+@mixin viewer-focus {
+    @media (orientation: landscape) and (max-height: breakpoints.get-max(xs)) {
+        @content;
+    }
+}
+
+.book-container .book-player {
     /*layout*/
 
     --progress-zone-size: 8em;
@@ -30,7 +51,7 @@
     --point-max: 22px;
 
 
-    --page-zone-width: 25%;
+    --page-zone-width: 40%;
 
     --page-area-width: 14em;
 
@@ -52,42 +73,95 @@
     --current-page: 1;
 }
 
-.book-player {
-    & {
-        width: auto;
-        height: auto;
-
-        min-width: var(--min-viewer-width);
-        max-width: var(--max-viewer-width);
-
-        @include effects.drop-out();
+@include breakpoints.min {
+    .book-container {
+        display: flex;
+        justify-content: space-between; //Works for some reason
+        align-items: center;
     }
 
-    @include breakpoints.min {
-        margin: 0;
+    .book-container .book-player {
+        & {
+            & {
+                width: 100%;
+                height: auto;
+        
+                min-width: var(--min-viewer-width);
+                max-width: var(--max-viewer-width);
+                min-height: 0;
+                max-height: none;
+            }
+
+            @include effects.drop-out();
+        }
+
+        @include breakpoints.min {
+            margin: 1cm auto;
+        }
+        @include breakpoints.sm(true) {
+            margin: 0;
+        }
+    }
+}
+@include viewer-focus {
+    body {
+        > #navbar + .book-container {
+            grid-row: 1 / 2;
+        }
     }
 
-    @include breakpoints.md {
-        margin: 1cm auto;
+    #navbar {
+        #navbar-logo {
+            height: 2.5cm !important;
+            width: auto !important;
+        }
+    }
+
+    .book-container {
+        justify-content: center !important;
+
+        box-sizing: border-box !important;
+
+        min-height: var(--viewport-height-fill) !important;
+        padding: 1em !important; // padding: 0 !important;
+        margin: 0 !important;
+        
+        background-color: var(--col-black-not) !important;
+    }
+
+    .book-player {
+        margin: 0 !important;
+
+        height: 100% !important;
+        width: auto !important;
+
+        min-height: var(--min-viewer-height) !important;
+        max-height: var(--max-viewer-height) !important;
+        min-width: 0 !important;
+        max-width: none !important;
     }
 }
 
 .book-player-info {
     @include effects.drop-out();
 
-    &.book {
-        z-index: 2;
-    }
-    &.author {
-        z-index: 1;
-    }
-    &.reader {
-        z-index: 0;
-    }
     &.editor {
-        z-index: -1;
-
         box-shadow: none;
+    }
+}
+
+.total-book-info {
+    // display: flex;
+    // flex-direction: column;
+    // justify-content: flex-start;
+    // align-items: stretch;
+
+    //z-index
+    $total: 10;
+    @for $index from 1 through 10 {
+        .book-player-info:nth-last-of-type(#{$index + 1}) {
+            z-index: $index - 1; //starting at 0
+        }
     }
 }
 
@@ -124,11 +198,11 @@
     }
 }
 
-#content .article-content {
+.total-book-info + .article-content {
     padding-top: 1cm;
     padding-bottom: 2cm;
 
     @include styles.heading {
-        color: var(--col-black);
+        color: inherit;
     }
 }

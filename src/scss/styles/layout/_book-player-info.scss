@@ -1,8 +1,10 @@
 @use "../../helpers";
+@use "../../helpers/mixins";
 @use "../../resources";
 @use "../../resources/appearance/colours";
 @use "../../resources/appearance/effects";
 @use "../../resources/appearance/themes";
+@use "../../resources/layout/sizes";
 @use "../../resources/layout/breakpoints";
 @use "../basic";
 @use "../components";
@@ -10,6 +12,7 @@
 
 .book-player-info {
     @include breakpoints.min {
+        position: relative;
         padding: 1em 1em;
 
         > div {
@@ -40,6 +43,8 @@
         }
 
         .info {
+            position: relative;
+
             flex-basis: 0;
             flex-grow: 1;
             flex-shrink: 1;
@@ -62,6 +67,8 @@
             > .tags {
                 display: flex;
                 justify-content: center;
+                align-items: flex-start;
+                // align-items: stretch;
                 flex-wrap: wrap;
 
                 column-gap: 0.4em;
@@ -72,7 +79,7 @@
                 // border-top: var(--line-width) solid;
 
                 > * {
-                    flex-shrink: 0;
+                    flex-shrink: 1;
                     flex-grow: 1;
 
                     border: var(--line-width) solid;
@@ -90,10 +97,16 @@
             }
 
             > .description {
-                // margin-block-end: 0;
-                // width: calc(100% - 1em);
-                // max-width: breakpoints.get-min(lg);
                 max-width: 75ch;
+                max-height: var(--max-info-desc);
+                
+                * {
+                    color: inherit;
+                }
+            }
+
+            > .drawer {
+                display: none;
             }
         }
     }
@@ -116,17 +129,12 @@
         }
 
         .info {
-
             > .title {
                 text-align: left;
 
                 margin-bottom: -2px;
                 border: var(--line-width) solid;
                 padding: 0.5rem;
-            }
-
-            > hr {
-
             }
 
             > .tags {
@@ -155,6 +163,116 @@
     @include breakpoints.lg {
         .image {
             width: var(--max-book-info);
+        }
+    }
+
+    //description expand/collapse
+    &.-overflow {
+        & {
+            padding-bottom: 1em !important;
+
+            .info {
+                > .description {
+                    overflow-y: hidden;
+
+                    mask-image: linear-gradient(to bottom, white calc(100% - 6em), var(--end-col));
+                    -webkit-mask-image: linear-gradient(to bottom, white calc(100% - 6em), var(--end-col));
+                }
+            }
+
+            .info > .drawer {
+                cursor: pointer;
+                user-select: none;
+                -webkit-tap-highlight-color: transparent;
+
+                overflow-y:hidden;
+
+                position: relative;
+                display: block;
+                
+                margin-top: 1em;
+                width: 100%;
+                height: 2em;
+
+                .text {
+                    pointer-events: none;
+
+                    position: absolute;
+
+                    bottom: -50%;
+                    
+                    margin-top: auto;
+                    width: 100%;
+
+                    text-align: center;
+                    // text-decoration: underline;
+                    color: hsl(var(--colm-white), 60%);
+                    font-weight: bold;
+                    font-size: 0.75rem;
+                    font-style: italic;
+                    letter-spacing: 0.5ch;
+
+                    transform: translateY(50%);
+
+                    transition: bottom 200ms ease;
+                }
+
+                @mixin -hover {
+                    background: radial-gradient(ellipse farthest-side at center bottom, var(--drop-col), transparent);
+                
+                    .text {
+                        bottom: 50%;
+
+                        transition: bottom 100ms ease;
+                    }
+                }
+                &:hover {
+                    @include -hover;
+                }
+
+                &:active {
+                    background: hsl(var(--colm-grey-light), 10%)
+                }
+
+                //mobile accomodations
+                @include mixins.hover-mobile {
+                    @include -hover;
+                }
+            }
+        }
+
+        &:not(.-expand) {
+            .info > .drawer .text::after {
+                content: "EXPAND";
+            }
+
+            .info {
+                > .description {
+                    height: var(--max-info-desc);
+                    max-height: var(--max-info-desc);
+
+                    --end-col: hsla(0, 0%, 100%, 0%);
+
+                    transition: height 1000ms ease, max-height 1000ms ease, --end-col 1000ms; //collapse
+                }
+            }
+        }
+    
+        &.-expand {
+            .info > .drawer .text::after {
+                content: "COLLAPSE";
+            }
+
+            .info {
+                > .description {
+                    height: var(--min-info-desc);
+                    max-height: var(--min-info-desc);
+
+                    --end-col: hsl(0, 0%, 100%, 100%);
+
+                    transition: height 1000ms ease, max-height 1000ms ease, --end-col 1000ms; //expand
+                }
+            }
         }
     }
 }

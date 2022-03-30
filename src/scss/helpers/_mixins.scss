@@ -2,8 +2,8 @@
 @use "./functions";
 
 //CUSTOM ELEMENT SELECTOR
-//*currently INCOMPAITBLE with :is(), :where(), etc
 
+//selector (a b, c d) --> parse (a b) (c d) --> element ((a) (b)) ((c) (d))
 @mixin custom-selector($rule, $selectors: "@at-root #{&}") {
     $at-root: false;
     @if (str-index($selectors, "@at-root") != null) {
@@ -33,36 +33,46 @@
                     $element-1: selector-unify("*", $rule);
                     $element-2: selector-unify($element, $rule);
                     
-                    $new-parse-1: selector-nest(selector-nest($new-parse-1, $element-1), $element);
-                    $new-parse-2: selector-nest($new-parse-2, $element-2);
+                    @if ($element-1 != null) {
+                        $new-parse-1: selector-nest(selector-nest($new-parse-1, $element-1), $element);
+                    }
+                    @if ($element-2 != null) {
+                        $new-parse-2: selector-nest($new-parse-2, $element-2);
+                    }
                } @else {
                     $new-parse-1: selector-nest($new-parse-1, $element);
                     $new-parse-2: selector-nest($new-parse-2, $element);
                 }
             }
 
-            $new-parse-1: nth($new-parse-1, 1);
-            $new-parse-2: nth($new-parse-2, 1);
+            @each $new-selector-1 in $new-parse-1 {
+                $new-selector-1: str-slice(inspect($new-selector-1), str-length("*") + 2);
+            
+                // @debug $new-selector-1;
 
-            $new-parse-1: str-slice(inspect($new-parse-1), str-length("*") + 2);
-            $new-parse-2: str-slice(inspect($new-parse-2), str-length("*") + 2);
+                @if ($at-root == false) {
+                    #{unquote(#{$new-selector-1})} {
+                        @content;
+                    }
+                } @else if ($at-root == true) {
+                    @at-root #{unquote(#{$new-selector-1})} {
+                        @content;
+                    }
+                }
+            }
+            @each $new-selector-2 in $new-parse-2 {
+                $new-selector-2: str-slice(inspect($new-selector-2), str-length("*") + 2);
+            
+                // @debug $new-selector-2;
 
-            // @debug $new-parse-1;
-            // @debug $new-parse-2;
-
-            @if ($at-root == false) {
-                #{unquote(#{$new-parse-1})} {
-                    @content;
-                }
-                #{unquote(#{$new-parse-2})} {
-                    @content;
-                }
-            } @else if ($at-root == true) {
-                @at-root #{unquote(#{$new-parse-1})} {
-                    @content;
-                }
-                @at-root #{unquote(#{$new-parse-2})} {
-                    @content;
+                @if ($at-root == false) {
+                    #{unquote(#{$new-selector-2})} {
+                        @content;
+                    }
+                } @else if ($at-root == true) {
+                    @at-root #{unquote(#{$new-selector-2})} {
+                        @content;
+                    }
                 }
             }
         }
@@ -130,6 +140,17 @@
 }
 @mixin screen-controller { /* Nintendo Wii controller, Microsoft Kinect */
     @media (hover: hover) and (pointer: coarse) {
+        @content;
+    }
+}
+
+@mixin hover-mobile {
+    @media (hover: none) {
+        @content;
+    }
+}
+@mixin hover-cursor {
+    @media (hover: hover) {
         @content;
     }
 }
