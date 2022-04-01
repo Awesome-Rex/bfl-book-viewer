@@ -104,8 +104,8 @@
     }
 }
 @include viewer-focus {
-    body {
-        > #navbar + .book-container {
+    #root {
+        #navbar + .book-container {
             grid-row: 1 / 2;
         }
     }
