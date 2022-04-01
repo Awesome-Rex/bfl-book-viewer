@@ -10,11 +10,11 @@
 @use "../components";
 
 :root {
-    --navbar-height: 10em;
-    --navbar-max-height: 8em;
+    // --navbar-height: 10em;
+    // --navbar-max-height: 8em;
 }
 
-body {
+#root {
     display: grid;
     justify-content: stretch;
     align-content:flex-start;
