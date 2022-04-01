@@ -277,9 +277,9 @@ export default function BookViewer() {
                         </div>
                     </a>
                 </div>
-                <br/>
+                {/* <br/>
                 <p style={{textAlign: "center", padding: "auto 1rem"}}><a href="https://www.knowledgebookstore.com/" style={{color: "black"}} target="_blank" rel="noopener noreferrer">Looking for other books?</a></p>
-                <br/>
+                <br/> */}
             </div>
         </div>
         <footer id="footer" className="-theme-dark">
