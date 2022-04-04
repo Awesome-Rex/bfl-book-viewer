@@ -1,6 +1,0 @@
-@use "./breakpoints";
-
-:root {
-    --max-article-width: #{breakpoints.get-max(lg)};
-    --max-jumbotron-width: #{breakpoints.get-max(xl)};
-}
