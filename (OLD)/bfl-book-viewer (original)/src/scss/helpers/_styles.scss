@@ -1,0 +1,82 @@
+@use "./variables";
+@use "./functions";
+@use "./mixins";
+
+body {
+    margin: 0;
+    // position: relative;
+}
+
+._title {
+    display: block;
+    
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    margin-left: 0;
+    margin-right: 0;
+
+    font-size: 4em;
+    font-weight: bold;
+}
+
+._subtitle {
+    display: block;
+    
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    margin-left: 0;
+    margin-right: 0;
+    
+    color: var(--var-black-dim);
+    font-size: 4em;
+    font-weight: bold;
+}
+
+@mixin title {
+    ._title {
+        @content;
+    }
+}
+
+@mixin subtitle {
+    ._subtitle {
+        @content;
+    }
+}
+
+@mixin heading {
+    // :where(h1, h2, h3, h4, h5, h6) {
+    // :is(h1, h2, h3, h4, h5, h6) {
+    :where(h1, h2, h3, h4, h5, h6) {
+        @content;
+    }
+}
+
+@mixin major-heading {
+    ._title, ._subtitle {
+        @content;
+    }
+}
+
+@mixin total-heading {
+    @include heading {
+        @content;
+    }
+
+    @include major-heading {
+        @content;
+    }
+}
+
+input[type="range"] {
+    --range-fill: transparent;
+    --range-remain: transparent;
+    --range-progress: calc((attr(value) - attr(min)) / (attr(max) - attr(min)) * 100%);
+    
+    background: linear-gradient(to right, var(--range-fill) 0%, var(--range-fill) var(--range-progress), var(--range-remain) var(--range-progress), var(--range-remain) 100%);
+}
+
+.-live-area {
+    // --max-area:100px;
+    // --min-area: 100px;
+}

@@ -1,0 +1,27 @@
+@use "../../helpers";
+@use "../../resources";
+@use "../basic";
+@use "../components";
+
+#footer {
+    height: 2cm;
+
+    background-color: var(--col-purple-dark);
+
+    > .content {
+        box-sizing: border-box;
+
+        margin: auto auto;
+        width: 100%;
+        max-width: var(--max-article-width);
+        padding: 1em;
+    }
+
+    .description {
+        text-align: center;
+    }
+
+    .social {
+
+    }
+}

@@ -1,0 +1,430 @@
+@use "../../helpers";
+@use "../../helpers/mixins";
+@use "../../resources";
+@use "../../resources/appearance/colours";
+@use "../../resources/appearance/effects";
+@use "../../resources/appearance/themes";
+@use "../../resources/layout/sizes";
+@use "../../resources/layout/breakpoints";
+@use "../basic";
+@use "../components";
+// @use "./../functions";
+
+.book-player-info {
+    @include breakpoints.min {
+        position: relative;
+        padding: 1em 1em;
+
+        > div {
+            display: flex;
+
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+        
+            max-width: var(--max-info-width);
+
+            justify-content:space-between;
+        
+            gap: 1em;
+        }
+
+        .image {
+            position: relative;
+
+            margin-bottom: 0.5rem;
+            
+            img {
+                display: inline-block;
+                vertical-align: top;
+                
+                @include effects.drop-out(true);
+            }
+        }
+
+        .info {
+            position: relative;
+
+            flex-basis: 0;
+            flex-grow: 1;
+            flex-shrink: 1;
+        
+            > .title {
+                margin: 0 auto;
+
+                text-align: center;
+                text-decoration: none;
+
+                color: inherit;
+            }
+
+            > hr {
+                display: none;
+                
+                border-style: solid;
+            }
+
+            > .tags {
+                display: flex;
+                justify-content: center;
+                align-items: flex-start;
+                // align-items: stretch;
+                flex-wrap: wrap;
+
+                column-gap: 0.4em;
+                row-gap: 0.4em;
+
+                margin-top: 0.5rem;
+                margin-bottom: 1rem;
+                // border-top: var(--line-width) solid;
+
+                > * {
+                    flex-shrink: 1;
+                    flex-grow: 1;
+
+                    border: var(--line-width) solid;
+                    // padding-top: 2px;
+                    // padding-bottom: 4px;
+                    padding: 2px 1em;
+
+                    // margin-top: -2px;
+                    // padding-top: 2px;;
+
+                    font-weight: bold;
+                    text-align: center;
+                    text-decoration: none;
+                }
+            }
+
+            > .description {
+                max-width: 75ch;
+                max-height: var(--max-info-desc);
+                
+                * {
+                    color: inherit;
+                }
+            }
+
+            > .drawer {
+                display: none;
+            }
+        }
+    }
+
+    @include breakpoints.sm {
+        > div {
+            flex-direction: row;
+            justify-content: center;
+            align-items:flex-start;
+        }
+
+        .image {
+            margin-bottom: 0;
+
+            width: var(--min-book-info);
+
+            img {
+                float: right;
+            }
+        }
+
+        .info {
+            > .title {
+                text-align: left;
+
+                margin-bottom: -2px;
+                border: var(--line-width) solid;
+                padding: 0.5rem;
+            }
+
+            > .tags {
+                justify-content: flex-start;
+
+                column-gap: 0.5em;
+                row-gap: 0.25em;
+    
+                margin-top: 0;
+                margin-bottom: 1em;
+    
+                padding-left: 1em;
+                padding-right: 1em;
+
+                > * {
+                    flex-grow: 0;
+                }
+            }
+
+            > .description {
+                padding-left: 1em;
+            }
+        }
+    }
+
+    @include breakpoints.lg {
+        .image {
+            width: var(--max-book-info);
+        }
+    }
+
+    //description expand/collapse
+    &.-overflow {
+        & {
+            padding-bottom: 1em !important;
+
+            .info {
+                > .description {
+                    overflow-y: hidden;
+
+                    mask-image: linear-gradient(to bottom, white calc(100% - 6em), var(--end-col));
+                    -webkit-mask-image: linear-gradient(to bottom, white calc(100% - 6em), var(--end-col));
+                }
+            }
+
+            .info > .drawer {
+                cursor: pointer;
+                user-select: none;
+                -webkit-tap-highlight-color: transparent;
+
+                overflow-y:hidden;
+
+                position: relative;
+                display: block;
+                
+                margin-top: 1em;
+                width: 100%;
+                height: 2em;
+
+                .text {
+                    pointer-events: none;
+
+                    position: absolute;
+
+                    bottom: -50%;
+                    
+                    margin-top: auto;
+                    width: 100%;
+
+                    text-align: center;
+                    // text-decoration: underline;
+                    color: hsl(var(--colm-white), 60%);
+                    font-weight: bold;
+                    font-size: 0.75rem;
+                    font-style: italic;
+                    letter-spacing: 0.5ch;
+
+                    transform: translateY(50%);
+
+                    transition: bottom 200ms ease;
+                }
+
+                @mixin -hover {
+                    background: radial-gradient(ellipse farthest-side at center bottom, var(--drop-col), transparent);
+                
+                    .text {
+                        bottom: 50%;
+
+                        transition: bottom 100ms ease;
+                    }
+                }
+                &:hover {
+                    @include -hover;
+                }
+
+                &:active {
+                    background: hsl(var(--colm-grey-light), 10%)
+                }
+
+                //mobile accomodations
+                @include mixins.hover-mobile {
+                    @include -hover;
+                }
+            }
+        }
+
+        &:not(.-expand) {
+            .info > .drawer .text::after {
+                content: "EXPAND";
+            }
+
+            .info {
+                > .description {
+                    height: var(--max-info-desc);
+                    max-height: var(--max-info-desc);
+
+                    --end-col: hsla(0, 0%, 100%, 0%);
+
+                    transition: height 1000ms ease, max-height 1000ms ease, --end-col 1000ms; //collapse
+                }
+            }
+        }
+    
+        &.-expand {
+            .info > .drawer .text::after {
+                content: "COLLAPSE";
+            }
+
+            .info {
+                > .description {
+                    height: var(--min-info-desc);
+                    max-height: var(--min-info-desc);
+
+                    --end-col: hsl(0, 0%, 100%, 100%);
+
+                    transition: height 1000ms ease, max-height 1000ms ease, --end-col 1000ms; //expand
+                }
+            }
+        }
+    }
+}
+
+.book-player-info.book {
+    & {
+        padding-top: 2em;
+        padding-bottom: 2em;
+
+        background-color: var(--col-purple-dark);
+
+        .info {
+            > .tags {
+
+            }
+        }
+    }
+
+    @include breakpoints.min {
+        .image {
+            img {
+                width: 100%;
+                height: 100%;
+
+                object-fit: contain;
+            }
+        }
+    }
+
+    @include breakpoints.xs(true) {
+        .image {
+            width: 5cm;
+        }
+    }
+
+    @include breakpoints.sm {
+        .image {
+            height: var(--min-book-info);
+
+            img {
+                object-position: top right;
+
+                z-index: 1;
+            }
+        }
+    }
+    @include breakpoints.lg {
+        .image {
+            height: var(--max-book-info);
+        }
+    }
+}
+
+.book-player-info.author {
+    & {
+        background-color: var(--col-gold-dim);
+
+        .info {
+            > .tags {
+                
+            }
+        }
+    }
+
+    @include breakpoints.min {
+        .image {
+            img {
+                border-radius: 100%;;
+                height: 3cm;
+                width: 3cm;
+                object-fit: cover;
+                object-position: center;
+            }
+        }
+    }
+
+    @include breakpoints.between(sm, md) {
+        .image {
+            img {
+                width: 2cm;
+                height: 2cm;
+            }
+        }
+    }
+}
+
+.book-player-info.reader {
+    & {
+        background-color: var(--col-grey-light);
+
+        .info {
+            > .tags {
+                
+            }
+        }
+    }
+
+    @include breakpoints.min {
+        .image {
+            img {
+                border-radius: 100%;;
+                height: 2cm;
+                width: 2cm;
+                object-fit: cover;
+                object-position: center;
+            }
+        }
+    }
+
+    @include breakpoints.between(sm, md) {
+        .image {
+            img {
+                width: 2cm;
+                height: 2cm;
+            }
+        }
+    }
+}
+
+
+.book-player-info.editor {
+    & {
+        background-color: var(--col-white);
+
+        box-shadow: none;
+        border-bottom: var(--line-width) solid var(--col-grey-light);
+
+        padding-top: 1cm;
+        padding-bottom: 1cm;
+
+        .title {
+            &::before {
+                content: "Edited by ";
+            }
+        }
+
+        .info {
+            > .tags {
+                
+            }
+        }
+    }
+
+    @include breakpoints.min {
+        .image {
+            img {
+                border-radius: 100%;;
+                height: 1.5cm;
+                width: 1.5cm;
+                object-fit: cover;
+                object-position: center;
+            }
+        }
+    }
+}
