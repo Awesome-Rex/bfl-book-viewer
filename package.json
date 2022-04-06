@@ -6,10 +6,15 @@
     "@testing-library/jest-dom": "^5.16.3",
     "@testing-library/react": "^12.1.4",
     "@testing-library/user-event": "^13.5.0",
+    "@types/jest": "^27.4.1",
+    "@types/node": "^17.0.23",
+    "@types/react": "^17.0.43",
+    "@types/react-dom": "^17.0.14",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-scripts": "5.0.0",
     "snowpack": "^3.8.8",
+    "typescript": "^4.6.3",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -17,15 +22,11 @@
     "webpack-build": "react-scripts build",
     "webpack-test": "react-scripts test",
     "webpack-eject": "react-scripts eject",
-
     "parcel-cleanup": "rd /s /q \".cache\" && rd /s /q \"dist\"",
     "parcel-dev": "npm run cleanup && parcel src/index.html",
     "parcel-build": "parcel build src/index/html",
-
     "snowpack-start": "snowpack dev",
-    
     "dart-sass-watch": "npx sass --watch src/scss:dist/css",
-
     "svgo-dev": "svgo -f ./src/assets/svg -o ./src/assets/images"
   },
   "staticFiles": {
@@ -52,6 +53,7 @@
     ]
   },
   "devDependencies": {
+    "@tsconfig/create-react-app": "^1.0.2",
     "parcel-bundler": "^1.12.5",
     "parcel-plugin-static-files-copy": "^2.6.0",
     "sass": "^1.49.10"

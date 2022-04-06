@@ -75,22 +75,26 @@
 
 @include breakpoints.min {
     .book-container {
+        // pointer-events: none;
+
         display: flex;
         justify-content: space-between; //Works for some reason
         align-items: center;
+
+        @include mixins.scroll-container-x(0.75em, 0.75em);
     }
 
     .book-container .book-player {
         & {
-            & {
-                width: 100%;
-                height: auto;
-        
-                min-width: var(--min-viewer-width);
-                max-width: var(--max-viewer-width);
-                min-height: 0;
-                max-height: none;
-            }
+            pointer-events:all;
+
+            width: 100%;
+            height: auto;
+    
+            min-width: var(--min-viewer-width);
+            max-width: var(--max-viewer-width);
+            min-height: 0;
+            max-height: none;
 
             @include effects.drop-out();
         }
@@ -142,19 +146,21 @@
     }
 }
 
-.book-player-info {
-    @include effects.drop-out();
 
-    &.editor {
-        box-shadow: none;
-    }
-}
 
 .total-book-info {
     // display: flex;
     // flex-direction: column;
     // justify-content: flex-start;
     // align-items: stretch;
+
+    > * {
+        @include effects.drop-out();
+    
+        &.book-player-info.editor {
+            box-shadow: none;
+        }
+    }
 
     //z-index
     $total: 10;
@@ -166,36 +172,12 @@
 }
 
 .bottom-wrap {
-    & {
-        display: flex;
-        flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(8cm, 1fr));
+    grid-auto-rows: 1fr;
+    gap: 1em;
 
-        gap: 1em;
-        padding: 1em 0;
-    }
-
-    @include breakpoints.min {
-        flex-direction:column;
-        align-items: stretch;
-        justify-content:flex-start;
-
-        > .rect-link {
-            flex-basis: auto;
-            flex-grow: 0;
-            flex-shrink: 0;
-        }
-    }
-
-    @include breakpoints.md {
-        flex-direction: row;
-        align-items: flex-start;
-        justify-content:flex-start;
-
-        > .rect-link {
-            width: 8cm;
-            height: 8cm;
-        }
-    }
+    margin: 1em 0;
 }
 
 .total-book-info + .article-content {

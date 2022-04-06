@@ -1,4 +1,4 @@
-import React from "react";
+import React, {CSSProperties} from "react";
 
 import "../scss/styles/pages/_home.scss";
 
@@ -7,14 +7,24 @@ import Navbar from "../components/Navbar";
 
 import "./Plain";
 
+import zoomInSVG from "../assets/images/PlusInvert.svg";
+import zoomOutSVG from "../assets/images/MinusInvert.svg";
+
 export default function BookViewer() {
   return (
     <>
         <Navbar/>
-        <div className="book-container scroll-container-x bit" style={{zIndex: 10}}>
+        <div className="book-container" style={{zIndex: 10}}> {/* scroll-container-x bit */}
             <BookPlayer/>
         </div>
         <div className="total-book-info">
+            <div className="zoom-toolbar page-banner">
+                <div>
+                    <input type="button" className="zoom out" style={{backgroundImage: `url(${zoomOutSVG})`}}/>
+                    <input type="range" className="slider" min="0" max="100"/>
+                    <input type="button" className="zoom in" style={{backgroundImage: `url(${zoomInSVG})`}}/>
+                </div>
+            </div>
             <div className="book-player-info book page-banner -theme-dark">
                 <div>
                     <div className="image -live-area">
@@ -135,7 +145,7 @@ export default function BookViewer() {
                 <h1>Read More</h1>
                 <hr/>
                 <div className="bottom-wrap">
-                    <a className="rect-link -theme-dark" style={{"--background": "var(--col-purple)"}} href="https://blackstonefoundationlibrary.overdrive.com/">
+                    <a className="rect-link -theme-dark" style={{"--background": "var(--col-purple)"} as CSSProperties} href="https://blackstonefoundationlibrary.overdrive.com/">
                         <img className="icon" src="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/google/313/books_1f4da.png" alt=""/>
                         <span className="title">Borrow</span>
                         <span className="subtitle">Digital Library</span>
@@ -144,7 +154,7 @@ export default function BookViewer() {
                         </div>
                     </a>
 
-                    <a className="rect-link -theme-dark" style={{"--background": "var(--col-mud)"}} href="https://www.knowledgebookstore.com/">
+                    <a className="rect-link -theme-dark" style={{"--background": "var(--col-mud)"} as CSSProperties} href="https://www.knowledgebookstore.com/">
                         <img className="icon" src="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/google/313/notebook-with-decorative-cover_1f4d4.png" alt=""/>
                         <span className="title">Purchase</span>
                         <span className="subtitle">Knowledge Bookstore</span>
@@ -157,7 +167,7 @@ export default function BookViewer() {
                 <h1>Learn</h1>
                 <hr/>
                 <div className="bottom-wrap">
-                    <a className="rect-link -theme-dark" style={{"--background": "#882988"}} href="https://thebfl.org/">
+                    <a className="rect-link -theme-dark" style={{"--background": "#882988"} as CSSProperties} href="https://thebfl.org/">
                         <img className="icon" src="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/google/313/handshake_medium-dark-skin-tone_1f91d-1f3fe_1f3fe.png" alt=""/>
                         <span className="title">Peer Mentor Program</span>
                         <span className="subtitle">Do The Knowledge Online</span>
@@ -166,7 +176,7 @@ export default function BookViewer() {
                         </div>
                     </a>
 
-                    <a className="rect-link -theme-dark" style={{"--background": "#12804e"}} href="https://thebfl.org/">
+                    <a className="rect-link -theme-dark" style={{"--background": "#12804e"} as CSSProperties} href="https://thebfl.org/">
                         <img className="icon" src="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/google/313/woman-teacher-medium-dark-skin-tone_1f469-1f3fe-200d-1f3eb.png" alt=""/>
                         <span className="title">Workshop Series</span>
                         <span className="subtitle">Seeds of Wisdom</span>
@@ -179,7 +189,7 @@ export default function BookViewer() {
                 <h1>Stay Updated</h1>
                 <hr/>
                 <div className="bottom-wrap">
-                    <a className="rect-link -theme-dark" style={{"--background": "#68376d"}} href="https://www.knowledgebookstore.com/blogs/knowledge-videos">
+                    <a className="rect-link -theme-dark" style={{"--background": "#68376d"} as CSSProperties} href="https://www.knowledgebookstore.com/blogs/knowledge-videos">
                         <img className="icon" src="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/google/313/speech-balloon_1f4ac.png" alt=""/>
                         <span className="title">Blog</span>
                         <span className="subtitle">Knowledge Videos and Articles</span>
@@ -188,7 +198,7 @@ export default function BookViewer() {
                         </div>
                     </a>
 
-                    <a className="rect-link -theme-dark" style={{"--background": "#962a39"}} href="https://www.knowledgebookstore.com/pages/events">
+                    <a className="rect-link -theme-dark" style={{"--background": "#962a39"} as CSSProperties} href="https://www.knowledgebookstore.com/pages/events">
                         <img className="icon" src="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/google/313/tear-off-calendar_1f4c6.png" alt=""/>
                         <span className="title">Events</span>
                         <span className="subtitle">Keep Informed</span>
@@ -197,7 +207,7 @@ export default function BookViewer() {
                         </div>
                     </a>
 
-                    <a className="rect-link -theme-dark" style={{"--background": "#ad703e"}} href="https://thebfl.org/">
+                    <a className="rect-link -theme-dark" style={{"--background": "#ad703e"} as CSSProperties} href="https://thebfl.org/">
                         <img className="icon" src="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/google/313/memo_1f4dd.png" alt=""/>
                         <span className="title">Mailing List</span>
                         <span className="subtitle">Join our Mailing List</span>
@@ -206,7 +216,7 @@ export default function BookViewer() {
                         </div>
                     </a>
 
-                    <a className="rect-link -theme-dark" style={{"--background": "#37579b"}} href="https://www.knowledgebookstore.com/pages/newsletter-signup">
+                    <a className="rect-link -theme-dark" style={{"--background": "#37579b"} as CSSProperties} href="https://www.knowledgebookstore.com/pages/newsletter-signup">
                         <img className="icon" src="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/google/313/newspaper_1f4f0.png" alt=""/>
                         <span className="title">Newsletter</span>
                         <span className="subtitle">Newsletter Signup</span>
@@ -219,7 +229,7 @@ export default function BookViewer() {
                 <h1>Support</h1>
                 <hr/>
                 <div className="bottom-wrap">
-                    <a className="rect-link -theme-dark" style={{"--background": "#1a5daa"}} href="https://thebfl.org/thebrotherhood/">
+                    <a className="rect-link -theme-dark" style={{"--background": "#1a5daa"} as CSSProperties} href="https://thebfl.org/thebrotherhood/">
                         <img className="icon" src="https://www.ecigclick.co.uk/wp-content/uploads/2020/11/paypal-bans-vaping.png" alt=""/>
                         <span className="title">PayPal</span>
                         <span className="subtitle">Donate</span>
@@ -228,7 +238,7 @@ export default function BookViewer() {
                         </div>
                     </a>
 
-                    <a className="rect-link -theme-dark" style={{"--background": "#d88334"}} href="https://thebfl.org/thebrotherhood/">
+                    <a className="rect-link -theme-dark" style={{"--background": "#d88334"} as CSSProperties} href="https://thebfl.org/thebrotherhood/">
                         <img className="icon" src="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/google/313/envelope_2709-fe0f.png" alt=""/>
                         <span className="title">Email Transfer</span>
                         <span className="subtitle">Support with Email Transfer</span>
@@ -237,7 +247,7 @@ export default function BookViewer() {
                         </div>
                     </a>
 
-                    <a className="rect-link -theme-dark" style={{"--background": "#632a63"}} href="https://thebfl.org/thebrotherhood/">
+                    <a className="rect-link -theme-dark" style={{"--background": "#632a63"} as CSSProperties} href="https://thebfl.org/thebrotherhood/">
                         <img className="icon" src="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/google/313/raised-fist_dark-skin-tone_270a-1f3ff_1f3ff.png" alt=""/>
                         <span className="title">The Brotherhood</span>
                         <span className="subtitle">Partners for a Good Cause</span>
@@ -250,7 +260,7 @@ export default function BookViewer() {
                 <h1>Get Involved</h1>
                 <hr/>
                 <div className="bottom-wrap">
-                    <a className="rect-link -theme-dark" style={{"--background": "#a3212c"}} href="https://thebfl.org/">
+                    <a className="rect-link -theme-dark" style={{"--background": "#a3212c"} as CSSProperties} href="https://thebfl.org/">
                         <img className="icon" src="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/google/313/basket_1f9fa.png" alt=""/>
                         <span className="title">Book Drive</span>
                         <span className="subtitle">Black Book Box</span>
@@ -259,7 +269,7 @@ export default function BookViewer() {
                         </div>
                     </a>
 
-                    <a className="rect-link -theme-dark" style={{"--background": "#5a1a96"}} href="https://docs.google.com/forms/d/e/1FAIpQLSfgk65YBlBnRviIffpBhI8IXEpOzL9A5w4KqutqXcTxaP1-BQ/viewform">
+                    <a className="rect-link -theme-dark" style={{"--background": "#5a1a96"} as CSSProperties} href="https://docs.google.com/forms/d/e/1FAIpQLSfgk65YBlBnRviIffpBhI8IXEpOzL9A5w4KqutqXcTxaP1-BQ/viewform">
                         <img className="icon" src="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/google/313/hand-with-fingers-splayed_dark-skin-tone_1f590-1f3ff_1f3ff.png" alt=""/>
                         <span className="title">Volunteer</span>
                         <span className="subtitle">Volunteer Applications</span>
@@ -268,7 +278,7 @@ export default function BookViewer() {
                         </div>
                     </a>
 
-                    <a className="rect-link -theme-dark" style={{"--background": "#693d18"}} href="https://thebfl.org/">
+                    <a className="rect-link -theme-dark" style={{"--background": "#693d18"} as CSSProperties} href="https://thebfl.org/">
                         <img className="icon" src="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/google/313/clipboard_1f4cb.png" alt=""/>
                         <span className="title">Hiring</span>
                         <span className="subtitle">Work with Us</span>

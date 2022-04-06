@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="256"
+   height="256"
+   viewBox="0 0 67.733332 67.733331"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.1 (c68e22c387, 2021-05-23)"
+   sodipodi:docname="MinusInvert.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#999999"
+     borderopacity="1"
+     inkscape:pageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="true"
+     inkscape:document-units="px"
+     showgrid="true"
+     width="256mm"
+     units="px"
+     inkscape:snap-bbox="true"
+     inkscape:bbox-paths="true"
+     inkscape:bbox-nodes="true"
+     inkscape:snap-bbox-midpoints="true"
+     inkscape:snap-bbox-edge-midpoints="true"
+     inkscape:object-paths="true"
+     inkscape:snap-intersection-paths="true"
+     inkscape:snap-smooth-nodes="true"
+     inkscape:snap-midpoints="true"
+     inkscape:zoom="1.3416246"
+     inkscape:cx="184.47783"
+     inkscape:cy="22.733632"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0">
+    <inkscape:grid
+       type="xygrid"
+       id="grid9"
+       spacingx="16.933333"
+       spacingy="16.933333"
+       originx="-2.2270506e-06"
+       originy="0" />
+  </sodipodi:namedview>
+  <defs
+     id="defs2" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       id="path981"
+       style="fill:#555555;stroke-width:0"
+       d="M 128 0 A 128 128 0 0 0 0 128 A 128 128 0 0 0 128 256 A 128 128 0 0 0 256 128 A 128 128 0 0 0 128 0 z M 64 112 L 192 112 L 192 144 L 64 144 L 64 112 z "
+       transform="scale(0.26458333)" />
+    <rect
+       style="fill:#555555;fill-opacity:1;stroke-width:0"
+       id="rect927"
+       width="67.73333"
+       height="16.933332"
+       x="-1.1135247e-06"
+       y="-42.333332" />
+    <path
+       id="path845"
+       style="fill:#555555;stroke-width:0"
+       d="M -33.866668,-4.7999999e-7 A 33.866666,33.866666 0 0 0 -67.733334,33.866666 33.866666,33.866666 0 0 0 -33.866668,67.733332 33.866666,33.866666 0 0 0 -1.9870493e-6,33.866666 33.866666,33.866666 0 0 0 -33.866668,-4.7999999e-7 Z M -59.266668,25.399999 H -8.4666685 V 42.333332 H -59.266668 Z" />
+  </g>
+</svg>
