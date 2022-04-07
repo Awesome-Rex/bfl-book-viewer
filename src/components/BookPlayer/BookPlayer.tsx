@@ -1,14 +1,15 @@
 import React from "react";
+import "./book-player.scss";
 
 // https://jakearchibald.github.io/svgomg/
-import arrowLeftSVG from "../assets/images/ArrowLeft.svg";
-import arrowRightSVG from "../assets/images/ArrowRight.svg";
+import _arrowLeftPATH from "assets/images/ArrowLeft.svg";
+import _arrowRightPATH from "assets/images/ArrowRight.svg";
 
 export default function BookPlayer({ }) {
     return (
         <div className="book-player">
             <div className="page" draggable="false">
-                <img draggable="false" src={require("../assets/books/The Cat in the Hat/THE-CAT-IN-THE-HAT-03.png")} alt="Book page" />
+                <img draggable="false" src={require("assets/books/The Cat in the Hat/THE-CAT-IN-THE-HAT-03.png")} alt="Book page" />
             </div>
 
             <div className="page-turn next">
@@ -17,8 +18,7 @@ export default function BookPlayer({ }) {
                 <div className="zone"></div>
 
                 <div className="active"></div>
-                {/* <img className="arrow" src={require("../assets/images/ArrowRight.svg")} alt="" /> */}
-                <img className="arrow" src={arrowRightSVG} alt="" />
+                <img className="arrow" src={_arrowRightPATH} alt="" />
             </div>
 
             <div className="page-turn last">
@@ -27,8 +27,7 @@ export default function BookPlayer({ }) {
                 <div className="zone"></div>
 
                 <div className="active"></div>
-                {/* <img className="arrow" src={require("../assets/images/ArrowLeft.svg")} alt="" /> */}
-                <img className="arrow" src={arrowLeftSVG} alt="" />
+                <img className="arrow" src={_arrowLeftPATH} alt="" />
             </div>
 
             <div className="progress">

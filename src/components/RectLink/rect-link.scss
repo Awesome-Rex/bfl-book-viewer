@@ -1,7 +1,7 @@
-@use "../../helpers";
-@use "../../resources";
-@use "../../resources/appearance/effects";
-@use "../basic";
+@use "~scss/helpers";
+@use "~scss/resources";
+@use "~scss/resources/appearance/effects";
+@use "~scss/styles/basic";
 
 .rect-link {
     --background: white;

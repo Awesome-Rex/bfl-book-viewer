@@ -109,7 +109,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
     let pages = [];
     for (let i = 1; i <= 10; i++) { //pages 3-12
-        pages.push(require(`../assets/books/The Cat in the Hat/THE-CAT-IN-THE-HAT-${String(i + 2).padStart(2, "0")}.png`))
+        pages.push(require(`assets/books/The Cat in the Hat/THE-CAT-IN-THE-HAT-${String(i + 2).padStart(2, "0")}.png`))
     }
 
     { //helpers

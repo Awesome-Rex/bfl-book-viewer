@@ -9,13 +9,16 @@
 @use "~scss/styles/basic";
 @use "~scss/styles/components";
 
-#App {
-    display: grid;
-    justify-content: stretch;
-    align-content:flex-start;
-    gap: 0;
+#fixed-screen {
+    pointer-events: none;
 
-    > * {
-        
-    }
+    display: inline-block;
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    z-index: 1000;
 }

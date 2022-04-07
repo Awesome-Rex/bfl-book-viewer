@@ -1,11 +1,11 @@
-@use "../../helpers";
-@use "../../helpers/functions";
-@use "../../helpers/mixins";
-@use "../../resources";
-@use "../../resources/appearance/effects";
-@use "../../resources/layout/breakpoints";
-@use "../basic";
-@use "../basic/forms";
+@use "~scss/helpers";
+@use "~scss/helpers/functions";
+@use "~scss/helpers/mixins";
+@use "~scss/resources";
+@use "~scss/resources/appearance/effects";
+@use "~scss/resources/layout/breakpoints";
+@use "~scss/styles/basic";
+@use "~scss/styles/basic/forms";
 
 .book-player {
     --page-per-view: 2;

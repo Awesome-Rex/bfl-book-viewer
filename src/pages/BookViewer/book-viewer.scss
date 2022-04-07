@@ -1,14 +1,14 @@
-@use "../../helpers";
-@use "../../helpers/variables";
-@use "../../helpers/mixins";
-@use "../../helpers/styles";
-@use "../../resources";
-@use "../../resources/appearance/effects";
-@use "../../resources/layout/breakpoints";
-@use "../../resources/layout/sizes";
-@use "../basic";
-@use "../components";
-@use "../layout";
+@use "~scss/helpers";
+@use "~scss/helpers/variables";
+@use "~scss/helpers/mixins";
+@use "~scss/helpers/styles";
+@use "~scss/resources";
+@use "~scss/resources/appearance/effects";
+@use "~scss/resources/layout/breakpoints";
+@use "~scss/resources/layout/sizes";
+@use "~scss/styles/basic";
+@use "~scss/styles/components";
+@use "~scss/styles/layout";
 
 :root {
     --max-viewer-width: #{breakpoints.get-avg(xl)};
@@ -108,7 +108,7 @@
     }
 }
 @include viewer-focus {
-    #root {
+    #App {
         #navbar + .book-container {
             grid-row: 1 / 2;
         }

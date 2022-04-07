@@ -1,7 +1,7 @@
-@use "../layout/breakpoints";
-@use "../../helpers/mixins";
-@use "../appearance/effects";
-@use "./../../helpers/functions";
+@use "~scss/helpers/functions";
+@use "~scss/helpers/mixins";
+@use "~scss/resources/layout/breakpoints";
+@use "~scss/resources/appearance/effects";
 
 :root {
     @extend ._layout-default;

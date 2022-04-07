@@ -1,15 +1,16 @@
 import React from 'react';
+import "./navbar.scss";
 
-// import hamburgerSVG from "../assets/images/Hamburger.svg";
+import _hamburgerPATH from "assets/images/Hamburger.svg";
 
 export default function Navbar() {
   return (
     <header id="navbar">
         <div className="content">
             <nav className="left-navbar">
-                <a href="http://thebfl.org/"><img id="navbar-logo" src={require("../assets/images/BLACKSTONE-LOGO.png")} alt="The Black Stone Foundation Library"/></a>
+                <a href="http://thebfl.org/"><img id="navbar-logo" src={require("assets/images/BLACKSTONE-LOGO.png")} alt="The Black Stone Foundation Library"/></a>
 
-                <input className="toggle" type="checkbox" style={{backgroundImage: `url(${require("../assets/images/Hamburger.svg")})`}}/>
+                <input className="toggle" type="checkbox" style={{backgroundImage: `url(${_hamburgerPATH})`}}/>
             </nav>
             <nav className="right-navbar">
                 <div className="content">

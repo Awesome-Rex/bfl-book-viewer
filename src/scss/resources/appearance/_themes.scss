@@ -1,7 +1,6 @@
-// @use "../appearance";
-@use "../appearance/colours";
-@use "../../helpers/variables";
-@use "../../helpers/mixins";
+@use "~scss/resources/appearance/colours";
+@use "~scss/helpers/variables";
+@use "~scss/helpers/mixins";
 
 @mixin light {
     @include mixins.custom-selector(".-theme-light") {

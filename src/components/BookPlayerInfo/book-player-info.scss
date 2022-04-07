@@ -1,13 +1,13 @@
-@use "../../helpers";
-@use "../../helpers/mixins";
-@use "../../resources";
-@use "../../resources/appearance/colours";
-@use "../../resources/appearance/effects";
-@use "../../resources/appearance/themes";
-@use "../../resources/layout/sizes";
-@use "../../resources/layout/breakpoints";
-@use "../basic";
-@use "../components";
+@use "~scss/helpers";
+@use "~scss/helpers/mixins";
+@use "~scss/resources";
+@use "~scss/resources/appearance/colours";
+@use "~scss/resources/appearance/effects";
+@use "~scss/resources/appearance/themes";
+@use "~scss/resources/layout/sizes";
+@use "~scss/resources/layout/breakpoints";
+@use "~scss/styles/basic";
+@use "~scss/styles/components";
 // @use "./../functions";
 
 .book-player-info {

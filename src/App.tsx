@@ -4,9 +4,9 @@ import BookViewer from "./pages/BookViewer";
 
 function App() {
   return (
-    // <div className="App">
+    <div id="App">
       <BookViewer/>
-    // </div>
+    </div>
   );
 }
 

@@ -1,11 +1,10 @@
-@use "../../helpers";
-@use "../../helpers/styles";
-@use "../../resources/appearance";
-@use "../../resources/appearance/themes";
-@use "../../resources/appearance/colours";
-@use "../../resources/appearance/fonts";
-@use "../../resources/appearance/effects";
-// @use "../../helpers/mixins" as *;
+@use "~scss/helpers";
+@use "~scss/helpers/styles";
+@use "~scss/resources/appearance";
+@use "~scss/resources/appearance/themes";
+@use "~scss/resources/appearance/colours";
+@use "~scss/resources/appearance/fonts";
+@use "~scss/resources/appearance/effects";
 
 :root {
     //

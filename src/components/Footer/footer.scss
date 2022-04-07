@@ -1,7 +1,7 @@
-@use "../../helpers";
-@use "../../resources";
-@use "../basic";
-@use "../components";
+@use "~scss/helpers";
+@use "~scss/resources";
+@use "~scss/styles/basic";
+@use "~scss/styles/components";
 
 #footer {
     height: 2cm;
