@@ -1,6 +1,6 @@
 import React from 'react';
 
-import hamburgerSVG from "../assets/images/Hamburger.svg";
+// import hamburgerSVG from "../assets/images/Hamburger.svg";
 
 export default function Navbar() {
   return (
@@ -9,7 +9,7 @@ export default function Navbar() {
             <nav className="left-navbar">
                 <a href="http://thebfl.org/"><img id="navbar-logo" src={require("../assets/images/BLACKSTONE-LOGO.png")} alt="The Black Stone Foundation Library"/></a>
 
-                <input className="toggle" type="checkbox" style={{backgroundImage: `url(${hamburgerSVG})`}}/>
+                <input className="toggle" type="checkbox" style={{backgroundImage: `url(${require("../assets/images/Hamburger.svg")})`}}/>
             </nav>
             <nav className="right-navbar">
                 <div className="content">

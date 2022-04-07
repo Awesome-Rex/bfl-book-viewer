@@ -4,11 +4,10 @@ import "../scss/styles/pages/_home.scss";
 
 import BookPlayer from "../components/BookPlayer";
 import Navbar from "../components/Navbar";
+import { Footer } from '../components/Footer';
+import { ZoomToolbar } from '../components/ZoomToolbar';
 
 import "./Plain";
-
-import zoomInSVG from "../assets/images/PlusInvert.svg";
-import zoomOutSVG from "../assets/images/MinusInvert.svg";
 
 export default function BookViewer() {
   return (
@@ -18,13 +17,7 @@ export default function BookViewer() {
             <BookPlayer/>
         </div>
         <div className="total-book-info">
-            <div className="zoom-toolbar page-banner">
-                <div>
-                    <input type="button" className="zoom out" style={{backgroundImage: `url(${zoomOutSVG})`}}/>
-                    <input type="range" className="slider" min="0" max="100"/>
-                    <input type="button" className="zoom in" style={{backgroundImage: `url(${zoomInSVG})`}}/>
-                </div>
-            </div>
+            <ZoomToolbar/>
             <div className="book-player-info book page-banner -theme-dark">
                 <div>
                     <div className="image -live-area">
@@ -292,16 +285,7 @@ export default function BookViewer() {
                 <br/> */}
             </div>
         </div>
-        <footer id="footer" className="-theme-dark">
-            <div className="content">
-                <div className="description">
-                    footer
-                </div>
-                <div className="social">
-
-                </div>
-            </div>
-        </footer>
+        <Footer     />
         <div id="fixed-screen">
             <p style={{
             fontFamily: "Arial",
@@ -332,4 +316,4 @@ export default function BookViewer() {
         </div>
     </>
   );
-}
+} 
