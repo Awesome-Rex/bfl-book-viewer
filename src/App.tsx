@@ -1,11 +1,12 @@
-import React from "react";
-import "./scss/styles/pages/_home.scss";
+import React from 'react';
 
 import BookViewer from "./pages/BookViewer";
 
 function App() {
   return (
-    <BookViewer/>
+    // <div className="App">
+      <BookViewer/>
+    // </div>
   );
 }
 

@@ -3,13 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@testing-library/jest-dom": "^5.16.3",
+    "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^12.1.4",
     "@testing-library/user-event": "^13.5.0",
     "@types/jest": "^27.4.1",
-    "@types/node": "^17.0.23",
-    "@types/react": "^17.0.43",
-    "@types/react-dom": "^17.0.14",
+    "@types/node": "^16.11.26",
+    "@types/react": "^17.0.44",
+    "@types/react-dom": "^17.0.15",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-scripts": "5.0.0",
@@ -28,11 +28,6 @@
     "snowpack-start": "snowpack dev",
     "dart-sass-watch": "npx sass --watch src/scss:dist/css",
     "svgo-dev": "svgo -f ./src/assets/svg -o ./src/assets/images"
-  },
-  "staticFiles": {
-    "staticPath": [
-      "./books"
-    ]
   },
   "eslintConfig": {
     "extends": [
@@ -53,14 +48,7 @@
     ]
   },
   "devDependencies": {
-    "@tsconfig/create-react-app": "^1.0.2",
     "parcel-bundler": "^1.12.5",
-    "parcel-plugin-static-files-copy": "^2.6.0",
-    "sass": "^1.49.10"
-  },
-  "description": "SETUP     Use \"npm install\" to install node modules to project folder based on dependencies listed in package.json.",
-  "main": "index.js",
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+    "sass": "^1.50.0"
+  }
 }
