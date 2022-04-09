@@ -1,0 +1,13 @@
+@use "~scss/helpers/functions";
+@use "~scss/helpers/mixins";
+@use "~scss/resources/breakpoints";
+@use "~scss/resources/effects";
+
+:root {
+    @extend ._layout-default;
+}
+
+//LAYOUT THEMES
+._layout-default {
+    
+}

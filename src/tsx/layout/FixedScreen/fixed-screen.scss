@@ -1,0 +1,22 @@
+@use "~scss/helpers";
+@use "~scss/helpers/variables";
+@use "~scss/helpers/mixins";
+@use "~scss/helpers/styles";
+@use "~scss/resources";
+@use "~scss/resources/effects";
+@use "~scss/resources/breakpoints";
+@use "~scss/resources/sizes";
+
+#fixed-screen {
+    pointer-events: none;
+
+    display: inline-block;
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    z-index: 1000;
+}

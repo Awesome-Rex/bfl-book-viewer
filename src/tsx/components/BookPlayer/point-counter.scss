@@ -1,0 +1,100 @@
+@use "~scss/helpers";
+@use "~scss/helpers/functions";
+@use "~scss/helpers/mixins";
+@use "~scss/resources";
+@use "~scss/resources/effects";
+@use "~scss/resources/breakpoints";
+@use "~scss/stylesheets";
+@use "~scss/stylesheets/form";
+
+.point-counter {
+    pointer-events:fill;
+
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    
+    display: inline-block;
+
+    font-size: 0.9rem;
+    font-weight: bold;
+
+    .head {
+        display: grid;
+        place-items: center;
+
+        border-radius: 100vh;
+        // height: 2em;
+        padding: 0.5em;
+    
+        background-color: var(--col-purple-dark);
+
+        @include effects.drop-out; 
+
+        > span {
+            display: flex;
+            justify-content: center;
+            align-items: baseline;
+
+            min-width: 8em;
+
+            *:not(.divide) {
+                display: inline-block;
+
+                flex-basis: 0;
+                flex-grow: 1;
+                flex-shrink: 1;
+
+                box-sizing: content-box;
+
+                width: 0;
+                padding: 0.25em;
+
+                border-color: transparent;
+                // border: var(--line-width) solid;
+                // border-radius: 100vh;
+                
+                font-size: 1em;
+                font-weight: bold;
+                text-align: center;
+
+                &.page {
+                    cursor: text;
+        
+                    appearance: none;
+    
+                    box-sizing: content-box;
+    
+                    margin: 0;
+    
+                    color: var(--col-gold-dim);
+                    background-color: transparent;
+
+                    &:focus {
+                        outline: none;
+                        box-shadow: none;
+
+                        text-decoration: underline var(--line-width) var(--col-gold-dim);
+                    }
+        
+                    &::-webkit-inner-spin-button, &::-webkit-outer-spin-button {
+                        appearance: none;
+                    }
+                }
+    
+                &.max {
+                    border-color: transparent;
+                }
+            }
+
+            .divide {
+                flex-basis: 1ch;
+                flex-grow: 0;
+                flex-shrink: 0;
+
+                &::after {
+                    content: "|";
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,227 @@
+@use "~scss/helpers";
+@use "~scss/helpers/variables";
+@use "~scss/helpers/mixins";
+@use "~scss/helpers/styles";
+@use "~scss/resources";
+@use "~scss/resources/effects";
+@use "~scss/resources/breakpoints";
+@use "~scss/resources/sizes";
+@use "~scss/stylesheets";
+
+:root {
+    --max-viewer-width: #{breakpoints.get-avg(xl)};
+    --min-viewer-width: #{breakpoints.get-max(xs)};
+    --max-viewer-height: calc(100vh - 2em);
+    --min-viewer-height: 6cm;
+    
+    --max-info-width: var(--max-viewer-width);
+    --max-info-desc: 16em;
+
+    --max-book-info: 6cm;
+    --min-book-info: 4cm;
+}
+
+@mixin viewer-focus {
+    @media (orientation: landscape) and (max-height: breakpoints.get-max(xs)) {
+        @content;
+    }
+}
+
+.book-container .book-player {
+    /*layout*/
+
+    --progress-zone-size: 8em;
+    // --progress-zone-top: 6em;
+    // --progress-zone-bottom: 6em;
+    // --progress-zone-top: 20%;
+    // --progress-zone-bottom: 20%;
+
+    --progress-area-height: 33%;
+    // --progress-area-height: 8em;
+
+    --progress-min: var(--line-width);
+    --progress-near: 4px;
+    --progress-max: 8px;
+
+    --point-min: var(--progress-min);
+    --point-near: 10px;
+    --point-most: 16px;
+    --point-max: 22px;
+
+
+    --page-zone-width: 40%;
+
+    --page-area-width: 14em;
+
+    --page-arrow-distance: 36px;
+
+    /*styling*/
+
+    --major: var(var(--bfl-purple));
+
+    --area: #00000022;
+    --area-anim: opacity 100ms linear;
+
+    --page-turn: #00000011;
+
+    /*data*/
+    --page-per-view: 2;
+
+    --total-pages: 10;
+    --current-page: 1;
+}
+
+@include breakpoints.min {
+    .book-container {
+        // pointer-events: none;
+
+        display: flex;
+        justify-content: space-between; //Works for some reason
+        align-items: center;
+
+        // @include mixins.scroll-container-x(0.75em, 0.75em);
+    }
+
+    .book-container .book-player {
+        & {
+            pointer-events:all;
+
+            width: 100%;
+            height: auto;
+    
+            min-width: var(--min-viewer-width);
+            max-width: var(--max-viewer-width);
+            min-height: 0;
+            max-height: none;
+
+            @include effects.drop-out();
+        }
+
+        @include breakpoints.min {
+            margin: 1cm auto;
+        }
+        @include breakpoints.sm(true) {
+            margin: 0;
+        }
+    }
+}
+@include viewer-focus {
+    #App {
+        #navbar + .book-container {
+            grid-row: 1 / 2;
+        }
+    }
+
+    #navbar {
+        #navbar-logo {
+            height: 2.5cm !important;
+            width: auto !important;
+        }
+    }
+
+    .book-container {
+        justify-content: center !important;
+
+        box-sizing: border-box !important;
+
+        min-height: var(--viewport-height-fill) !important;
+        padding: 1em !important; // padding: 0 !important;
+        margin: 0 !important;
+        
+        background-color: var(--col-black-not) !important;
+    }
+
+    .book-player {
+        margin: 0 !important;
+
+        height: 100% !important;
+        width: auto !important;
+
+        min-height: var(--min-viewer-height) !important;
+        max-height: var(--max-viewer-height) !important;
+        min-width: 0 !important;
+        max-width: none !important;
+    }
+}
+
+
+
+.total-book-info {
+    // display: flex;
+    // flex-direction: column;
+    // justify-content: flex-start;
+    // align-items: stretch;
+
+    > * {
+        @include effects.drop-out();
+    
+        &.book-player-info.editor {
+            box-shadow: none;
+        }
+    }
+
+    //z-index
+    $total: 10;
+    @for $index from 1 through 10 {
+        .book-player-info:nth-last-of-type(#{$index + 1}) {
+            z-index: $index - 1; //starting at 0
+        }
+    }
+}
+
+.bottom-wrap {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(8cm, 1fr));
+    grid-auto-rows: 1fr;
+    gap: 1em;
+
+    margin: 1em 0;
+}
+
+.total-book-info + .article-content {
+    padding-top: 1cm;
+    padding-bottom: 2cm;
+
+    @include styles.heading {
+        color: inherit;
+    }
+}
+
+//MOBILE ACCOMODATIONS
+:root {
+    @mixin intersect {
+        @include breakpoints.sm(true) {
+            @media (min-height: breakpoints.get-max(xs, false)) { //media query linked to _home.scss media
+                @include mixins.hover-mobile {
+                    &:not(.-active) {
+                        @content;
+                    }
+                }
+                @include mixins.hover-cursor {
+                    &.-near:not(.-active) {
+                        @content;
+                    }
+                }
+            }
+        }
+    }
+
+    .book-player .progress {
+        @include intersect {
+            // /**/@include -hover;
+
+            // .slider {
+            //     background: linear-gradient(to bottom, transparent 0%, transparent 50%, var(--col-purple-dark) 50%, var(--col-purple-dark) 100%);
+            // }
+            // .slider::-webkit-slider-thumb {
+            //     background: linear-gradient(to bottom, var(--col-purple-dark) 0%, var(--col-purple-dark) 50%, var(--col-gold-dim) 50%, var(--col-gold-dim) 100%);
+            // }
+        }
+    }
+
+    .zoom-toolbar {
+        @include intersect {
+            padding-top: 1rem;
+        }
+    }
+}

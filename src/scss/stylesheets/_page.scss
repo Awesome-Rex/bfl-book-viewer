@@ -1,0 +1,19 @@
+@use "~scss/helpers";
+@use "~scss/helpers/variables";
+@use "~scss/helpers/mixins";
+@use "~scss/helpers/styles";
+@use "~scss/resources";
+@use "~scss/resources/effects";
+@use "~scss/resources/breakpoints";
+@use "~scss/resources/sizes";
+
+#App {
+    display: grid;
+    justify-content: stretch;
+    align-content:flex-start;
+    gap: 0;
+
+    > * {
+        
+    }
+}

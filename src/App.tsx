@@ -1,11 +1,11 @@
 import React from 'react';
 
-import BookViewer from "./pages/BookViewer";
+import BookViewer from "./tsx/pages/BookViewer";
 
 function App() {
   return (
     <div id="App">
-      <BookViewer/>
+      <BookViewer />
     </div>
   );
 }

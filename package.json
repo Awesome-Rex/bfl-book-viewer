@@ -9,7 +9,6 @@
     "@types/jest": "^27.4.1",
     "@types/node": "^16.11.26",
     "@types/react": "^17.0.44",
-    "@types/react-dom": "^17.0.15",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-scripts": "5.0.0",
@@ -27,7 +26,9 @@
     "parcel-build": "parcel build src/index/html",
     "snowpack-start": "snowpack dev",
     "dart-sass-watch": "npx sass --watch src/scss:dist/css",
-    "svgo-dev": "svgo -f ./src/assets/svg -o ./src/assets/images"
+    "svgo-dev": "svgo -f ./src/assets/svg -o ./src/assets/images",
+    "prettier-all": "npx prettier --write .",
+    "prettier-specific": "prettier --write \"./**/*.{js,jsx,json,ts,tsx,scss,css,html}\""
   },
   "eslintConfig": {
     "extends": [
@@ -48,6 +49,7 @@
     ]
   },
   "devDependencies": {
+    "@types/react-dom": "^18.0.0",
     "parcel-bundler": "^1.12.5",
     "sass": "^1.50.0"
   }

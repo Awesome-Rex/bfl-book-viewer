@@ -1,0 +1,14 @@
+@use "~scss/resources/colours";
+@use "~scss/helpers/variables";
+@use "~scss/helpers/mixins";
+
+@mixin light {
+    @include mixins.custom-selector(".-theme-light") {
+        @content;
+    }
+}
+@mixin dark {
+    @include mixins.custom-selector(".-theme-dark") {
+        @content;
+    }
+}

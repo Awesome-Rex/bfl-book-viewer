@@ -1,0 +1,95 @@
+//SCROLL CONTAINERS
+//for small mobile devices (invisible scrollbars, touch-screen scrolling for large content)
+
+.scroll-container {
+    --reserve-top: 1em;
+    --reserve-bottom: 1em;
+    --reserve-left: 1em;
+    --reverse-right: 1em;
+    
+    &-x {
+        overflow-x: scroll;
+        overflow-y:hidden;
+
+        margin-top: calc(var(--reserve-top) * -1);
+        margin-bottom: calc(var(--reserve-bottom) * -1);
+        padding-top: calc(var(--reserve-top) * 1);
+        padding-bottom: calc(var(--reserve-bottom) * 1);
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
+    }
+    &-y {
+        overflow-x:hidden;
+        overflow-y: scroll;
+        
+        margin-left: calc(var(--reserve-left) * -1);
+        margin-right: calc(var(--reserve-right) * -1);
+        padding-left: calc(var(--reserve-left) * 1);
+        padding-right: calc(var(--reserve-right) * 1);
+    
+        &::-webkit-scrollbar {
+            display: none;
+        }
+    }
+}
+
+.scroll-container {
+    &-x {
+        &, &.bit {
+            --reserve-top: 1rem;
+            --reserve-bottom: 1rem;
+        }
+        &.chunk {
+            --reserve-top: 4rem;
+            --reserve-bottom: 4rem;
+        }
+        &.partial {
+            --reserve-top: 15vh;
+            --reserve-bottom: 15vh;
+        }
+        &.segment {
+            --reserve-top: 50vh;
+            --reserve-bottom: 50vh;
+        }
+        &.screen {
+            --reserve-top: 100vh;
+            --reserve-bottom: 100vh;
+        }
+    }
+    &-y {
+        &, &.bit {
+            --reserve-left: 1rem;
+            --reserve-right: 1rem;
+        }
+        &.chunk {
+            --reserve-left: 4rem;
+            --reserve-right: 4rem;
+        }
+        &.partial {
+            --reserve-left: 15vh;
+            --reserve-right: 15vh;
+        }
+        &.segment {
+            --reserve-left: 50vh;
+            --reserve-right: 50vh;
+        }
+        &.screen {
+            --reserve-left: 100vw;
+            --reserve-right: 100vw;
+        }
+    }
+}
+
+@mixin scroll-container-x ($reserve-top: 1em, $reserve-bottom: 1em) {
+    @extend .scroll-container-x;
+    --reserve-top: $reserve-top;
+    --reserve-bottom: $reserve-bottom;
+}
+
+@mixin scroll-container-y ($reserve-left: 1em, $reserve-right: 1em) {
+    @extend .scroll-container-x;
+    --reserve-left: $reserve-left;
+    --reserve-right: $reserve-right;
+}
