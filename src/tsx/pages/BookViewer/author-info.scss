@@ -1,0 +1,41 @@
+@use "~src/scss/helpers";
+@use "~src/scss/helpers/mixins";
+@use "~src/scss/resources";
+@use "~src/scss/resources/colours";
+@use "~src/scss/resources/effects";
+@use "~src/scss/resources/themes";
+@use "~src/scss/resources/sizes";
+@use "~src/scss/resources/breakpoints";
+
+.book-player-info.author {
+    & {
+        background-color: var(--col-gold-dim);
+
+        .info {
+            > .tags {
+                
+            }
+        }
+    }
+
+    @include breakpoints.min {
+        .image {
+            img {
+                border-radius: 100%;;
+                height: 3cm;
+                width: 3cm;
+                object-fit: cover;
+                object-position: center;
+            }
+        }
+    }
+
+    @include breakpoints.between(sm, md) {
+        .image {
+            img {
+                width: 2cm;
+                height: 2cm;
+            }
+        }
+    }
+}

@@ -1,17 +1,17 @@
-@use "~scss/helpers";
-@use "~scss/helpers/styles";
-@use "~scss/resources";
-@use "~scss/resources/themes";
-@use "~scss/resources/colours";
-@use "~scss/resources/fonts";
-@use "~scss/resources/effects";
+@use "~src/scss/helpers";
+@use "~src/scss/helpers/styles";
+@use "~src/scss/resources";
+@use "~src/scss/resources/themes";
+@use "~src/scss/resources/colours";
+@use "~src/scss/resources/fonts";
+@use "~src/scss/resources/effects";
 
 :root {
     //
 }
 
 * {
-    font-family: Roboto;
+    font-family: Roboto, sans-serif;
 
     color: var(--col-black);
 

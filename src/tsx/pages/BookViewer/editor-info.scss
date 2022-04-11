@@ -1,0 +1,44 @@
+@use "~src/scss/helpers";
+@use "~src/scss/helpers/mixins";
+@use "~src/scss/resources";
+@use "~src/scss/resources/colours";
+@use "~src/scss/resources/effects";
+@use "~src/scss/resources/themes";
+@use "~src/scss/resources/sizes";
+@use "~src/scss/resources/breakpoints";
+
+.book-player-info.editor {
+    & {
+        background-color: var(--col-white);
+
+        box-shadow: none;
+        border-bottom: var(--line-width) solid var(--col-grey-light);
+
+        padding-top: 1cm;
+        padding-bottom: 1cm;
+
+        .title {
+            &::before {
+                content: "Edited by ";
+            }
+        }
+
+        .info {
+            > .tags {
+                
+            }
+        }
+    }
+
+    @include breakpoints.min {
+        .image {
+            img {
+                border-radius: 100%;;
+                height: 1.5cm;
+                width: 1.5cm;
+                object-fit: cover;
+                object-position: center;
+            }
+        }
+    }
+}

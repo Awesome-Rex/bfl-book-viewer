@@ -1,11 +1,11 @@
-@use "~scss/helpers";
-@use "~scss/helpers/variables";
-@use "~scss/helpers/mixins";
-@use "~scss/helpers/styles";
-@use "~scss/resources";
-@use "~scss/resources/effects";
-@use "~scss/resources/breakpoints";
-@use "~scss/resources/sizes";
+@use "~src/scss/helpers";
+@use "~src/scss/helpers/variables";
+@use "~src/scss/helpers/mixins";
+@use "~src/scss/helpers/styles";
+@use "~src/scss/resources";
+@use "~src/scss/resources/effects";
+@use "~src/scss/resources/breakpoints";
+@use "~src/scss/resources/sizes";
 
 #fixed-screen {
     pointer-events: none;

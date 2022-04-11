@@ -102,6 +102,14 @@ const initial = (() => {
 document.addEventListener("DOMContentLoaded", (event) => {
     console.log("document load");
 
+    
+});
+
+window.addEventListener("load", e => {
+    console.log("window load");
+
+
+
     // elem = document.createElement("span");
     // elem.classList.add("-live-area");
     // elem.innerText = "new";
@@ -109,7 +117,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
     let pages = [];
     for (let i = 1; i <= 10; i++) { //pages 3-12
-        pages.push(require(`assets/books/The Cat in the Hat/THE-CAT-IN-THE-HAT-${String(i + 2).padStart(2, "0")}.png`))
+        pages.push(require(`src/assets/books/The Cat in the Hat/THE-CAT-IN-THE-HAT-${String(i + 2).padStart(2, "0")}.png`))
     }
 
     { //helpers
@@ -283,10 +291,12 @@ document.addEventListener("DOMContentLoaded", (event) => {
             })
         }
     }
-});
 
-window.addEventListener("load", e => {
-    console.log("window load");
+
+
+
+
+
 
     { //device accomodations
         // window.addEventListener("resize", event => {

@@ -1,7 +1,7 @@
 import React from 'react';
 import "./navbar.scss";
 
-import _hamburgerPATH from "assets/images/Hamburger.svg";
+import _hamburgerPATH from "src/assets/images/Hamburger.svg";
 
 export default function Navbar(
     {
@@ -13,7 +13,7 @@ export default function Navbar(
         <header id="navbar">
             <div className="content">
                 <nav className="left-navbar">
-                    <a href="http://thebfl.org/"><img id="navbar-logo" src={require("assets/images/BLACKSTONE-LOGO.png")} alt="The Black Stone Foundation Library" /></a>
+                    <a href="http://thebfl.org/"><img id="navbar-logo" src={require("src/assets/images/BLACKSTONE-LOGO.png")} alt="The Black Stone Foundation Library" /></a>
 
                     <input className="toggle" type="checkbox" style={{ backgroundImage: `url(${_hamburgerPATH})` }} />
                 </nav>

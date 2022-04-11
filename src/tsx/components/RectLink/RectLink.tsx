@@ -1,4 +1,5 @@
-import React, { CSSProperties } from 'react'
+import React, { CSSProperties, useEffect, useLayoutEffect, useRef, useState } from 'react'
+import useWindowResize from 'src/tsx/hooks/useWindowResize';
 import "./rect-link.scss";
 
 export default function RectLink(
@@ -19,8 +20,22 @@ export default function RectLink(
         children?: React.ReactNode, 
         className?: string 
     }) {
+
+    const element = useRef<HTMLAnchorElement>(null!);
+    const [height, setHeight] = useState(0);
+
+    useEffect(() => {
+        setHeight(element.current?.clientWidth);
+    }, []);
+    useWindowResize(() => {
+        setHeight(element.current?.clientWidth);
+    });
+    
     return (
-        <a className={`rect-link ${className}`} style={{ "--background": background } as CSSProperties} href={href}>
+        <a ref={element} className={`rect-link ${className}`} style={{ 
+            "--background": background,
+            "--width-compare": height + "px"
+        } as CSSProperties} href={href}>
             <img className="icon" src={icon} alt="" />
             <span className="title">{title}</span>
             {subtitle != "" && <span className="subtitle">{subtitle}</span>}

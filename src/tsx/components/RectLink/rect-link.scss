@@ -1,7 +1,8 @@
-@use "~scss/helpers";
-@use "~scss/resources";
-@use "~scss/resources/effects";
-@use "~scss/stylesheets";
+@use "~src/scss/helpers";
+@use "~src/scss/resources";
+@use "~src/scss/resources/effects";
+@use "~src/scss/resources/breakpoints";
+@use "~src/scss/stylesheets";
 
 .rect-link {
     --background: white;
@@ -9,14 +10,18 @@
 }
 
 .rect-link {
-    display: inline-block;
+    & {
+        box-sizing: border-box;
 
-    padding: 1em;
-    padding-bottom: 2em;
+        display: inline-block;
 
-    background: var(--background);
+        padding: 1em;
+        // padding-bottom: 2em;
 
-    text-decoration: none;
+        background: var(--background);
+
+        text-decoration: none;
+    }
     
     .icon {
         display: block;
@@ -54,5 +59,9 @@
         display: block;
 
         // text-align: center;
+        padding-bottom: 2em;
+
+        // font-size: 0.9em;
+        word-wrap: break-word;
     }
 }

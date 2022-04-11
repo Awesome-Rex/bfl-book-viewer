@@ -1,12 +1,12 @@
-@use "~scss/helpers";
-@use "~scss/helpers/mixins";
-@use "~scss/resources";
-@use "~scss/resources/colours";
-@use "~scss/resources/effects";
-@use "~scss/resources/themes";
-@use "~scss/resources/sizes";
-@use "~scss/resources/breakpoints";
-@use "~scss/stylesheets";
+@use "~src/scss/helpers";
+@use "~src/scss/helpers/mixins";
+@use "~src/scss/resources";
+@use "~src/scss/resources/colours";
+@use "~src/scss/resources/effects";
+@use "~src/scss/resources/themes";
+@use "~src/scss/resources/sizes";
+@use "~src/scss/resources/breakpoints";
+@use "~src/scss/stylesheets";
 
 div.zoom-toolbar {
     position: relative;

@@ -1,9 +1,12 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { BookPlayerContext } from './BookPlayer';
 import PointCounter from './PointCounter';
 
 import "./progress.scss";
 
 export default function Slider() {
+    const context = useContext(BookPlayerContext);
+
     return (
         <div className="progress">
             <div className="background"></div>

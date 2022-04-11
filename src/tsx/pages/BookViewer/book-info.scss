@@ -1,0 +1,57 @@
+@use "~src/scss/helpers";
+@use "~src/scss/helpers/mixins";
+@use "~src/scss/resources";
+@use "~src/scss/resources/colours";
+@use "~src/scss/resources/effects";
+@use "~src/scss/resources/themes";
+@use "~src/scss/resources/sizes";
+@use "~src/scss/resources/breakpoints";
+
+.book-player-info.book {
+    & {
+        padding-top: 2em;
+        padding-bottom: 2em;
+
+        background-color: var(--col-purple-dark);
+
+        .info {
+            > .tags {
+
+            }
+        }
+    }
+
+    @include breakpoints.min {
+        .image {
+            img {
+                width: 100%;
+                height: 100%;
+
+                object-fit: contain;
+            }
+        }
+    }
+
+    @include breakpoints.xs(true) {
+        .image {
+            width: 5cm;
+        }
+    }
+
+    @include breakpoints.sm {
+        .image {
+            height: var(--min-book-info);
+
+            img {
+                object-position: top right;
+
+                z-index: 1;
+            }
+        }
+    }
+    @include breakpoints.lg {
+        .image {
+            height: var(--max-book-info);
+        }
+    }
+}

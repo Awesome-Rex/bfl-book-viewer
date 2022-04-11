@@ -1,8 +1,8 @@
 import React, { ReactComponentElement } from 'react';
 import "./book-player-info.scss";
 
-import Heading from 'tsx/helpers/Heading/Heading';
-import PageBanner from 'tsx/layout/PageBanner';
+import Heading from 'src/tsx/helpers/Heading';
+import PageBanner from 'src/tsx/layout/PageBanner';
 
 export default function BookPlayerInfo(
     {

@@ -1,10 +1,10 @@
-@use "~scss/helpers";
-@use "~scss/resources";
-@use "~scss/resources/effects";
-@use "~scss/resources/layouts";
-@use "~scss/resources/breakpoints";
-@use "~scss/resources/sizes";
-@use "~scss/stylesheets";
+@use "~src/scss/helpers";
+@use "~src/scss/resources";
+@use "~src/scss/resources/effects";
+@use "~src/scss/resources/layouts";
+@use "~src/scss/resources/breakpoints";
+@use "~src/scss/resources/sizes";
+@use "~src/scss/stylesheets";
 
 #navbar {
     @include breakpoints.min {

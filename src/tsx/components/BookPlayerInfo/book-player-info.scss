@@ -1,11 +1,11 @@
-@use "~scss/helpers";
-@use "~scss/helpers/mixins";
-@use "~scss/resources";
-@use "~scss/resources/colours";
-@use "~scss/resources/effects";
-@use "~scss/resources/themes";
-@use "~scss/resources/sizes";
-@use "~scss/resources/breakpoints";
+@use "~src/scss/helpers";
+@use "~src/scss/helpers/mixins";
+@use "~src/scss/resources";
+@use "~src/scss/resources/colours";
+@use "~src/scss/resources/effects";
+@use "~src/scss/resources/themes";
+@use "~src/scss/resources/sizes";
+@use "~src/scss/resources/breakpoints";
 // @use "./../functions";
 
 .book-player-info {
@@ -95,6 +95,8 @@
             }
 
             > .description {
+                box-sizing: border-box;
+
                 max-width: 75ch;
                 max-height: var(--max-info-desc);
                 
@@ -153,7 +155,8 @@
             }
 
             > .description {
-                padding-left: 1em;
+                // padding-left: 1em;
+                margin-left: 1em;
             }
         }
     }
@@ -270,157 +273,6 @@
 
                     transition: height 1000ms ease, max-height 1000ms ease, --end-col 1000ms; //expand
                 }
-            }
-        }
-    }
-}
-
-.book-player-info.book {
-    & {
-        padding-top: 2em;
-        padding-bottom: 2em;
-
-        background-color: var(--col-purple-dark);
-
-        .info {
-            > .tags {
-
-            }
-        }
-    }
-
-    @include breakpoints.min {
-        .image {
-            img {
-                width: 100%;
-                height: 100%;
-
-                object-fit: contain;
-            }
-        }
-    }
-
-    @include breakpoints.xs(true) {
-        .image {
-            width: 5cm;
-        }
-    }
-
-    @include breakpoints.sm {
-        .image {
-            height: var(--min-book-info);
-
-            img {
-                object-position: top right;
-
-                z-index: 1;
-            }
-        }
-    }
-    @include breakpoints.lg {
-        .image {
-            height: var(--max-book-info);
-        }
-    }
-}
-
-.book-player-info.author {
-    & {
-        background-color: var(--col-gold-dim);
-
-        .info {
-            > .tags {
-                
-            }
-        }
-    }
-
-    @include breakpoints.min {
-        .image {
-            img {
-                border-radius: 100%;;
-                height: 3cm;
-                width: 3cm;
-                object-fit: cover;
-                object-position: center;
-            }
-        }
-    }
-
-    @include breakpoints.between(sm, md) {
-        .image {
-            img {
-                width: 2cm;
-                height: 2cm;
-            }
-        }
-    }
-}
-
-.book-player-info.reader {
-    & {
-        background-color: var(--col-grey-light);
-
-        .info {
-            > .tags {
-                
-            }
-        }
-    }
-
-    @include breakpoints.min {
-        .image {
-            img {
-                border-radius: 100%;;
-                height: 2cm;
-                width: 2cm;
-                object-fit: cover;
-                object-position: center;
-            }
-        }
-    }
-
-    @include breakpoints.between(sm, md) {
-        .image {
-            img {
-                width: 2cm;
-                height: 2cm;
-            }
-        }
-    }
-}
-
-.book-player-info.editor {
-    & {
-        background-color: var(--col-white);
-
-        box-shadow: none;
-        border-bottom: var(--line-width) solid var(--col-grey-light);
-
-        padding-top: 1cm;
-        padding-bottom: 1cm;
-
-        .title {
-            &::before {
-                content: "Edited by ";
-            }
-        }
-
-        .info {
-            > .tags {
-                
-            }
-        }
-    }
-
-    @include breakpoints.min {
-        .image {
-            img {
-                border-radius: 100%;;
-                height: 1.5cm;
-                width: 1.5cm;
-                object-fit: cover;
-                object-position: center;
             }
         }
     }
