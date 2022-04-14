@@ -1,8 +1,8 @@
-export default class HookFormat {
-    protected _get;
-    protected _set;
+export default class HookFormat<T> {
+    protected _get: () => T;
+    protected _set: (value: T) => void;
 
-    constructor(get: () => any, set: (value: any) => void) {
+    constructor(get: () => T, set: (value: T) => void) {
         this._get = get;
         this._set = set;
     }

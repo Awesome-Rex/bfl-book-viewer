@@ -1,9 +1,9 @@
 import isReducer from "../HookDetection/isReducer";
 import isRef from "../HookDetection/isRef";
 import isState from "../HookDetection/isState";
-import HookFormat from "./hookFormat";
+import HookFormat from "./HookFormat";
 
-class RefFormat extends HookFormat {
+class RefFormat<T> extends HookFormat<T> {
     public get current() {
         return this._get();
     }

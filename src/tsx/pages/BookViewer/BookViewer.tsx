@@ -27,6 +27,8 @@ import BookInfo from "./BookInfo";
 import AuthorInfo from "./AuthorInfo";
 import ReaderInfo from "./ReaderInfo";
 import EditorInfo from "./EditorInfo";
+import BookOutline from "src/ts/models/BookOutline";
+import PDFViewer from "src/tsx/components/PDFViewer/PDFViewer";
 
 // export const BookViewerContext = createContext<{
 //     book: Book,
@@ -43,11 +45,23 @@ export const BookViewerContext = createContext<any>(undefined);
 
 export default function BookViewer() {
     const [progress, setProgress] = useState<BookProgress>(new BookProgress());
+	// useEffect(() => {
+	// 	setProgress((progress: BookProgress) => {
+	// 		progress = new BookProgress();
+	// 		progress.outline = new BookOutline();
+	// 		progress.outline.book = new Book();
+	// 		progress.outline.book.author = new Author();
+	// 		progress.outline.reader = new Reader();
+	// 		progress.outline.editor = new EditorBFL();
+	
+	// 		return progress;
+	// 	});
+	// }, []);
 
-    const book = useMemo<Book>(() => progress.book, [progress.outline, progress]);
-    const author = useMemo<Author>(() => progress.author, [progress.outline, progress]);
-    const reader = useMemo<Reader>(() => progress.reader, [progress.outline, progress]);
-    const editor = useMemo<EditorBFL>(() => progress.editor, [progress.outline, progress]);
+    // const book = useMemo<Book>(() => progress.book, [progress.outline, progress]);
+    // const author = useMemo<Author>(() => progress.author, [progress.outline, progress]);
+    // const reader = useMemo<Reader>(() => progress.reader, [progress.outline, progress]);
+    // const editor = useMemo<EditorBFL>(() => progress.editor, [progress.outline, progress]);
 
     const [bookZoom, setBookZoom] = useState<number>(1);
 
@@ -78,10 +92,10 @@ export default function BookViewer() {
     return (
 			<BookViewerContext.Provider
 				value={{
-					book,
-					author,
-					reader,
-					editor,
+					// book,
+					// author,
+					// reader,
+					// editor,
 
 					progress,
 					setProgress,
@@ -108,7 +122,7 @@ export default function BookViewer() {
 					reserveBottom={"0.75rem"}
 				>
 					<BookPlayer
-						book={book}
+						// book={book}
 						progress={progress}
 						setProgress={setProgress}
 						ref={bookPlayerRef}
@@ -116,12 +130,20 @@ export default function BookViewer() {
 				</ScrollContainer>
 				<div className="total-book-info">
 					<ZoomToolbar bookZoom={bookZoom} setBookZoom={setBookZoom} />
-					<BookInfo outline={progress.outline} />
+					{/* <BookInfo outline={progress.outline} />
 					<AuthorInfo outline={progress.outline} />
 					<ReaderInfo outline={progress.outline} />
-					<EditorInfo outline={progress.outline} />
+					<EditorInfo outline={progress.outline} /> */}
 				</div>
 				<ArticleContent>
+					{/* <iframe src={`${"/vendors/pdfjs-dist/web/viewer.html"}?file=${require("src/assets/books/The Cat in the Hat.pdf")}`} style={{
+						width:"100%",
+						height: "20cm",
+						border: "none"
+						}}/> */}
+					<PDFViewer src={require("src/assets/books/The Cat in the Hat.pdf")} currentPage={[1, 1]} doubleSided={true} width={"400px"}/>
+					{/* <PDFViewer src={require("src/assets/books/The Cat in the Hat.pdf")} currentPage={1} doubleSided={false}/> */}
+
 					<h1>Read More</h1>
 					<hr />
 					<div className="bottom-wrap">

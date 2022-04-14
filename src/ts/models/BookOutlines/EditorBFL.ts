@@ -6,6 +6,6 @@ export default class EditorBFL implements BookOutlineInfo {
 
     public positions: string[] = [];
 
-    public image: string = "";
+    public image!: string;
     public description: React.ReactNode;
 }

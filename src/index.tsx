@@ -4,10 +4,12 @@ import reportWebVitals from './reportWebVitals';
 
 import "./index.scss";
 import App from './App';
+import Vendors from './Vendors';
 
 const root = ReactDOM.createRoot(document.getElementById("root")!); //ReactDOM.createRoot(document.getElementById("root") as Element);
 root.render(
   <React.StrictMode>
+    <Vendors/>
     <App />
   </React.StrictMode>
 );

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import BookOutlineInfo from "../BookOutlineInfo";
 
 export default class Author implements BookOutlineInfo {
@@ -13,6 +13,6 @@ export default class Author implements BookOutlineInfo {
     }
     public location?: string = "Canada";
 
-    public image: string = "";
-    public description: React.ReactNode;
+    public image!: string;
+    public description!: ReactNode;
 }

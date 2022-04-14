@@ -3,5 +3,6 @@
     "[typescriptreact]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
-    "prettier.useTabs": true
+    "prettier.useTabs": true,
+    "typescript.tsdk": "node_modules\\typescript\\lib"
 }

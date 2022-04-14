@@ -10,8 +10,10 @@ export default function PointCounter() {
     <div className="point-counter -theme-dark">
       <div className="head">
         <span>
+          <input className="page " type="number" />
+          <span className="dash static"><span></span></span>
           <input className="page" type="number" />
-          <span className="divide"></span>
+          <span className="divide static"><span></span></span>
           <span className="max"></span>
         </span>
       </div>

@@ -24,7 +24,7 @@ const BookPlayer = ({
 	book, 
 	progress, setProgress
 }: {
-	book: Book,
+	book?: Book,
 	progress: BookProgress, setProgress: Function
 }, ref: ForwardedRef<HTMLDivElement>) => {
 	return (

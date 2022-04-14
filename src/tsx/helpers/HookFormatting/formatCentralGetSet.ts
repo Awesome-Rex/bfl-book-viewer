@@ -1,9 +1,9 @@
 import isReducer from "../HookDetection/isReducer";
 import isRef from "../HookDetection/isRef";
 import isState from "../HookDetection/isState";
-import HookFormat from "./hookFormat";
+import HookFormat from "./HookFormat";
 
-class CentralStateGetSet extends HookFormat {
+class CentralStateGetSet<T> extends HookFormat<T> {
     public get get() {
         return this._get();
     }
