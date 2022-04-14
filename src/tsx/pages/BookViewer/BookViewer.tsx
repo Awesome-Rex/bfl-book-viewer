@@ -136,13 +136,7 @@ export default function BookViewer() {
 					<EditorInfo outline={progress.outline} /> */}
 				</div>
 				<ArticleContent>
-					{/* <iframe src={`${"/vendors/pdfjs-dist/web/viewer.html"}?file=${require("src/assets/books/The Cat in the Hat.pdf")}`} style={{
-						width:"100%",
-						height: "20cm",
-						border: "none"
-						}}/> */}
 					<PDFViewer src={require("src/assets/books/The Cat in the Hat.pdf")} currentPage={[1, 1]} doubleSided={true} width={"400px"}/>
-					{/* <PDFViewer src={require("src/assets/books/The Cat in the Hat.pdf")} currentPage={1} doubleSided={false}/> */}
 
 					<h1>Read More</h1>
 					<hr />
