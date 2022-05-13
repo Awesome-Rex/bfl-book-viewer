@@ -1,3 +1,5 @@
+import { stringify } from "querystring";
+import { Page } from "react-pdf";
 import romanize from "../helpers/romanize";
 // import { PageTrack } from "./PageTrack";
 // import ViewTrack from "./ViewTrack";
@@ -37,13 +39,21 @@ export class PageRange {
     private _min!: number;
     private _max!:number;
 
-    public lerp (point: number): number {
-        return this.min + ((this.max - this.min) * point);
+    public progressToPoint (progress: number): number { // progress to page
+        return this.min + ((this.max - this.min) * progress);
+    }
+    public pointToProgress (point: number): number { // page to progress
+        return (point - this.min) / (this.max - this.min);
     }
     public between (point: number, inclusive: boolean = true): boolean {
         if (inclusive) return point >= this.min && point <= this.max;
         if (!inclusive) return point > this.min && point < this.max;
         return undefined!;
+    }
+    public clamp (point: number): number {
+        if (point < this.min) return this.min;
+        if (point > this.max) return this.max;
+        return point;
     }
 
     constructor (min: number = 0, max: number = 10) {
@@ -52,13 +62,10 @@ export class PageRange {
     }
 }
 
-export default abstract class BookSource {
+export default abstract class BookSource { //++++++++++++++++++++WORKING STATE TO BE DETERMINED (YET TO BE KNOWN WHETHER METHODS WILL WORK OR NOT)
     static outputPage(page: number): string {
-        if (page >= 1) {
-            return page.toString();
-        } else if (page < 1 || true) {
-            return romanize((page * -1) + 1);
-        }
+        if (page >= 1)          return page.toString();
+        if (page < 1 || true)   return romanize((page * -1) + 1);
     }
 
     // //PAGE MANAGEMENT (USING FIRSTEXCLUDE AND LASTEXCLUDE)
@@ -135,24 +142,17 @@ export default abstract class BookSource {
     public pageIncluded(page: number = 1, range: PageCollection = PageCollection.Defined, includeOffset: PageOffset = PageOffset.Offset): boolean {
         return this.getPageRange(range, includeOffset).between(page);
     }
-    public viewExcluded(view: number) {
+    public viewIncluded(view: number) {
         return this.getViewRange().between(view);
     }
 
-    public getPageProgress(page: number = 1, range: PageCollection = PageCollection.Defined, includeOffset: PageOffset = PageOffset.Offset): number {
-        return this.getPageRange(range, includeOffset).lerp(page);
-    }
-    public getViewProgress(view: number) {
-        return this.getViewRange().lerp(view);
-    }
-
     //private conversion methods (methods exclude PageCollection.Raw)
-    protected startToOffset(page: number = 1, range: Omit<PageCollection.Defined, "Raw"> = PageCollection.Defined, includeOffset: PageOffset = PageOffset.Offset): number { //page to global offset (to PageOffset.Offset)
+    protected startToOffset(page: number = 1, range: Omit<PageCollection, "Raw"> = PageCollection.Defined, includeOffset: PageOffset = PageOffset.Offset): number { //page to global offset (to PageOffset.Offset)
         if (includeOffset == PageOffset.Offset) return page;
         else if (includeOffset == PageOffset.Start) return page + this.getPageRange(<PageCollection>range, PageOffset.Offset).min - 1;
         return undefined!;
     }
-    protected offsetToStart(page: number = 1, range: Omit<PageCollection.Defined, "Raw"> = PageCollection.Defined, includeOffset: PageOffset = PageOffset.Offset): number { //global offset to page (from PageOffset.Offset)
+    protected offsetToStart(page: number = 1, range: Omit<PageCollection, "Raw"> = PageCollection.Defined, includeOffset: PageOffset = PageOffset.Offset): number { //global offset to page (from PageOffset.Offset)
         if (includeOffset == PageOffset.Offset) return page;
         else if (includeOffset == PageOffset.Start) return page - this.getPageRange(<PageCollection>range, PageOffset.Offset).min + 1;
         return undefined!;
@@ -213,5 +213,32 @@ export default abstract class BookSource {
         if (this.pageLayout == PageLayout.Double) return [this.offsetToStart(view * 2, range, includeOffset) - 1, this.offsetToStart(view * 2, range, includeOffset)];
         if (this.pageLayout == PageLayout.Half) return [this.offsetToStart(view * 2, range, includeOffset) - 1, this.offsetToStart(view * 2, range, includeOffset)];
         return undefined!; 
+    }
+    public pageToProgress(page: number = 1, range: PageCollection = PageCollection.Defined, includeOffset: PageOffset = PageOffset.Offset): number {
+        return this.getPageRange(range, includeOffset).pointToProgress(page);
+    }
+    public progressToPage(progress: number, range: PageCollection = PageCollection.Defined, includeOffset: PageOffset = PageOffset.Offset) {
+        return Math.round(this.getPageRange(range, includeOffset).progressToPoint(progress));
+    } 
+    public viewToProgress(view: number) {
+        return this.getViewRange().pointToProgress(view);
+    }
+    public progressToView(progress: number) {
+        return Math.round(this.getViewRange().progressToPoint(progress));
+    }
+
+    // string output page +++++++++++++++++++++++++MAY NEED TO BE CHANGED/FIXED (parameters, return statements)
+    public outputPage(page: number, range: PageCollection = PageCollection.Defined, includeOffset: PageOffset = PageOffset.Offset): string {
+        if (this.pageIncluded(page, range, includeOffset)) {
+            return BookSource.outputPage(this.pageToPage(page, range, includeOffset));
+        } else {
+            return "";
+        }
+    }
+    public outputView(view: number): string[] {
+        return this.viewToPages(view).map((elem, i, arr) => this.outputPage(elem));
+    }
+    public outputProgress(progress: number): string {
+        return Math.round(progress * 100) + "%";
     }
 }

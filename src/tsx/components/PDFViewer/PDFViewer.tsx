@@ -1,119 +1,124 @@
-import React, { ForwardedRef, forwardRef, MutableRefObject, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
+import React, { CSSProperties, ForwardedRef, forwardRef, LegacyRef, MutableRefObject, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
+import handleRef from 'src/tsx/hooks/handleRef';
+import useResizeObserver from 'src/tsx/hooks/useResizeObserver';
+
 import {Document, Page, pdfjs} from "react-pdf/dist/esm/entry.webpack";
-import "react-pdf/dist/esm/Page/AnnotationLayer";
+//import "react-pdf/dist/esm/Page/AnnotationLayer.css";
+
+import "./pdf-viewer.scss";
 
 // import {Document, Page, pdfjs} from "react-pdf";
-//import pdfjsLib from 'public/vendors/pdfjs-dist/web/viewer';
+// import pdfjsLib from 'public/vendors/pdfjs-dist/web/viewer';
 
 // pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 const PDFViewer = forwardRef(({
     src, 
-    currentPage = 1, 
     doubleSided = false, 
     setTotalPages,
-    width,
-    height,
+
+    currentPages = [1, 2], 
+
     className,
-    classNamePage
+    style
 }: {
     src: string, 
-    currentPage: number | number[], 
     doubleSided: boolean, 
     setTotalPages?: Function
-    width?: number | string
-    height?: number | string,
+
+    currentPages: number[], 
+
     className?: string,
-    classNamePage?: string
+    style?: CSSProperties
+
 }, ref: ForwardedRef<HTMLDivElement>) => {
-    const source = useMemo<string>(() => src, [src]);
-    const [[numWidth, numHeight], setNumSize] = useState<(number | undefined)[]>([0,0]);
-
-    const dimensionRef = useRef<HTMLDivElement>(null!);
-    const pageRefs = useRef<React.MutableRefObject<HTMLDivElement>[]>([]);
-    const documentRef = useRef<HTMLDivElement>();
-
-    useEffect(() => { //********************doesnt work
+    // source
+    const source = src;
+    
+    // refs
+    const viewerRef = useRef<HTMLDivElement>(undefined!);
+    const containerRef = useRef<HTMLDivElement>(undefined!);
+    const dimensionRef = useRef<HTMLDivElement>(undefined!);
+    const documentRef = useRef<HTMLDivElement>(undefined!);
+    const pageRefs = useRef<(HTMLDivElement | null)[]>(undefined!);
+    useEffect(() => {
+        pageRefs.current = [undefined!]
         if (!doubleSided) pageRefs.current = [undefined!];
-        if (doubleSided) pageRefs.current = [undefined!, undefined!]
-        console.log("helo");
+        if (doubleSided) pageRefs.current = [undefined!, undefined!];
     }, [source]);
 
-    const load = ({totalPages}: any) => {
-        if (setTotalPages != undefined) setTotalPages(totalPages);
+    // book info
+    const [[pxWidth, pxHeight], setPxSize] = useState<[number | undefined, number | undefined]>([undefined, undefined]);
+    const resetPxSize = useCallback(() => {
+        let calcWidth: number | undefined = containerRef.current?.clientWidth;
+        let calcHeight: number | undefined = containerRef.current?.clientHeight;
         
-        if (documentRef.current) {
-            documentRef.current.style.display = "flex";
-            documentRef.current.style.flexWrap = "nowrap";
-        }
+        let definedWidth: boolean = 
+            viewerRef.current.style.width != "" ||
+            viewerRef.current.style.minWidth != "" ||
+            viewerRef.current.style.maxWidth != "";
+        let definedHeight: boolean = 
+            viewerRef.current.style.height != "" ||
+            viewerRef.current.style.minHeight != "" ||
+            viewerRef.current.style.maxHeight != "";
 
-        if (pageRefs.current.every(page => page != undefined)) { //***************DOESNT WORK
-            pageRefs.current.forEach((page, index, collection) => {
-                console.log("hi");
-                page.current.style.flexBasis = "0";
-                page.current.style.flexShrink = "1";
-                page.current.style.flexGrow = "1";
-            });
+        if (definedWidth && definedHeight) {
+            if (calcWidth < calcHeight) setPxSize([calcWidth, undefined]);
+            if (calcHeight < calcWidth) setPxSize([undefined, calcHeight]);
         }
-
-        setNumSize([dimensionRef.current?.clientWidth, dimensionRef.current?.clientHeight]);
+        else if (!definedWidth && !definedHeight) {
+            setPxSize([undefined, undefined]);
+        }
+        else if (definedWidth && !definedHeight) {
+            setPxSize([calcWidth, undefined]);
+        }
+        else if (definedHeight && !definedWidth) {
+            setPxSize([undefined, calcHeight]);
+        }
+    }, []);
+    useLayoutEffect(() => resetPxSize(), []);
+    useResizeObserver(viewerRef.current, (entries, observer) => resetPxSize());
+    
+    // onload function
+    const load = ({numPages}: pdfjs.PDFDocumentProxy) => {
+        if (setTotalPages != undefined) setTotalPages(numPages); // set total pages
     }
 
     return (
-        <>
-            <Document file={source} onLoadSuccess={load} className={className} inputRef={(node) => { //+++++++++++++++++++++TO BE REPLACED BY HOOK (setRefs(ref?, [refs?]))
-                documentRef.current = node!;
-                if (typeof ref === 'function') {
-                    ref(node);
-                } else if (ref) {
-                    (ref as MutableRefObject<HTMLDivElement>).current = node!;
-                }
-            }}>
-                {!doubleSided ? ( 
-                    <>
-                        <Page pageNumber={currentPage as number} inputRef={pageRefs.current[0]} className={classNamePage} width={numWidth} height={numHeight}/>
-                    </>
-                ) : (
-                    <>
-                        <Page pageNumber={(currentPage as number[])[0]} inputRef={pageRefs.current[0]} className={classNamePage} width={numWidth ? numWidth * 0.5 : undefined} height={numHeight}/>
-                        <Page pageNumber={(currentPage as number[])[1]} inputRef={pageRefs.current[0]} className={classNamePage} width={numWidth ? numWidth * 0.5 : undefined} height={numHeight}/>
-                    </>
-                )}
-            </Document>
-            <div className="dimensions" ref={dimensionRef} style={{
-                width: width,
-                height: height,
-                position: "absolute",
-                visibility: "hidden",
-                pointerEvents: "none"
-                // display: "none"
-            }}></div>
-        </>
+        <div
+            className={`_pdf-viewer ${className ?? ""}`}
+            style={style}
+            ref={viewerRef}
+        >
+            <div 
+                className={`_container`}
+                ref={containerRef}
+            >
+                <div 
+                    className={`dimensions`} 
+                    ref={dimensionRef} 
+                >
+                    <Document 
+                        file={source} 
+                        onLoadSuccess={load} 
+                        className={`_document _view`}
+                        inputRef={handleRef([documentRef], ref)}
+                    >
+                        {!doubleSided ? ( 
+                            <> {/* single page per view */}
+                                <Page pageNumber={currentPages[0]} inputRef={(node) => pageRefs.current[0] = node} className={`_page`} width={pxWidth} height={pxHeight}/>
+                            </>
+                        ) : (
+                            <> {/* double page per view */}
+                                <Page pageNumber={currentPages[0]} inputRef={(node) => pageRefs.current[0] = node} className={`_page`} width={pxWidth ? pxWidth * 0.5 : undefined} height={pxHeight}/>
+                                <Page pageNumber={currentPages[1]} inputRef={(node) => pageRefs.current[1] = node} className={`_page`} width={pxWidth ? pxWidth * 0.5 : undefined} height={pxHeight}/>
+                            </>
+                        )}
+                    </Document>
+                </div>
+            </div>
+        </div>
     );
-})
+});
 
 export default PDFViewer;
-
-// export default function PDFViewer({src}/*: {src: string}*/) {
-//     const [doc, setDoc] = useState(null);
-
-//     const [loaded, setLoaded] = useState<boolean>(false);
-//     const [pageLoaded, setPageLoaded] = useState<boolean>(false);
-//     const currentPage = useState<number>(1);
-
-//     const [scale, setScale] = useState<number>(1.5);
-//     const canvas = useRef<HTMLCanvasElement>(null);
-//     const ctx = useMemo(() => canvas.current?.getContext("2d"), [canvas]);
-
-//     function renderPage (page/*: number*/) {
-
-//     }
-
-//     pdfjsLib.getDocument(src).promise.then(doc_ => {
-//         setDoc(doc_)
-//     });
-
-//     return (
-//         <canvas ref={canvas} className="_PDF-VIEWER"></canvas>
-//     );
-// }

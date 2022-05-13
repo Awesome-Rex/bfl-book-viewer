@@ -40,16 +40,16 @@ const BookPlayer = ({
 						alt="Book page"
 					/>
 				</div>
-
+				
 				<div className="page-turn next">
 					<div className="background"></div>
-
+					
 					<div className="zone"></div>
-
+					
 					<div className="active"></div>
 					<img className="arrow" src={_arrowRightPATH} alt="" />
 				</div>
-
+				
 				<div className="page-turn last">
 					<div className="background"></div>
 

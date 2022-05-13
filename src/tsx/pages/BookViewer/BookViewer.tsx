@@ -136,7 +136,7 @@ export default function BookViewer() {
 					<EditorInfo outline={progress.outline} /> */}
 				</div>
 				<ArticleContent>
-					<PDFViewer src={require("src/assets/books/The Cat in the Hat.pdf")} currentPage={[1, 1]} doubleSided={true} width={"400px"}/>
+					<PDFViewer src={require("src/assets/books/The Green Fern Zoo.pdf")} currentPages={[9, 10]} doubleSided={true} style={{height: "200px"}}/>
 
 					<h1>Read More</h1>
 					<hr />

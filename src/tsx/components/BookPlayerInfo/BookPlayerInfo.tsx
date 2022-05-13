@@ -12,7 +12,7 @@ export default function BookPlayerInfo(
         alt = "", 
         tags = [], 
         children: description = <></>, 
-        className = ""
+        className
     }: {
         title: string, 
         level?: number, 
@@ -23,7 +23,7 @@ export default function BookPlayerInfo(
         className?: string
     }) {
     return (
-        <PageBanner banner={{className: `book-player-info ${className}`}}>
+        <PageBanner banner={{className: `book-player-info ${className ?? ""}`}}>
             <div className="image -live-area">
                 <img className="-live-area" src={image} alt={alt} />
             </div>

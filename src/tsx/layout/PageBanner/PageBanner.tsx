@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { CSSProperties } from 'react'
 import "./page-banner.scss";
 
 export default function PageBanner({
@@ -8,11 +8,11 @@ export default function PageBanner({
 }: {
     banner?: {
         className?: string,
-        style?: object
+        style?: CSSProperties
     },
     content?: {
         className?: string,
-        style?: object
+        style?: CSSProperties
     },
     children?: React.ReactNode
 } = {

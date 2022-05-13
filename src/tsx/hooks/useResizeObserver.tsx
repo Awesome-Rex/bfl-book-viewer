@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 export default function useResizeObserver (
     ref: Element | SVGElement,
     callback: (entries?: ResizeObserverEntry[], observer?: ResizeObserver) => void,
-    options?: object
+    options?: ResizeObserverOptions | undefined
 ) {
     React.useEffect(() => {
         if (ref) {

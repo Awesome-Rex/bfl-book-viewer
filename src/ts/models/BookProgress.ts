@@ -1,5 +1,6 @@
 import BookOutline from "./BookOutline";
 import Book from "./BookOutlines/Book";
+import { PageCollection, PageOffset, PageRange } from "./BookSource";
 
 export default class BookProgress {
     public outline!: BookOutline;
@@ -17,51 +18,74 @@ export default class BookProgress {
         return this.outline.editor;
     }
 
+    public get source() {
+        return this.book.source;
+    }
 
 
-    // public get currentPages(): number[] {
-    //     return this._currentPages;
-    // }
-    // public get currentPageFirst(): number {
-    //     return this.currentPages[0];
-    // }
-    // public get currentPageLast(): number {
-    //     return this.currentPages[this.currentPages.length - 1];
-    // }
-    // public setCurrentPage(page: number) {
-    //     this._currentPages = this.book.pageToPages(page);
-    // }
-    // private _currentPages: number[] = [0, 1];
+
+    // current page
+    public get currentPages(): number[] {
+        return this.source.viewToPages(this.currentView);
+    }
+    public get currentPageFirst(): number {
+        return this.currentPages[0];
+    }
+    public get currentPageLast(): number {
+        return this.currentPages[this.currentPages.length - 1];
+    }
+    public setCurrentPage(page: number) {
+        this.currentView = this.source.pageToView(page);
+    }
+
+    //current view
+    public get currentView(): number {
+        return this._currentView;
+    }
+    public set currentView(view: number) {
+        if (this.source.viewIncluded(view)) this._currentView = view;
+    }
+    private _currentView: number = 1;
+
+
+
+    // current page progress
+    public get currentPageProgress(): number {
+        return this.source.pageToProgress(this.currentPageLast, PageCollection.Defined);
+    }
+    public set currentPageProgress(progress: number) {
+        this.currentView = this.source.pageToView(this.source.progressToPage(progress, PageCollection.Defined), PageCollection.Defined);
+    }
+
+    //current full page progress
+    public get currentPageFullProgress(): number {
+        return this.source.pageToProgress(this.currentPageLast, PageCollection.Full);
+    }
+    public set currentPageFullProgress(progress: number) {
+        this.currentView = this.source.pageToView(this.source.progressToPage(progress, PageCollection.Full), PageCollection.Full);
+    }
+
+    //current view progress
+    public get currentViewProgress(): number {
+        return this.source.viewToProgress(this.currentView);
+    }
+    public set currentViewProgress(progress: number) {
+        this.currentView = this.source.progressToView(progress);
+    }
+
+
     
-    
-    
-    // public get currentView(): number {
-    //     return this.book.pageToView(this.currentPages[0]);
-    // }
-    // public set currentView(view: number) {
-    //     this.setCurrentPage(this.book.viewToPages(view)[0]);
-    // }
-
-
-
-    // public get progressView(): number {
-    //     return (this.currentView - 1) / (this.book.totalViews - 1);
-    // }
-    // public set progressView(progress: number) {
-    //     this.currentView = Math.round((this.book.totalViews - 1) * progress) + 1; //this.currentView = Math.round(this.book.totalViews * progress);
-    // }
-
-    // public get progressPage() {
-    //     return (this.currentPageLast - (this.book.first - 1)) / this.book.totalPages;
-    // }
-    // public set progressPage(progress: number) {
-    //     this.currentView = Math.round((this.book.totalPages - 1) * progress) + this.book.first;
-    // }
-
-    // public get progressPagesFull(): number {
-    //     return (this.currentPageLast - (this.book.firstFull - 1)) / this.book.totalPages;
-    // }
-    // public set progressPagesFull(progress: number) {
-    //     this.currentView = Math.round((this.book.totalPagesFull - 1) * progress) + this.book.firstFull;
-    // }
+    // output/format data into string readable format
+    public get outputCurrentPages(): string[] {
+        return this.source.outputView(this.currentView);
+    }
+    public get outputCurrentPageProgress(): string {
+        return this.source.outputProgress(this.currentPageProgress);
+    }
+    public get outputCurrentPageFullProgress(): string {
+        return this.source.outputProgress(this.currentPageFullProgress);
+    }
+    public get outputCurrentViewProgress(): string {
+        return this.source.outputProgress(this.currentViewProgress);
+    }
 }

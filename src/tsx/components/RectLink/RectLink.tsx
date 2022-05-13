@@ -10,7 +10,7 @@ export default function RectLink(
         background = "white", 
         href = "", 
         children: description = <></>, 
-        className = ""
+        className
     }: { 
         title: string, 
         subtitle?: string, 
@@ -32,7 +32,7 @@ export default function RectLink(
     });
     
     return (
-        <a ref={element} className={`rect-link ${className}`} style={{ 
+        <a ref={element} className={`rect-link ${className ?? ""}`} style={{ 
             "--background": background,
             "--width-compare": height + "px"
         } as CSSProperties} href={href}>

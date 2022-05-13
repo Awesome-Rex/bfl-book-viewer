@@ -17,5 +17,5 @@ export default function useLifecycle(mount: Function = () => {}, update: Functio
             state.current = LifeCycleState.Unmount;
             unmount()
         };
-    })
+    });
 }

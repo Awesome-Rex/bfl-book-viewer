@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { CSSProperties } from 'react'
 import "./wrap-container.scss";
 
-export default function WrapContainer({className = "", style = {}, children = <></>}: {className?: string, style?: object, children?: React.ReactNode}) {
+export default function WrapContainer({className, style = {}, children = <></>}: {className?: string, style?: CSSProperties, children?: React.ReactNode}) {
     return (
-        <div className={`wrap-container ${className}`} style={{...style}}>
+        <div className={`wrap-container ${className ?? ""}`} style={{...style}}>
             {className}
         </div>
     );

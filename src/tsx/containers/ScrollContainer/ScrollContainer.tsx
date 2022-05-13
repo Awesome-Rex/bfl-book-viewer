@@ -9,7 +9,7 @@ export default function ScrollContainer({
     reserveBottom = "1em",
     reserveLeft = "1em",
     reserveRight = "1em",
-    className = "",
+    className,
     style = {},
     children = <></>
 }: {
@@ -19,7 +19,7 @@ export default function ScrollContainer({
     reserveLeft?: string | ScrollCut,
     reserveRight?: string | ScrollCut,
     className?: string,
-    style?: object,
+    style?: CSSProperties,
     children?: React.ReactNode
 }) {
     const reserves = useRef<object>();
@@ -39,7 +39,7 @@ export default function ScrollContainer({
     }, []);
 
 	return (
-		<div className={`scroll-container-${type} ${className}`} style={{...style, ...reserves} as CSSProperties}>
+		<div className={`scroll-container-${type} ${className ?? ""}`} style={{...style, ...reserves} as CSSProperties}>
             {children}
 		</div>
 	);

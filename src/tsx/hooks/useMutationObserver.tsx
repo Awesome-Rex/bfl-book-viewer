@@ -3,7 +3,7 @@ import React from "react";
 export default function useMutationObserver (
     ref: Node | Element,
     callback: (entries?: MutationRecord[], observer?: MutationObserver) => void,
-    options?: object
+    options?: MutationObserverInit | undefined
 ) {
     React.useEffect(() => {
         if (ref) {
