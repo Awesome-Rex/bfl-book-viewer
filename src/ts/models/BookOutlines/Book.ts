@@ -1,23 +1,45 @@
 import Author from "./Author";
-import BookOutlineInfo from "../BookOutlineInfo";
-import romanize from "src/ts/helpers/romanize";
 import { NumberTree, Page } from "public/vendors/pdfjs-dist/build/pdf.worker";
 import { throws } from "assert";
 import BookSource, { PageCollection } from "../BookSource";
 import { ReactNode } from "react";
 
-export default class Book implements BookOutlineInfo {
-    public name!: string;
-    public author!: Author;
-    public releaseDate!: Date;
-    public language?: string;
-    public location?: string;
+export default class Book {
+    public readonly source: BookSource;
+
+    public readonly title: string;
+    public readonly author?: Author;
+    public readonly illustrator?: string;
+    public readonly releaseDate?: Date;
+    public readonly language?: string;
     public get totalPages () {
         return this.source.getTotalPages(PageCollection.Defined)
     };
 
-    public source!: BookSource;
+    public readonly cover?: string;
+    public readonly description?: ReactNode;
 
-    public image!: string;
-    public description!: ReactNode;
+    constructor (
+        source: BookSource,
+        
+        name: string,
+        author?: Author,
+        illustrator?: string,
+        releaseDate?: Date,
+        language?: string,
+
+        cover?: string,
+        description?: ReactNode
+    ) {
+        this.source = source;
+
+        this.title = name;
+        this.author = author;
+        this.illustrator = illustrator;
+        this.releaseDate = releaseDate;
+        this.language = language;
+
+        this.cover = cover;
+        this.description = description;
+    }
 }

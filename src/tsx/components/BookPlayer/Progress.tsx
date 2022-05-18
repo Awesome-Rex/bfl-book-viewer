@@ -4,7 +4,7 @@ import PointCounter from './PointCounter';
 
 import "./progress.scss";
 
-export default function Slider() {
+export default function Progress() {
     const context = useContext(BookPlayerContext);
 
     return (

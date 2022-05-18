@@ -6,7 +6,8 @@ import "./author-info.scss";
 import "./reader-info.scss";
 import "./editor-info.scss";
 
-import "./Plain";
+//import "./Plain";
+import "./PlainOld";
 
 import BookPlayer from "src/tsx/components/BookPlayer";
 import Navbar from "src/tsx/layout/Navbar";
@@ -27,41 +28,18 @@ import BookInfo from "./BookInfo";
 import AuthorInfo from "./AuthorInfo";
 import ReaderInfo from "./ReaderInfo";
 import EditorInfo from "./EditorInfo";
-import BookOutline from "src/ts/models/BookOutline";
+import BookOutline, { Format, VoiceType } from "src/ts/models/BookOutline";
 import PDFViewer from "src/tsx/components/PDFViewer/PDFViewer";
+import BookSource, { PageLayout } from "src/ts/models/BookSource";
+import books from "./ResourceBooks";
+import DateManagement from "src/ts/helpers/DateManagement";
+import "src/ts/helpers/DateManagement";
 
-// export const BookViewerContext = createContext<{
-//     book: Book,
-//     author: Author,
-//     reader?: Reader,
-//     editor?: EditorBFL,
-//     progress: BookProgress
-// }>({
-//     book: new Book(),
-//     author: new Author(),
-//     progress: new BookProgress()
-// });
 export const BookViewerContext = createContext<any>(undefined);
 
 export default function BookViewer() {
-    const [progress, setProgress] = useState<BookProgress>(new BookProgress());
-	// useEffect(() => {
-	// 	setProgress((progress: BookProgress) => {
-	// 		progress = new BookProgress();
-	// 		progress.outline = new BookOutline();
-	// 		progress.outline.book = new Book();
-	// 		progress.outline.book.author = new Author();
-	// 		progress.outline.reader = new Reader();
-	// 		progress.outline.editor = new EditorBFL();
-	
-	// 		return progress;
-	// 	});
-	// }, []);
-
-    // const book = useMemo<Book>(() => progress.book, [progress.outline, progress]);
-    // const author = useMemo<Author>(() => progress.author, [progress.outline, progress]);
-    // const reader = useMemo<Reader>(() => progress.reader, [progress.outline, progress]);
-    // const editor = useMemo<EditorBFL>(() => progress.editor, [progress.outline, progress]);
+    const [progress, setProgress] = useState<BookProgress>(new BookProgress(books["The Green Fern Zoo"]));
+	const {book, author, reader, editor, source} = progress;
 
     const [bookZoom, setBookZoom] = useState<number>(1);
 
@@ -69,7 +47,7 @@ export default function BookViewer() {
 
     const bookPlayerRef = useRef<HTMLDivElement>(null!);
 
-    useLayoutEffect(() => {
+    useLayoutEffect(() => { // change book player size to adapt to zoom level
         if (bookZoom > 1) setBookZoom(1);
         if (bookZoom < 0) setBookZoom(0);
 
@@ -130,10 +108,10 @@ export default function BookViewer() {
 				</ScrollContainer>
 				<div className="total-book-info">
 					<ZoomToolbar bookZoom={bookZoom} setBookZoom={setBookZoom} />
-					{/* <BookInfo outline={progress.outline} />
-					<AuthorInfo outline={progress.outline} />
-					<ReaderInfo outline={progress.outline} />
-					<EditorInfo outline={progress.outline} /> */}
+					<BookInfo outline={progress.outline}/>
+					<AuthorInfo outline={progress.outline}/>
+					<ReaderInfo outline={progress.outline}/>
+					<EditorInfo outline={progress.outline}/>
 				</div>
 				<ArticleContent>
 					<PDFViewer src={require("src/assets/books/The Green Fern Zoo.pdf")} currentPages={[9, 10]} doubleSided={true} style={{height: "200px"}}/>

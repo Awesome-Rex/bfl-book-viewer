@@ -4,11 +4,12 @@ import "./book-player.scss";
 // https://jakearchibald.github.io/svgomg/
 import _arrowLeftPATH from "src/assets/images/ArrowLeft.svg";
 import _arrowRightPATH from "src/assets/images/ArrowRight.svg";
-import Slider from "./Progress";
+import Progress from "./Progress";
 import Book from "src/ts/models/BookOutlines/Book";
 import BookProgress from "src/ts/models/BookProgress";
 import { BookViewerContext } from "src/tsx/pages/BookViewer/BookViewer";
 import useWindowResize from "src/tsx/hooks/useWindowResize";
+import PDFViewer from "../PDFViewer/PDFViewer";
 
 // export const BookPlayerContext = createContext<{
 // 	book: Book;
@@ -21,12 +22,12 @@ export const BookPlayerContext = createContext<any>(undefined);
 
 //export default function BookPlayer({}) {
 const BookPlayer = ({
-	book, 
 	progress, setProgress
 }: {
-	book?: Book,
 	progress: BookProgress, setProgress: Function
 }, ref: ForwardedRef<HTMLDivElement>) => {
+	const {book, author, reader, editor, source} = progress;
+
 	return (
 		<BookPlayerContext.Provider value={{
             book,
@@ -39,6 +40,7 @@ const BookPlayer = ({
 						src={require("src/assets/books/The Cat in the Hat/THE-CAT-IN-THE-HAT-03.png")}
 						alt="Book page"
 					/>
+					
 				</div>
 				
 				<div className="page-turn next">
@@ -59,7 +61,7 @@ const BookPlayer = ({
 					<img className="arrow" src={_arrowLeftPATH} alt="" />
 				</div>
 
-				<Slider />
+				<Progress />
 			</div>
 		</BookPlayerContext.Provider>
 	);

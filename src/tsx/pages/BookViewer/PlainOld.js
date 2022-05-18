@@ -1,6 +1,93 @@
+// import
+import React, { Component } from "react";
+
+function addGlobalEventListener(type, selector, callback, options) {
+    document.addEventListener(type, e => {
+        if (e.target.matches(selector)) {
+            callback(e);
+        }
+    }, options);
+}
+function startEventListener(type, selector, callback, options) {
+    document.addEventListener("DOMContentLoaded", e => callback(e));
+    addGlobalEventListener(type, selector, e => callback(e), options);
+}
+function startResize(callback, options) {
+    document.addEventListener("DOMContentLoaded", e => callback(e));
+    window.addEventListener("resize", e => callback(e), options);
+    window.screen.orientation.addEventListener("change", e => callback(e), options);
+/* deprecated */window.addEventListener("orientationchange", e => callback(e), options);
+    // window.orientation.addEventListener("change", e => callback(e), options);
+}
+
+function mouseHover(element, event) {
+    let rect = element.getBoundingClientRect();
+
+    return (
+        event.clientX >= rect.left && event.clientX <= rect.right &&
+        event.clientY >= rect.top && event.clientY <= rect.bottom
+    );
+}
+
+function overflowX(element) {
+    return element.scrollWidth > element.clientWidth;
+}
+function overflowY(element) {
+    return element.scrollHeight > element.clientHeight;
+}
+function overflow(element) {
+    return overflowX(element) || overflowY(element);
+}
+
+function getMetaImg(url, callback) {
+    const img = new Image();
+    img.src = url;
+    img.onload = function () { callback(this.width, this.height); }
+}
+// getMetaImg("http://snook.ca/files/mootools_83_snookca.png", (width, height) => { alert(width + 'px ' + height + 'px') });
+
+
+
 const initial = (() => {
     console.log("initial load");
 
+    { //helpers
+        //window size (excluding mobile toolbar)
+        startResize(e => {
+            var windowWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+            var windowHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+
+            document.documentElement.style.setProperty("--viewport-height-fill", window.innerHeight + "px");
+        });
+
+        //min/max area
+        addGlobalEventListener("load", ".-live-area", e => {
+            // boxes.forEach(box => {
+            //     new ResizeObserver(entries => {
+            //         const width = Math.floor(entries[0].contentRect.width);
+            //         const height = Math.floor(entries[0].contentRect.height);
+            //         entries[0].target.value = `I'm ${width}px and ${height}px tall`;
+            //     }).observe(box);
+            // });
+        });
+
+        // areaObserver = new ResizeObserver(entries => {
+
+        // });
+        // areaObserver.observe()
+        // window.addEventListener('storage', e => {
+        //     console.log("storage");
+
+        //     document.querySelectorAll(".-live-area").forEach((area, index, array) => {
+
+        //     });
+        // });
+
+        //range update fill
+        addGlobalEventListener("load", "input[type='range']", e => {
+
+        });
+    }
     { //page
         //book info drawer layout
         startResize(e => {

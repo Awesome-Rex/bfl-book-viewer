@@ -3,7 +3,7 @@ import Book from "./BookOutlines/Book";
 import { PageCollection, PageOffset, PageRange } from "./BookSource";
 
 export default class BookProgress {
-    public outline!: BookOutline;
+    public outline: BookOutline;
 
     public get book() {
         return this.outline.book;
@@ -17,12 +17,17 @@ export default class BookProgress {
     public get editor() {
         return this.outline.editor;
     }
-
     public get source() {
         return this.book.source;
     }
 
-
+    constructor(
+        outline: BookOutline,
+        currentView: number = 1
+    ) {
+        this.outline = outline;
+        this._currentView = currentView;
+    }
 
     // current page
     public get currentPages(): number[] {
@@ -45,7 +50,7 @@ export default class BookProgress {
     public set currentView(view: number) {
         if (this.source.viewIncluded(view)) this._currentView = view;
     }
-    private _currentView: number = 1;
+    private _currentView: number;
 
 
 

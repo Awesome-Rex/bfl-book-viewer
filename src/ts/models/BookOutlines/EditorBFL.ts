@@ -1,11 +1,23 @@
 import Book from "./Book";
-import BookOutlineInfo from "../BookOutlineInfo";
 
-export default class EditorBFL implements BookOutlineInfo {
-    public name: string = "";
+export default class EditorBFL {
+    public readonly name: string;
+    public readonly positions: string[];
 
-    public positions: string[] = [];
+    public readonly picture?: string;
+    public readonly description?: React.ReactNode;
 
-    public image!: string;
-    public description: React.ReactNode;
+    constructor (
+        name: string,
+        positions?: string[],
+
+        picture?: string,
+        description?: React.ReactNode
+    ) {
+        this.name = name;
+        this.positions = positions ?? [];
+
+        this.picture = picture;
+        this.description = description;
+    }
 }

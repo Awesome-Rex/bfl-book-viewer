@@ -1,6 +1,6 @@
 import { stringify } from "querystring";
 import { Page } from "react-pdf";
-import romanize from "../helpers/romanize";
+import { DataManagement } from "../helpers/DataManagement/DataManagement";
 // import { PageTrack } from "./PageTrack";
 // import ViewTrack from "./ViewTrack";
 
@@ -9,8 +9,9 @@ export enum PageSide {Left, Right, Center, Both}
 export enum PageOffset {Offset, Start}
 export enum PageCollection {Defined, Source, Full, Raw}
 //  defined = pages from source excluded    (< source)
-//  source = total pages from source        (= source)
-//  full = pages from source included       (> source)
+//  source  = total pages from source       (= source)
+//  full    = pages from source included    (> source)
+//  raw     = pages from source raw         (~ source)
 
 export class PageRange {
     public get min () {
@@ -62,29 +63,52 @@ export class PageRange {
     }
 }
 
-export default abstract class BookSource { //++++++++++++++++++++WORKING STATE TO BE DETERMINED (YET TO BE KNOWN WHETHER METHODS WILL WORK OR NOT)
+export default class BookSource { //++++++++++++++++++++WORKING STATE TO BE DETERMINED (YET TO BE KNOWN WHETHER METHODS WILL WORK OR NOT)
     static outputPage(page: number): string {
         if (page >= 1)          return page.toString();
-        if (page < 1 || true)   return romanize((page * -1) + 1);
+        if (page < 1 || true)   return DataManagement.romanize((page * -1) + 1);
     }
 
     // //PAGE MANAGEMENT (USING FIRSTEXCLUDE AND LASTEXCLUDE)
     //     //total pages (including excludes)
     //     //pages (excluding excludes)
 
-    public abstract readonly link: string;
+    public readonly link: string;
 
-    public abstract readonly pageLayout: PageLayout;
-    public abstract readonly totalPagesRaw: number;
+    public readonly pageLayout: PageLayout;
+    public readonly totalPagesRaw: number;
 
     //page counting, page range
-    public readonly pageOffset = 0;             // [all]    //shift towards page 1 (according to source range)
-    public readonly firstExclude: number = 0;   // [all]    //excluded pages left (according to source range)
-    public readonly lastExclude: number = 0;    // [all]    //excluded pages right (according to source range)
-    public readonly oddFirst: boolean = false;  // [half]   //whether or not first view contains 1 page
-    public readonly oddLast: boolean = false;   // [half]   //whether or not last view contains 1 page
+    public readonly pageOffset;             // [all]    //shift towards page 1 (according to source range)
+    public readonly firstExclude: number;   // [all]    //excluded pages left (according to source range)
+    public readonly lastExclude: number;    // [all]    //excluded pages right (according to source range)
+    public readonly oddFirst: boolean;  // [half]   //whether or not first view contains 1 page
+    public readonly oddLast: boolean;   // [half]   //whether or not last view contains 1 page
 
+    constructor (
+        link: string,
 
+        pageLayout: PageLayout,
+        totalPagesRaw: number,
+    
+        //page counting, page range
+        pageOffset = 0,             // [all]    //shift towards page 1 (according to source range)
+        firstExclude: number = 0,   // [all]    //excluded pages left (according to source range)
+        lastExclude: number = 0,    // [all]    //excluded pages right (according to source range)
+        oddFirst: boolean = false,  // [half]   //whether or not first view contains 1 page
+        oddLast: boolean = false,   // [half]   //whether or not last view contains 1 page
+    ) {
+        this.link = link;
+
+        this.pageLayout = pageLayout;
+        this.totalPagesRaw = totalPagesRaw;
+
+        this.pageOffset = pageOffset;
+        this.firstExclude = firstExclude;
+        this.lastExclude = lastExclude;
+        this.oddFirst = oddFirst
+        this.oddLast = oddLast;
+    }
 
     public getTotalPages (range: PageCollection): number {
         if (range == PageCollection.Defined) {
