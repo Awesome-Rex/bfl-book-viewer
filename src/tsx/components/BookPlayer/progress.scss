@@ -68,7 +68,7 @@
 
         // bottom: 1rem;
         bottom: 0;
-        left: clamp(var(--comp-width) / 2 + 0.5rem, var(--progress), 100% - var(--comp-width) / 2 - 0.5rem);
+        // left: clamp(var(--comp-width) / 2 + 0.5rem, var(--range-progress), 100% - var(--comp-width) / 2 - 0.5rem);
         
         transform: translateX(-50%);
 

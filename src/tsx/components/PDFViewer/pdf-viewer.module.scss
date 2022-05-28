@@ -1,0 +1,49 @@
+.viewer {
+    & {
+        
+    }
+
+    & .container {
+        display: grid;
+        place-items: center;
+
+        width: 100%;
+        height: 100%;
+
+        overflow: hidden;
+    }
+
+    & .dimensions {
+        display: inline-block;
+    }
+
+    & .document, & .view {
+        display: flex;
+        flex-wrap: nowrap;
+        // overflow:hidden;
+
+        * {
+            
+        }
+        
+        .page {
+            flex-basis: 0;
+            flex-shrink: 1;
+            flex-grow: 1;
+
+            &:first-of-type {
+                
+            }
+            &:last-of-type {
+
+            }
+        }
+
+        .filler {
+            flex-basis: 0;
+            flex-shrink: 1;
+            flex-grow: 1;
+            align-self: stretch;
+        }
+    }
+}

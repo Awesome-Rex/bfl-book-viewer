@@ -13,13 +13,14 @@ export default function BookInfo({outline}: {outline: BookOutline}) {
 		<BookPlayerInfo
 			title={book.title}
 			level={1}
-			image={book.cover}
+			image={typeof book.cover === "string" ? book.cover : undefined}
 			alt="Book cover"
 			tags={[
 				author != undefined ? `Written by ${author?.name}` : undefined,
 				book.illustrator != undefined ? `Illustrated by ${book.illustrator}` : undefined, 
 				book.releaseDate?.toStandardDateString(), 
-				`${book.totalPages} Pages`,
+				`${book.totalPagesFull} Pages`,
+				`${book.totalPages} Readable Pages`,
 				book.language
 			].filter(tag => tag != undefined) as string[]}
 			className="book -theme-dark"

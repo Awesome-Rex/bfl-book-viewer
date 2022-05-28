@@ -8,14 +8,6 @@
 @use "~src/scss/stylesheets/form";
 
 .book-player {
-    --page-per-view: 2;
-
-    --total-pages: 10;
-    --current-page: 1;
-    --progress: calc((var(--current-page) - 1) / (var(--total-pages) - 1) * 100%);
-}
-
-.book-player {
     cursor: crosshair;
     user-select: none;
     -webkit-tap-highlight-color: transparent;
@@ -55,7 +47,7 @@
         @include mixins.custom-selector(".next") {
             right: #{$measure};
         }
-        @include mixins.custom-selector(".last") {
+        @include mixins.custom-selector(".prev") {
             left: #{$measure};
         }
     }
@@ -69,7 +61,6 @@
         
         top: 0;
 
-        width: calc(100% / var(--page-per-view));
         height: 100%;
 
         @include side(0);
@@ -100,7 +91,7 @@
                 @include mixins.custom-selector(".next") {
                     background-image: linear-gradient(to left, var(--area), transparent);
                 }
-                @include mixins.custom-selector(".last") {
+                @include mixins.custom-selector(".prev") {
                     background-image: linear-gradient(to right, var(--area), transparent);
                 }
 
@@ -168,7 +159,7 @@
                 @include mixins.custom-selector(".next") {
                     background-image: linear-gradient(to right, var(--page-turn), transparent);
                 }
-                @include mixins.custom-selector(".last") {
+                @include mixins.custom-selector(".prev") {
                     background-image: linear-gradient(to left, var(--page-turn), transparent);
                 }
             }

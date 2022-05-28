@@ -1,13 +1,14 @@
 import React, { createContext, CSSProperties, useContext, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 
 import "./book-viewer.scss";
+// import "./author-info.scss";
+// import "./reader-info.scss";
+// import "./editor-info.scss";
 
-import "./author-info.scss";
-import "./reader-info.scss";
-import "./editor-info.scss";
+import _mouseCursorPATH from "src/assets/images/Mouse-Cursor.svg";
 
 //import "./Plain";
-import "./PlainOld";
+//import "./PlainOld";
 
 import BookPlayer from "src/tsx/components/BookPlayer";
 import Navbar from "src/tsx/layout/Navbar";
@@ -35,46 +36,77 @@ import books from "./ResourceBooks";
 import DateManagement from "src/ts/helpers/DateManagement";
 import "src/ts/helpers/DateManagement";
 
-export const BookViewerContext = createContext<any>(undefined);
+export const BookViewerContext = createContext<{
+	progress: BookProgress,
+	setProgress: React.Dispatch<React.SetStateAction<BookProgress>>,
+
+	bookZoom: number,
+	setBookZoom: React.Dispatch<React.SetStateAction<number>>,
+}>(undefined!);
 
 export default function BookViewer() {
-    const [progress, setProgress] = useState<BookProgress>(new BookProgress(books["The Green Fern Zoo"]));
+	// refs
+	const bookPlayerRef = useRef<HTMLDivElement>(null!);
+
+	// test refs
+	const selection = useRef<BookProgress[]>([
+		new BookProgress(books["The Cat in the Hat"]),
+		new BookProgress(books["The Green Fern Zoo"]),
+		new BookProgress(books["Abe the Service Dog"]),
+	]);
+	const [currentBook, setCurrentBook] = useState<number>(0);
+	useEffect(() => {
+		setProgress(selection.current[currentBook]);
+	}, [currentBook]);
+
+	// state
+    const [progress, setProgress] = useState<BookProgress>(selection.current[currentBook]);
 	const {book, author, reader, editor, source} = progress;
+	useEffect(() => { // test effect
+		selection.current[currentBook] = progress;
+	}, [progress]);
 
     const [bookZoom, setBookZoom] = useState<number>(1);
-
-    const [windowWidth, windowHeight] = useWindowResize();
-
-    const bookPlayerRef = useRef<HTMLDivElement>(null!);
-
-    useLayoutEffect(() => { // change book player size to adapt to zoom level
-        if (bookZoom > 1) setBookZoom(1);
-        if (bookZoom < 0) setBookZoom(0);
-
-        let computedStyle = window.getComputedStyle(bookPlayerRef.current);
+	useLayoutEffect(() => {
+		let computedStyle = window.getComputedStyle(bookPlayerRef.current);
         let minWidth = computedStyle.getPropertyValue("min-width");
         let maxWidth = computedStyle.getPropertyValue("max-width");
         let minHeight = computedStyle.getPropertyValue("min-height");
         let maxHeight = computedStyle.getPropertyValue("max-height");
-
-        if (maxWidth != "none") {
-            bookPlayerRef.current.style.height = "auto";
-            bookPlayerRef.current.style.width = `calc(${minWidth} + ((${maxWidth} - ${minWidth}) * ${bookZoom}))`;
+		
+		if (maxWidth != "none") {
+            setBookZoom(((window.innerWidth * 0.9) - parseFloat(minWidth)) / (parseFloat(maxWidth) - parseFloat(minWidth)));
         }
         if (maxHeight != "none") {
-            bookPlayerRef.current.style.width = "auto";
-            bookPlayerRef.current.style.height = `calc(${minHeight} + ((${maxHeight} - ${minHeight}) * ${bookZoom}))`;
+            setBookZoom(((window.innerHeight * 0.9) - parseFloat(minHeight)) / (parseFloat(maxHeight) - parseFloat(minHeight)));
         }
+	}, []);
+    const [windowWidth, windowHeight] = useWindowResize();
+    useLayoutEffect(() => { // change book player size to adapt to zoom level
+        if (bookZoom > 1) setBookZoom(1);
+        if (bookZoom < 0) setBookZoom(0);
+
+		if (bookPlayerRef.current != undefined) {
+			let computedStyle = window.getComputedStyle(bookPlayerRef.current);
+			let minWidth = computedStyle.getPropertyValue("min-width");
+			let maxWidth = computedStyle.getPropertyValue("max-width");
+			let minHeight = computedStyle.getPropertyValue("min-height");
+			let maxHeight = computedStyle.getPropertyValue("max-height");
+
+			if (maxWidth != "none") {
+				bookPlayerRef.current.style.height = "auto";
+				bookPlayerRef.current.style.width = `calc(${minWidth} + ((${maxWidth} - ${minWidth}) * ${bookZoom}))`;
+			}
+			if (maxHeight != "none") {
+				bookPlayerRef.current.style.width = "auto";
+				bookPlayerRef.current.style.height = `calc(${minHeight} + ((${maxHeight} - ${minHeight}) * ${bookZoom}))`;
+			}
+		}
 	}, [bookZoom, windowWidth, windowHeight]);
 
     return (
 			<BookViewerContext.Provider
 				value={{
-					// book,
-					// author,
-					// reader,
-					// editor,
-
 					progress,
 					setProgress,
 
@@ -89,13 +121,13 @@ export default function BookViewer() {
 							href: "https://blackstonefoundationlibrary.overdrive.com/",
 						},
 						{ name: "Purchase", href: "https://www.knowledgebookstore.com/" },
-						{ name: "About Us", href: "http://thebfl.org/" },
-						{ name: "Contact", href: "http://thebfl.org/" },
+						{ name: "About", href: "https://thebfl.org/about/" },
+						{ name: "Contact", href: "https://thebfl.org/contact-us/" },
 					]}
 				/>
 				<ScrollContainer
 					className="book-container"
-					style={{ zIndex: 10 }}
+					style={{ zIndex: 10, justifyContent: !bookPlayerRef.current ? "space-between" : bookPlayerRef.current.offsetWidth < window.innerWidth ? "center" : "space-between"}}
 					reserveTop={"0.75rem"}
 					reserveBottom={"0.75rem"}
 				>
@@ -104,18 +136,48 @@ export default function BookViewer() {
 						progress={progress}
 						setProgress={setProgress}
 						ref={bookPlayerRef}
+						firstFiller={
+							<div className="page-filler -theme-dark">
+								<div className="content">
+									<img className="icon" src="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/google/313/sparkles_2728.png"/>
+									<div className="textual">
+										<p>We believe that when a young mind comes across literature that inspires and encourages the journey of self-discovery, there is a spark ignited which when guided and nurtured, brings about a positive reform within Our Community.</p>
+										<p><strong>We are committed to igniting that flame.</strong></p>
+									</div>
+								</div>
+							</div>
+						}
+						lastFiller={
+							<div className="page-filler -theme-dark">
+								<div className="content">
+									<img className="icon" src="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/google/313/party-popper_1f389.png"/>
+									<div className="textual">
+										<p><strong>You just finished reading <i>{book.title}</i> by {author?.name}.</strong></p>
+										<p><strong>We hope you enjoyed the book!</strong></p>
+										{/* <ul>
+											<li>Looking for more books? <a href="#">Click here.</a></li>
+											<li>Looking for more books? <a href="#">Click here.</a></li>
+										</ul> */}
+										{/* <br/> */}
+										<hr/>
+										{/* <br/> */}
+										<p>The Blackstone Foundation Library is committed to ensuring access to culturally-relevant literature, mentorship opportunities and vital support systems as well as healthy engagement opportunities in safe, enabling spaces.</p>
+										<p>Together, we are challenging the popular narratives and forging a desired Black future.</p>
+										{/* <p style={{paddingLeft: "2rem"}}>We have come to the undeniable truth that knowledge is power. In the Black community, knowledge of self is the source of that power; THIS IS THE HEART BEHIND BLACKSTONE. - F.C</p> */}
+									</div>
+								</div>
+							</div>
+						}
 					/>
 				</ScrollContainer>
 				<div className="total-book-info">
-					<ZoomToolbar bookZoom={bookZoom} setBookZoom={setBookZoom} />
+					<ZoomToolbar zoom={bookZoom} setZoom={setBookZoom} />
 					<BookInfo outline={progress.outline}/>
 					<AuthorInfo outline={progress.outline}/>
 					<ReaderInfo outline={progress.outline}/>
 					<EditorInfo outline={progress.outline}/>
 				</div>
 				<ArticleContent>
-					<PDFViewer src={require("src/assets/books/The Green Fern Zoo.pdf")} currentPages={[9, 10]} doubleSided={true} style={{height: "200px"}}/>
-
 					<h1>Read More</h1>
 					<hr />
 					<div className="bottom-wrap">
@@ -227,7 +289,7 @@ export default function BookViewer() {
 							subtitle="Donate"
 							icon="https://www.ecigclick.co.uk/wp-content/uploads/2020/11/paypal-bans-vaping.png"
 							background="#1a5daa"
-							href="https://thebfl.org/thebrotherhood/"
+							href="https://thebfl.org/partnerships-1/"
 							className="-theme-dark"
 						>
 							Donate to The Black Stone Foundation Library through VISA,
@@ -239,7 +301,7 @@ export default function BookViewer() {
 							subtitle="Support with Email Transfer"
 							icon="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/google/313/envelope_2709-fe0f.png"
 							background="#d88334"
-							href="https://thebfl.org/thebrotherhood/"
+							href="https://thebfl.org/partnerships-1/"
 							className="-theme-dark"
 						>
 							We accept email transfers at
@@ -251,7 +313,7 @@ export default function BookViewer() {
 							subtitle="Partners for a Good Cause"
 							icon="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/google/313/raised-fist_dark-skin-tone_270a-1f3ff_1f3ff.png"
 							background="#632a63"
-							href="https://thebfl.org/thebrotherhood/"
+							href="https://thebfl.org/partnerships-1/"
 							className="-theme-dark"
 						>
 							Empowering our incarcerated Black and Indigenous brothers and
@@ -279,7 +341,7 @@ export default function BookViewer() {
 							subtitle="Volunteer Applications"
 							icon="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/google/313/hand-with-fingers-splayed_dark-skin-tone_1f590-1f3ff_1f3ff.png"
 							background="#5a1a96"
-							href="https://docs.google.com/forms/d/e/1FAIpQLSfgk65YBlBnRviIffpBhI8IXEpOzL9A5w4KqutqXcTxaP1-BQ/viewform"
+							href="https://thebfl.org/#"//"https://docs.google.com/forms/d/e/1FAIpQLSfgk65YBlBnRviIffpBhI8IXEpOzL9A5w4KqutqXcTxaP1-BQ/viewform"
 							className="-theme-dark"
 						>
 							Volunteers play a very integral part in how we enable safe spaces
@@ -291,18 +353,110 @@ export default function BookViewer() {
 							subtitle="Work with Us"
 							icon="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/google/313/clipboard_1f4cb.png"
 							background="#693d18"
-							href="https://thebfl.org/"
+							href="https://www.linkedin.com/company/the-blackstone-foundation-library/?originalSubdomain=ca"
 							className="-theme-dark"
 						>
 							Work at a position in The Black Stone Foundation Library.
 						</RectLink>
 					</div>
-					{/* <br/>
-                    <p style={{textAlign: "center", padding: "auto 1rem"}}><a href="https://www.knowledgebookstore.com/" style={{color: "black"}} target="_blank" rel="noopener noreferrer">Looking for other books?</a></p>
-                    <br/> */}
+
+					<h1>Contact</h1>
+					<hr />
+					<div className="bottom-wrap">
+						<RectLink
+							title="Website"
+							subtitle="thebfl.org/contact-us"
+							icon={_mouseCursorPATH}
+							background="#773e8a"
+							href="https://thebfl.org/contact-us/"
+							className="-theme-dark"
+						>
+							Contact us directly through our website.
+						</RectLink>
+						<RectLink
+							title="Email"
+							subtitle="blackstonefoundationlibrary@gmail.com" /* blackstonelibraryinfo@gmail.com *//* info@blackstonefoundationlibrary.org */
+							icon={"https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Gmail_icon_%282020%29.svg/2560px-Gmail_icon_%282020%29.svg.png"}
+							background="#1a56c5"//"#dfa1a1"//"#f3cd63"//"#ff9292" //#ccb6b6
+							href="blackstonefoundationlibrary@gmail.com"
+							className="-theme-dark"
+						>
+							Send us an email.
+						</RectLink>
+						<RectLink
+							title="Instagram"
+							subtitle="@blackstnlibrary"
+							icon={"https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Instagram_icon.png/2048px-Instagram_icon.png"}
+							background="#b1378a"//"#8f3370"
+							href="https://www.instagram.com/blackstnlibrary/"
+							className="-theme-dark"
+						>
+							View our Instagram.
+						</RectLink>
+						<RectLink
+							title="Twitter"
+							subtitle="@BlackStnLibrary"
+							icon={"https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Twitter-logo.svg/2491px-Twitter-logo.svg.png"}
+							background="#79b9d3"//"#7aaec2"
+							href="https://twitter.com/BlackStnLibrary"
+							className="-theme-dark"
+						>
+							See our tweets.
+						</RectLink>
+						<RectLink
+							title="Facebook"
+							subtitle="@BlackStnLibrary "
+							icon={"https://upload.wikimedia.org/wikipedia/en/thumb/0/04/Facebook_f_logo_%282021%29.svg/150px-Facebook_f_logo_%282021%29.svg.png"}
+							background="#2b7bdd"//"#5a75aa"
+							href="https://www.facebook.com/BlackStnLibrary/"
+							className="-theme-dark"
+						>
+							View us on Facebook.
+						</RectLink>
+						<RectLink
+							title="LinkedIn"
+							subtitle="The Blackstone Foundation Library"
+							icon={"https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/LinkedIn_logo_initials.png/768px-LinkedIn_logo_initials.png"}
+							background="#3b82c9"//"#526dc5"
+							href="https://www.linkedin.com/company/the-blackstone-foundation-library/?originalSubdomain=ca"
+							className="-theme-dark"
+						>
+							Search on LinkedIn.
+						</RectLink>
+					</div>
+					<br/>
+					<p className="extra"><a href="https://blackstonefoundationlibrary.overdrive.com/">Looking for more books?</a></p>
+					{/* <p style={{textAlign: "center", padding: "auto 1rem", textDecoration: "underline"}}>Thank you for reading!</p> */}
+					{/* <br/> */}
 				</ArticleContent>
 				<Footer />
 				<FixedScreen>
+					<button 
+						type="button"
+						style={{
+							position: "absolute",
+							bottom: 0,
+							left: 0,
+							opacity: 0.5,
+							width: "8em",
+							height: "3em",
+							pointerEvents: "all",
+							fontWeight: "bold",
+							textDecoration: "underline",
+						}}
+						onClick={() => {
+							setCurrentBook(currentBook => {
+								currentBook += 1
+								if (currentBook >= selection.current.length) {
+									currentBook = 0;
+								}
+
+								return currentBook;
+							});
+						}}
+					>
+						Switch Book
+					</button>
 					<p
 						style={{
 							fontFamily: "Arial",

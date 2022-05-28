@@ -13,7 +13,6 @@ if (!("toStandardDateString" in Date.prototype)) {
     });
 }
 // Date.prototype.toStandardDateString = function() {
-// 	console.log("call");
 //     return this != undefined ? DateManagement.toStandardDateString(this) : ""
 // };
 

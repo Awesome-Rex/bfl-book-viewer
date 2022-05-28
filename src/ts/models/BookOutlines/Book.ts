@@ -1,6 +1,4 @@
 import Author from "./Author";
-import { NumberTree, Page } from "public/vendors/pdfjs-dist/build/pdf.worker";
-import { throws } from "assert";
 import BookSource, { PageCollection } from "../BookSource";
 import { ReactNode } from "react";
 
@@ -13,10 +11,13 @@ export default class Book {
     public readonly releaseDate?: Date;
     public readonly language?: string;
     public get totalPages () {
-        return this.source.getTotalPages(PageCollection.Defined)
+        return this.source.getTotalPages(PageCollection.Defined);
     };
+    public get totalPagesFull () {
+        return this.source.getTotalPages(PageCollection.Source);
+    }
 
-    public readonly cover?: string;
+    public readonly cover?: string | number;
     public readonly description?: ReactNode;
 
     constructor (
@@ -28,7 +29,7 @@ export default class Book {
         releaseDate?: Date,
         language?: string,
 
-        cover?: string,
+        cover?: string | number,
         description?: ReactNode
     ) {
         this.source = source;

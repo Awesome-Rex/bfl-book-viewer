@@ -30,7 +30,8 @@ const books = {
     "The Cat in the Hat": new BookOutline(
         new Book(
             new BookSource(
-                require("src/assets/books/The Cat in the Hat.pdf"),
+                //require("src/assets/books/The Cat in the Hat.pdf"),
+                require("src/assets/books/The Cat in the Hat (_PAGES_).pdf"),
                 PageLayout.Double,
                 36,
                 6,
@@ -181,7 +182,9 @@ const books = {
                 25,
                 3,
                 3,
-                2
+                2,
+                false,
+                false
             ),
             "Abe the Service Dog",
             new Author(
@@ -229,10 +232,10 @@ const books = {
     "The Green Fern Zoo": new BookOutline(
         new Book(
             new BookSource(
-                "src/assets/books/The Green Fern Zoo.pdf",
+                require("src/assets/books/The Green Fern Zoo (_PAGES_).pdf"),
                 PageLayout.Half,
                 87,
-                7,
+                6,
                 7,
                 6,
                 true,

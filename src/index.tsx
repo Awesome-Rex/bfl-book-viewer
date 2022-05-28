@@ -4,13 +4,14 @@ import reportWebVitals from './reportWebVitals';
 
 import "./index.scss";
 import App from './App';
-import Vendors from './Vendors';
+import Global from './Global';
 
 const root = ReactDOM.createRoot(document.getElementById("root")!); //ReactDOM.createRoot(document.getElementById("root") as Element);
 root.render(
   <React.StrictMode>
-    <Vendors/>
-    <App />
+    <Global>
+      <App />
+    </Global>
   </React.StrictMode>
 );
 

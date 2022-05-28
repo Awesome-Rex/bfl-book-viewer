@@ -5,7 +5,7 @@ import EditorBFL from "src/ts/models/BookOutlines/EditorBFL";
 import BookPlayerInfo from "src/tsx/components/BookPlayerInfo";
 import DateManagement from "src/ts/helpers/DateManagement";
 
-import "./book-info.scss";
+import "./editor-info.scss";
 
 export default function EditorInfo({ outline }: { outline: BookOutline }) {
 	const { book, author, reader, editor, source } = outline;

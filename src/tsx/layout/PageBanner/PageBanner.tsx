@@ -1,36 +1,28 @@
-import React, { CSSProperties } from 'react'
+import React, { CSSProperties, ForwardedRef, forwardRef } from 'react'
 import "./page-banner.scss";
 
-export default function PageBanner({
+const PageBanner = forwardRef(({
     banner = {}, 
     content = {}, 
     children = <></>
 }: {
     banner?: {
         className?: string,
-        style?: CSSProperties
+        style?: CSSProperties | undefined
     },
     content?: {
         className?: string,
-        style?: CSSProperties
+        style?: CSSProperties | undefined
     },
     children?: React.ReactNode
-} = {
-    banner: {
-        className: "",
-        style: {}
-    },
-    content: {
-        className: "",
-        style: {}
-    },
-    children: <></>
-}) {
+}, ref: ForwardedRef<HTMLDivElement>) => {
     return (
-        <div className={`page-banner ${banner.className}`} style={{...banner.style}}>
+        <div className={`page-banner ${banner.className}`} style={{...banner.style}} ref={ref}>
             <div className={content.className} style={content.style}>
                 {children}
             </div>
         </div>
     );
-}
+});
+
+export default PageBanner;

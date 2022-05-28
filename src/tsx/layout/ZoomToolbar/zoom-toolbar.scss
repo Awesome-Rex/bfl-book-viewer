@@ -63,9 +63,19 @@ div.zoom-toolbar {
     
             &.in {
                 cursor:zoom-in;
+
+                background: url("/assets/images/PlusInvert.svg");
+                background-size: contain;
+                background-repeat: no-repeat;
+                background-position: center;
             }
             &.out {
                 cursor:zoom-out;
+
+                background: url("/assets/images/MinusInvert.svg");
+                background-size: contain;
+                background-repeat: no-repeat;
+                background-position: center;
             }
         }
     

@@ -215,7 +215,7 @@ window.addEventListener("load", e => {
                         document.addEventListener("pointerup", event => {
                             if (elem.closest(".page-turn").classList.contains("next")) {
                                 elem.closest(".book-player").style.setProperty("--current-page", parseInt(window.getComputedStyle(elem.closest(".book-player")).getPropertyValue("--current-page")) + 1);
-                            } else if (elem.closest(".page-turn").classList.contains("last")) {
+                            } else if (elem.closest(".page-turn").classList.contains("prev")) {
                                 elem.closest(".book-player").style.setProperty("--current-page", parseInt(window.getComputedStyle(elem.closest(".book-player")).getPropertyValue("--current-page")) - 1);
                             }
 

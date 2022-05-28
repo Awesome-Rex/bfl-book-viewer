@@ -4,5 +4,71 @@
         "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
     "prettier.useTabs": true,
-    "typescript.tsdk": "node_modules\\typescript\\lib"
+    "typescript.tsdk": "node_modules\\typescript\\lib",
+    "explicitFolding.rules": {
+        "*": {
+            "begin": "{{{",
+            "end": "}}}"
+        },
+        "javascriptreact": [
+            {
+                "begin": "{/*",
+                "end": "*/}"
+            },
+            {
+                "begin": "<",
+                "end": "/>"
+            },
+            {
+                "foldLastLine": true
+            }
+        ],
+        "cpp": [
+            {
+                "beginRegex": "#if(?:n?def)?",
+                "middleRegex": "#el(?:se|if)",
+                "endRegex": "#endif"
+            },
+            {
+                "begin": "/*",
+                "end": "*/",
+                "nested": false
+            },
+            {
+                "begin": "//",
+                "continuation": "\\",
+                "nested": false
+            },
+            {
+                "foldLastLine": true
+            }
+        ],
+        "html": {
+            "beginRegex": "\/]*>",
+            "endRegex": ""
+        },
+        "php": [
+            {
+                "beginRegex": "(?:case|default)[^:]*:",
+                "endRegex": "break;|(.)(?=case|default|\\})",
+                "foldLastLine": [true, false]
+            },
+            {
+                "beginRegex": "\\{",
+                "middleRegex": "\\}[^}]+\\{",
+                "endRegex": "\\}"
+            },
+            {
+                "foldLastLine": true
+            }
+        ],
+        "python": {
+            "beginRegex": "\"\"\"",
+            "endRegex": "\"\"\""
+        },
+        "scss": {
+            "beginRegex": " \\{\\s*$",
+            "endRegex": "^\\s*\\}"
+        }
+    }
 }

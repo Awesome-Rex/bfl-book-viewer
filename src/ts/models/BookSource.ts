@@ -1,6 +1,8 @@
 import { stringify } from "querystring";
 import { Page } from "react-pdf";
+import { isThisTypeNode } from "typescript";
 import { DataManagement } from "../helpers/DataManagement/DataManagement";
+import { PageRange } from "./PageRange";
 // import { PageTrack } from "./PageTrack";
 // import ViewTrack from "./ViewTrack";
 
@@ -13,56 +15,6 @@ export enum PageCollection {Defined, Source, Full, Raw}
 //  full    = pages from source included    (> source)
 //  raw     = pages from source raw         (~ source)
 
-export class PageRange {
-    public get min () {
-        return this._min;
-    }
-    public set min (value: number) {
-        if (value <= this.max) {
-            this._min = value;
-        } else {
-            this._min = this._max;
-            this._max = value;
-        }
-    }
-    public get max() {
-        return this._max;
-    }
-    public set max (value: number) {
-        if (value >= this.min) {
-            this._max = value;
-        } else {
-            this._max = this._min;
-            this._min = value;
-        }
-    }
-
-    private _min!: number;
-    private _max!:number;
-
-    public progressToPoint (progress: number): number { // progress to page
-        return this.min + ((this.max - this.min) * progress);
-    }
-    public pointToProgress (point: number): number { // page to progress
-        return (point - this.min) / (this.max - this.min);
-    }
-    public between (point: number, inclusive: boolean = true): boolean {
-        if (inclusive) return point >= this.min && point <= this.max;
-        if (!inclusive) return point > this.min && point < this.max;
-        return undefined!;
-    }
-    public clamp (point: number): number {
-        if (point < this.min) return this.min;
-        if (point > this.max) return this.max;
-        return point;
-    }
-
-    constructor (min: number = 0, max: number = 10) {
-        this.min = min;
-        this.max = max;
-    }
-}
-
 export default class BookSource { //++++++++++++++++++++WORKING STATE TO BE DETERMINED (YET TO BE KNOWN WHETHER METHODS WILL WORK OR NOT)
     static outputPage(page: number): string {
         if (page >= 1)          return page.toString();
@@ -73,17 +25,17 @@ export default class BookSource { //++++++++++++++++++++WORKING STATE TO BE DETE
     //     //total pages (including excludes)
     //     //pages (excluding excludes)
 
-    public readonly link: string;
+    public readonly location: string;
 
     public readonly pageLayout: PageLayout;
     public readonly totalPagesRaw: number;
 
     //page counting, page range
-    public readonly pageOffset;             // [all]    //shift towards page 1 (according to source range)
+    public readonly pageOffset: number;             // [all]    //shift towards page 1 (according to source range)
     public readonly firstExclude: number;   // [all]    //excluded pages left (according to source range)
     public readonly lastExclude: number;    // [all]    //excluded pages right (according to source range)
-    public readonly oddFirst: boolean;  // [half]   //whether or not first view contains 1 page
-    public readonly oddLast: boolean;   // [half]   //whether or not last view contains 1 page
+    public readonly halfFirst: boolean;  // [half]   //whether or not first view contains 1 page
+    public readonly halfLast: boolean;   // [half]   //whether or not last view contains 1 page
 
     constructor (
         link: string,
@@ -92,13 +44,13 @@ export default class BookSource { //++++++++++++++++++++WORKING STATE TO BE DETE
         totalPagesRaw: number,
     
         //page counting, page range
-        pageOffset = 0,             // [all]    //shift towards page 1 (according to source range)
+        pageOffset: number = 0,             // [all]    //shift towards page 1 (according to source range)
         firstExclude: number = 0,   // [all]    //excluded pages left (according to source range)
         lastExclude: number = 0,    // [all]    //excluded pages right (according to source range)
-        oddFirst: boolean = false,  // [half]   //whether or not first view contains 1 page
-        oddLast: boolean = false,   // [half]   //whether or not last view contains 1 page
+        halfFirst: boolean = false,  // [half]   //whether or not first view contains 1 page
+        halfLast: boolean = false,   // [half]   //whether or not last view contains 1 page
     ) {
-        this.link = link;
+        this.location = link;
 
         this.pageLayout = pageLayout;
         this.totalPagesRaw = totalPagesRaw;
@@ -106,34 +58,41 @@ export default class BookSource { //++++++++++++++++++++WORKING STATE TO BE DETE
         this.pageOffset = pageOffset;
         this.firstExclude = firstExclude;
         this.lastExclude = lastExclude;
-        this.oddFirst = oddFirst
-        this.oddLast = oddLast;
+        this.halfFirst = halfFirst
+        this.halfLast = halfLast;
     }
 
     public getTotalPages (range: PageCollection): number {
         if (range == PageCollection.Defined) {
             if (this.pageLayout == PageLayout.Single) return this.totalPagesRaw - this.firstExclude - this.lastExclude;
-            if (this.pageLayout == PageLayout.Double) return this.totalPagesRaw * 2 - this.firstExclude - this.lastExclude;
+            if (this.pageLayout == PageLayout.Double) return this.totalPagesRaw * 2 - (
+                (this.halfFirst ? 1 : 0) + 
+                (this.halfLast ? 1 : 0)
+            ) - this.firstExclude - this.lastExclude;
             if (this.pageLayout == PageLayout.Half) return this.totalPagesRaw - this.firstExclude - this.lastExclude;
         }
         if (range == PageCollection.Source) {
             if (this.pageLayout == PageLayout.Single) return this.totalPagesRaw;
-            if (this.pageLayout == PageLayout.Double) return this.totalPagesRaw * 2;
+            if (this.pageLayout == PageLayout.Double) return this.totalPagesRaw * 2 - (
+                (this.halfFirst ? 1 : 0) + 
+                (this.halfLast ? 1 : 0)
+            );
             if (this.pageLayout == PageLayout.Half) return this.totalPagesRaw;
         }
         if (range == PageCollection.Full) {
             if (this.pageLayout == PageLayout.Single) return this.totalPagesRaw;
             if (this.pageLayout == PageLayout.Double) return this.totalPagesRaw * 2;
-            if (this.pageLayout == PageLayout.Half) return this.totalPagesRaw + 
-                (this.oddFirst ? 1 : 0) + 
-                (this.oddLast ? 1 : 0);
+            if (this.pageLayout == PageLayout.Half) return this.totalPagesRaw + (
+                (this.halfFirst ? 1 : 0) + 
+                (this.halfLast ? 1 : 0)
+            );
         }
         if (range == PageCollection.Raw) return this.totalPagesRaw;
         return undefined!;
     }
     public getTotalViews(): number {
         if (this.pageLayout == PageLayout.Single) return this.getTotalPages(PageCollection.Full);
-        if (this.pageLayout == PageLayout.Double) return this.getTotalPages(PageCollection.Full);
+        if (this.pageLayout == PageLayout.Double) return this.getTotalPages(PageCollection.Full) / 2; //*********************YET TO BE COMPLETELY TESTED/VERIFIED
         if (this.pageLayout == PageLayout.Half) return this.getTotalPages(PageCollection.Full) / 2;
         return undefined!; 
     }
@@ -141,15 +100,15 @@ export default class BookSource { //++++++++++++++++++++WORKING STATE TO BE DETE
         if (includeOffset == PageOffset.Offset) { 
             if (range == PageCollection.Defined) return new PageRange(
                 +1 - this.pageOffset + this.firstExclude, 
-                -1 - this.pageOffset + this.getTotalPages(PageCollection.Defined)
+                -0 - this.pageOffset + this.firstExclude + this.getTotalPages(PageCollection.Defined)
             );
             if (range == PageCollection.Source) return new PageRange(
                 +1 - this.pageOffset, 
-                -1 - this.pageOffset + this.getTotalPages(PageCollection.Source)
+                -0 - this.pageOffset + this.getTotalPages(PageCollection.Source)
             );
             if (range == PageCollection.Full) return new PageRange(
-                +1 - this.pageOffset - (this.pageLayout == PageLayout.Half && this.oddFirst ? 1 : 0), 
-                -1 - this.pageOffset + this.getTotalPages(PageCollection.Full)
+                +1 - this.pageOffset - (this.halfFirst ? 1 : 0),  
+                -0 - this.pageOffset - (this.halfFirst ? 1 : 0) + this.getTotalPages(PageCollection.Full)
             );
         }
         if (includeOffset == PageOffset.Start) {
@@ -170,18 +129,6 @@ export default class BookSource { //++++++++++++++++++++WORKING STATE TO BE DETE
         return this.getViewRange().between(view);
     }
 
-    //private conversion methods (methods exclude PageCollection.Raw)
-    protected startToOffset(page: number = 1, range: Omit<PageCollection, "Raw"> = PageCollection.Defined, includeOffset: PageOffset = PageOffset.Offset): number { //page to global offset (to PageOffset.Offset)
-        if (includeOffset == PageOffset.Offset) return page;
-        else if (includeOffset == PageOffset.Start) return page + this.getPageRange(<PageCollection>range, PageOffset.Offset).min - 1;
-        return undefined!;
-    }
-    protected offsetToStart(page: number = 1, range: Omit<PageCollection, "Raw"> = PageCollection.Defined, includeOffset: PageOffset = PageOffset.Offset): number { //global offset to page (from PageOffset.Offset)
-        if (includeOffset == PageOffset.Offset) return page;
-        else if (includeOffset == PageOffset.Start) return page - this.getPageRange(<PageCollection>range, PageOffset.Offset).min + 1;
-        return undefined!;
-    }
-    
     //public conversion methods
     public pageToSide(page: number = 1, range: PageCollection = PageCollection.Defined, includeOffset: PageOffset = PageOffset.Offset): PageSide {
         if (this.pageLayout == PageLayout.Single) return PageSide.Center;
@@ -194,36 +141,37 @@ export default class BookSource { //++++++++++++++++++++WORKING STATE TO BE DETE
             }
         }
         if (this.pageLayout == PageLayout.Half) {
-            // let absolute: number = this.pageToPage(page, range, includeOffset, PageCollection.Source, PageOffset.Start);
-            // if (
-            //     (absolute == 1 && this.oddFirst) ||
-            //     (absolute == this.getTotalPages(PageCollection.Source) && this.oddLast)
-            // ) return PageSide.Center;
-            // else {
-                let lean: number = this.pageToPage(page, range, includeOffset, PageCollection.Full, PageOffset.Start) % 2;
-                if (lean == 1) return PageSide.Left;
-                if (lean == 0) return PageSide.Right;
-            //}
+            let lean: number = this.pageToPage(page, range, includeOffset, PageCollection.Full, PageOffset.Start) % 2;
+            if (lean == 1) return PageSide.Left;
+            if (lean == 0) return PageSide.Right;
         }
         return undefined!;
     }
-    public pageToPage(
+    public pageToPageOffset(page: number = 1, range: PageCollection = PageCollection.Defined, includeOffsetA: PageOffset = PageOffset.Offset, includeOffsetB: PageOffset = PageOffset.Offset) { 
+        if (includeOffsetA == includeOffsetB) return page;
+        if (includeOffsetA == PageOffset.Start && includeOffsetB == PageOffset.Offset) return this.getPageRange(range, PageOffset.Offset).min + (page - this.getPageRange(range, PageOffset.Start).min); // offset to start
+        if (includeOffsetA == PageOffset.Offset && includeOffsetB == PageOffset.Start) return this.getPageRange(range, PageOffset.Start).min + (page - this.getPageRange(range, PageOffset.Offset).min); //start to offset
+        return undefined!;
+    } // method exclude PageCollection.Raw
+    public pageToPage( // CANNOT CALCULATE FOR RAW PAGES
         page: number = 1, 
         rangeA: PageCollection = PageCollection.Defined, includeOffsetA: PageOffset = PageOffset.Offset, 
         rangeB: PageCollection = PageCollection.Defined, includeOffsetB: PageOffset = PageOffset.Offset
     ): number {
-        return this.offsetToStart(this.startToOffset(page, rangeA, includeOffsetA), rangeB, includeOffsetB);
+        if (rangeA == PageCollection.Raw) throw new Error("Cannot use page collection type 'raw' in pageToPage() function, consider using rawToPage() function instead.")
+        if (rangeB == PageCollection.Raw) throw new Error("Cannot use page collection type 'raw' in pageToPage() function, consider using pageToRaw() function instead.")
+        return this.pageToPageOffset(this.pageToPageOffset(page, rangeA, includeOffsetA, PageOffset.Offset), rangeB, PageOffset.Offset, includeOffsetB);
     }
-    public pageToRaw(page: number = 1, range: PageCollection = PageCollection.Defined, includeOffset: PageOffset = PageOffset.Offset): number {
-        if (this.pageLayout == PageLayout.Single) return this.pageToPage(page, range, includeOffset, PageCollection.Full, PageOffset.Start);
-        if (this.pageLayout == PageLayout.Double) return Math.ceil(this.pageToPage(page, range, includeOffset, PageCollection.Full, PageOffset.Start) / 2);
-        if (this.pageLayout == PageLayout.Half) return this.pageToPage(page, range, includeOffset, PageCollection.Source, PageOffset.Start);
+    public pageToRaw(page: number = 1, range: PageCollection = PageCollection.Defined, includeOffset: PageOffset = PageOffset.Offset): number[] {
+        if (this.pageLayout == PageLayout.Single) return [this.pageToView(page, range, includeOffset)];
+        if (this.pageLayout == PageLayout.Double) return [this.pageToView(page, range, includeOffset)];
+        if (this.pageLayout == PageLayout.Half) return [...this.viewToPages(this.pageToView(page, range, includeOffset), PageCollection.Source, PageOffset.Start)];
         return undefined!;
     }
-    public rawToPage(page: number = 1, range: PageCollection = PageCollection.Defined, includeOffset: PageOffset = PageOffset.Offset): number[] {
-        if (this.pageLayout == PageLayout.Single) return [this.pageToPage(page, PageCollection.Full, PageOffset.Start, range, includeOffset)];
-        if (this.pageLayout == PageLayout.Double) return [this.pageToPage(page * 2, PageCollection.Full, PageOffset.Start, range, includeOffset), this.pageToPage(page * 2, PageCollection.Full, PageOffset.Start, range, includeOffset) - 1]
-        if (this.pageLayout == PageLayout.Half) return [this.pageToPage(page, PageCollection.Source, PageOffset.Start, range, includeOffset)];
+    public rawToPages(page: number = 1, range: PageCollection = PageCollection.Defined, includeOffset: PageOffset = PageOffset.Offset): number[] {
+        if (this.pageLayout == PageLayout.Single) return [...this.viewToPages(page, range, includeOffset)];
+        if (this.pageLayout == PageLayout.Double) return [...this.viewToPages(page, range, includeOffset)];
+        if (this.pageLayout == PageLayout.Half) return [...this.viewToPages(this.pageToView(page, PageCollection.Source, PageOffset.Start), range, includeOffset)];
         return undefined!;
     }
     public pageToView(page: number = 1, range: PageCollection = PageCollection.Defined, includeOffset: PageOffset = PageOffset.Offset): number {
@@ -233,9 +181,9 @@ export default class BookSource { //++++++++++++++++++++WORKING STATE TO BE DETE
         return undefined!; 
     }
     public viewToPages(view: number, range: PageCollection = PageCollection.Defined, includeOffset: PageOffset = PageOffset.Offset): number[] {
-        if (this.pageLayout == PageLayout.Single) return [this.offsetToStart(view, range, includeOffset)];
-        if (this.pageLayout == PageLayout.Double) return [this.offsetToStart(view * 2, range, includeOffset) - 1, this.offsetToStart(view * 2, range, includeOffset)];
-        if (this.pageLayout == PageLayout.Half) return [this.offsetToStart(view * 2, range, includeOffset) - 1, this.offsetToStart(view * 2, range, includeOffset)];
+        if (this.pageLayout == PageLayout.Single) return [this.pageToPage(view, PageCollection.Full, PageOffset.Start, range, includeOffset)];
+        if (this.pageLayout == PageLayout.Double) return [this.pageToPage(view * 2 - 1, PageCollection.Full, PageOffset.Start, range, includeOffset), this.pageToPage(view * 2, PageCollection.Full, PageOffset.Start, range, includeOffset)];
+        if (this.pageLayout == PageLayout.Half) return [this.pageToPage(view * 2 - 1, PageCollection.Full, PageOffset.Start, range, includeOffset), this.pageToPage(view * 2, PageCollection.Full, PageOffset.Start, range, includeOffset)];
         return undefined!; 
     }
     public pageToProgress(page: number = 1, range: PageCollection = PageCollection.Defined, includeOffset: PageOffset = PageOffset.Offset): number {

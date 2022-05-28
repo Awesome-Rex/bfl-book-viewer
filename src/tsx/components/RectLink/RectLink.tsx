@@ -32,10 +32,17 @@ export default function RectLink(
     });
     
     return (
-        <a ref={element} className={`rect-link ${className ?? ""}`} style={{ 
-            "--background": background,
-            "--width-compare": height + "px"
-        } as CSSProperties} href={href}>
+        <a 
+            ref={element} 
+            className={`rect-link ${className ?? ""}`} 
+            style={{ 
+                "--background": background,
+                "--width-compare": height + "px"
+            } as CSSProperties} 
+            href={href}
+            target="_blank" 
+            rel="noopener noreferrer"
+        >
             <img className="icon" src={icon} alt="" />
             <span className="title">{title}</span>
             {subtitle != "" && <span className="subtitle">{subtitle}</span>}

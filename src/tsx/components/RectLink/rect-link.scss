@@ -2,6 +2,7 @@
 @use "~src/scss/resources";
 @use "~src/scss/resources/effects";
 @use "~src/scss/resources/breakpoints";
+@use "~src/scss/resources/themes";
 @use "~src/scss/stylesheets";
 
 .rect-link {
@@ -29,8 +30,12 @@
         width: var(--icon-size);
         height: var(--icon-size);
 
+        object-fit: contain;
+
         // margin: auto auto;
         // margin-right: auto;
+
+        @include effects.drop-out(true);
     }
 
     .title {
@@ -64,4 +69,8 @@
         // font-size: 0.9em;
         word-wrap: break-word;
     }
+
+    // a.subtitle {
+    //     color: inherit;
+    // }
 }

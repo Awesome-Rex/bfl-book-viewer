@@ -1,5 +1,5 @@
 export namespace DOMManagement {
-    export function mouseHover(element: HTMLElement, event: any): boolean {
+    export function mouseHover(element: Element, event: any): boolean {
         let rect = element.getBoundingClientRect();
 
         return (
@@ -7,6 +7,14 @@ export namespace DOMManagement {
             event.clientY >= rect.top && event.clientY <= rect.bottom
         );
     }
+    // function mouseHover(element: Element, x: number, y: number): boolean {
+    //     let rect = element.getBoundingClientRect();
+
+    //     return (
+    //         x >= rect.left && x <= rect.right &&
+    //         y >= rect.top && y <= rect.bottom
+    //     );
+    // }
 
     export function overflowX(element: HTMLElement): boolean {
         return element.scrollWidth > element.clientWidth;

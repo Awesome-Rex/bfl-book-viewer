@@ -63,12 +63,6 @@
     --area-anim: opacity 100ms linear;
 
     --page-turn: #00000011;
-
-    /*data*/
-    --page-per-view: 2;
-
-    --total-pages: 10;
-    --current-page: 1;
 }
 
 @include breakpoints.min {
@@ -76,10 +70,11 @@
         // pointer-events: none;
 
         display: flex;
-        justify-content: space-between; //Works for some reason
+        //+++++++++++++++JUSTIFY CONTENT NOW CONTROLLED BY REACT
+        justify-content:center;
+        // justify-content: space-between; //Works for some reason
+        
         align-items: center;
-
-        // @include mixins.scroll-container-x(0.75em, 0.75em);
     }
 
     .book-container .book-player {
@@ -93,6 +88,10 @@
             max-width: var(--max-viewer-width);
             min-height: 0;
             max-height: none;
+
+            flex-basis: auto;
+            flex-grow: 0;
+            flex-shrink: 0;
 
             @include effects.drop-out();
         }
@@ -124,7 +123,8 @@
 
         box-sizing: border-box !important;
 
-        min-height: var(--viewport-height-fill) !important;
+        // min-height: var(--viewport-height-fill) !important;
+        min-height: 100vh !important;
         padding: 1em !important; // padding: 0 !important;
         margin: 0 !important;
         
@@ -195,7 +195,8 @@
 
 .total-book-info + .article-content {
     padding-top: 1cm;
-    padding-bottom: 2cm;
+    padding-bottom: 1cm;
+    // padding-bottom: 2cm;
 
     @include styles.heading {
         color: inherit;
@@ -204,7 +205,7 @@
 
 //MOBILE ACCOMODATIONS
 :root {
-    @mixin intersect {
+    @mixin intersect { // when bookplayer bottom edge touching book info / navbar
         @include breakpoints.sm(true) {
             @media (min-height: breakpoints.get-max(xs, false)) { //media query linked to _home.scss media
                 @include mixins.hover-mobile {
@@ -238,5 +239,127 @@
         @include intersect {
             padding-top: 1rem;
         }
+    }
+}
+
+.page-filler {
+    position: relative;
+    display:grid;
+    place-items: center;
+
+    box-sizing: border-box;
+    overflow-y: hidden;
+
+    width: 100%;
+    height: 100%;
+    max-height: 100%;
+
+    // padding: 10%;
+
+    background-color: var(--col-purple-dark);
+    
+    .content {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+
+        box-sizing:border-box;
+        overflow-y: hidden;
+
+        height: 100%;
+        max-height: 75%;
+        width: 100%;
+        max-width: min(12cm, 75%);
+
+        text-align: left;
+
+        .icon {
+            width: 40%;
+
+            flex-shrink: 0;
+            flex-grow: 0;
+        }
+
+        .textual {
+            cursor: pointer;
+            pointer-events: all;
+
+            overflow-y: auto;
+            flex-shrink: 1;
+            flex-grow: 1;
+
+            margin-top: 10%;
+
+            font-size: 1.2rem;
+            // font-weight: bold;
+
+
+            // https://lea.verou.me/2012/04/background-attachment-local/
+            // https://stackoverflow.com/questions/44793453/how-do-i-add-a-top-and-bottom-shadow-while-scrolling-but-only-when-needed
+            background: /* Shadow covers */
+                linear-gradient(var(--col-purple-dark) 30%, rgba(255, 255, 255, 0)), linear-gradient(rgba(255, 255, 255, 0), var(--col-purple-dark) 70%) 0 100%, /* Shadows */
+                radial-gradient(50% 0, farthest-side, rgba(0, 0, 0, .2), rgba(0, 0, 0, 0)), radial-gradient(50% 100%, farthest-side, rgba(0, 0, 0, .2), rgba(0, 0, 0, 0)) 0 100%;
+            background: /* Shadow covers */
+                linear-gradient(var(--col-purple-dark) 30%, rgba(255, 255, 255, 0)), linear-gradient(rgba(255, 255, 255, 0), var(--col-purple-dark) 70%) 0 100%, /* Shadows */
+                radial-gradient(farthest-side at 50% 0, rgba(0, 0, 0, .2), rgba(0, 0, 0, 0)), radial-gradient(farthest-side at 50% 100%, rgba(0, 0, 0, .2), rgba(0, 0, 0, 0)) 0 100%;
+            background-repeat: no-repeat;
+            background-color: var(--col-purple-dark);
+            background-size: 100% 40px, 100% 40px, 100% 14px, 100% 14px;
+            /* Opera doesn't support this in the shorthand */
+            background-attachment: local, local, scroll, scroll;
+
+
+
+            &::-webkit-scrollbar {
+                //display: none;
+
+                width: 1rem;
+
+                transition: none;
+            }
+
+            &::-webkit-scrollbar-thumb {
+                width: 1rem;
+                height: 1rem;
+
+                border-top-left-radius: 100vw;
+                border-bottom-left-radius: 100vw;
+
+                // background-color: rgb(84, 47, 97);
+                // border-radius: 100vw;
+
+                // background-color: var(--col-purple-dark);
+                // background-color: var(--col-gold-dim);
+                // border-radius: 100vw;
+                // border-top-left-radius: 100vw;
+                // border-bottom-left-radius: 100vw;
+                
+                // @include effects.drop-out();
+
+                transition: none;
+            }
+
+            &:hover::-webkit-scrollbar-thumb {
+                @include effects.drop-out();
+
+                transition: none;
+            }
+        }
+    }
+}
+
+.extra {
+    text-align: center;
+
+    padding: auto 1rem;
+
+    color: #686868 /*black*/;
+    font-weight: bold;
+    font-style: italic;
+
+    > a {
+        @extend .extra;
     }
 }
