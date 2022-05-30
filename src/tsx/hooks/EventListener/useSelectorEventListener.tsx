@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { TypeManagement } from 'src/ts/helpers/TypeManagement/TypeManagement';
 
 export default function useSelectorEventListener(
@@ -7,8 +7,13 @@ export default function useSelectorEventListener(
     type: TypeManagement.EventType, 
     callback: (e?: Event) => void, options?: boolean | AddEventListenerOptions | undefined
 ) {
+    const removeEventListener = useRef<(() => void) | undefined>(undefined);
+
     useEffect(() => {
         if (ref != undefined) {
+            // disconnect on restart useEffect
+            if (removeEventListener.current != undefined) removeEventListener.current();
+
             // event handler
             const handleEvent = (e: Event) => {
                 if ((e.target as Element).matches(selector)) {
@@ -21,9 +26,8 @@ export default function useSelectorEventListener(
             ref.addEventListener(type, handleEvent);
 
             //unmount
-            return () => {
-                ref.removeEventListener(type, handleEvent);
-            }
+            removeEventListener.current = () => ref.removeEventListener(type, handleEvent);
+            return removeEventListener.current;
         }
     }, [ref,/* selector, type, *//*callback,*/ options]);
 }

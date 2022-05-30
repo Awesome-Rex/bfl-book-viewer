@@ -14,27 +14,17 @@ import BookPlayer from "src/tsx/components/BookPlayer";
 import Navbar from "src/tsx/layout/Navbar";
 import Footer from 'src/tsx/layout/Footer';
 import ZoomToolbar from 'src/tsx/layout/ZoomToolbar';
-import BookPlayerInfo from "src/tsx/components/BookPlayerInfo";
 import RectLink from "src/tsx/components/RectLink";
 import FixedScreen from 'src/tsx/layout/FixedScreen';
 import ScrollContainer from "src/tsx/containers/ScrollContainer";
 import ArticleContent from "src/tsx/layout/ArticleContent";
-import Book from "src/ts/models/BookOutlines/Book";
-import Reader from "src/ts/models/BookOutlines/Reader";
-import EditorBFL from "src/ts/models/BookOutlines/EditorBFL";
 import BookProgress from "src/ts/models/BookProgress";
-import Author from "src/ts/models/BookOutlines/Author";
-import useWindowResize from "src/tsx/hooks/useWindowResize";
 import BookInfo from "./BookInfo";
 import AuthorInfo from "./AuthorInfo";
 import ReaderInfo from "./ReaderInfo";
 import EditorInfo from "./EditorInfo";
-import BookOutline, { Format, VoiceType } from "src/ts/models/BookOutline";
-import PDFViewer from "src/tsx/components/PDFViewer/PDFViewer";
-import BookSource, { PageLayout } from "src/ts/models/BookSource";
 import books from "./ResourceBooks";
-import DateManagement from "src/ts/helpers/DateManagement";
-import "src/ts/helpers/DateManagement";
+import useWindowResize from "src/tsx/hooks/DOM/useWindowResize";
 
 export const BookViewerContext = createContext<{
 	progress: BookProgress,

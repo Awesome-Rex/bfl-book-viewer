@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { TypeManagement } from 'src/ts/helpers/TypeManagement/TypeManagement';
 
 export default function useGlobalEventListener(
@@ -6,8 +6,13 @@ export default function useGlobalEventListener(
     type: TypeManagement.EventType,
     callback: EventListenerOrEventListenerObject, 
     options?: boolean | AddEventListenerOptions | undefined
-    ) {
+) {
+    const removeEventListener = useRef<(() => void) | undefined>(undefined);
+
     useEffect(() => {
+        // disconnect on restart useEffect
+        if (removeEventListener.current != undefined) removeEventListener.current();
+
         // event handler
         const handleEvent = (e: Event) => {
             if ((e.target as Element).matches(selector)) {
@@ -20,8 +25,7 @@ export default function useGlobalEventListener(
         document.addEventListener(type, handleEvent);
 
         //unmount
-        return () => {
-            document.removeEventListener(type, handleEvent);
-        }
+        removeEventListener.current = () => document.removeEventListener(type, handleEvent);
+        return removeEventListener.current;
     }, [/*selector, type, *//*callback,*/ options]);
 }

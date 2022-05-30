@@ -1,6 +1,6 @@
 import React, { CSSProperties, useEffect, useRef, useState } from "react";
-import useRefEventListener from "src/tsx/hooks/useRefEventListener";
-import useSelectorEventListener from "src/tsx/hooks/useSelectorEventListener";
+import useSelectorEventListener from "src/tsx/hooks/EventListener/useSelectorEventListener";
+
 import "./scroll-container.scss";
 
 enum ScrollType {x = "x", y = "y"};

@@ -1,6 +1,8 @@
 export namespace DOMManagement {
-    export function mouseHover(element: Element, event: any): boolean {
-        let rect = element.getBoundingClientRect();
+    export function mouseHover(ref: Element, event: any): boolean {
+        if (ref == undefined) return false;
+
+        let rect = ref.getBoundingClientRect();
 
         return (
             event.clientX >= rect.left && event.clientX <= rect.right &&

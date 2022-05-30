@@ -9,14 +9,14 @@ import Progress from "./Progress";
 import Book from "src/ts/models/BookOutlines/Book";
 import BookProgress from "src/ts/models/BookProgress";
 import { BookViewerContext } from "src/tsx/pages/BookViewer/BookViewer";
-import useWindowResize from "src/tsx/hooks/useWindowResize";
+import useWindowResize from "src/tsx/hooks/DOM/useWindowResize";
 import PDFViewer from "../PDFViewer/PDFViewer";
 import { PageCollection, PageLayout, PageOffset } from "src/ts/models/BookSource";
-import useRefEventListener from "src/tsx/hooks/useRefEventListener";
 import DOMManagement from "src/ts/helpers/DOMManagement";
 import EventManagement from "src/ts/helpers/EventManagement";
 import { PageRange } from "src/ts/models/PageRange";
-import useSwitchCallback, { SwitchRef } from "src/tsx/hooks/useSwitchCallback";
+import useRefEventListener from "src/tsx/hooks/EventListener/useRefEventListener";
+import useSwitchCallback, { SwitchRef } from "src/tsx/hooks/Utility/useSwitchCallback";
 
 export const BookPlayerContext = createContext<{
 	sliderRef: MutableRefObject<HTMLInputElement>,
@@ -248,7 +248,7 @@ const BookPlayer = ({
 				currentPages, setCurrentPages,
 			}
         }}>
-			<div ref={ref} className="book-player">
+			<div ref={ref} className="book-player" style={{cursor: !pageTurnHover.next && !pageTurnHover.prev ? "crosshair" : "pointer"}}>
 				<div className="page" draggable="false">
 					<PDFViewer 
 						src={source.location} 
@@ -261,6 +261,13 @@ const BookPlayer = ({
 						renderAnnotationLayer={false}
 						firstFiller={firstFiller}
 						lastFiller={lastFiller}
+						renderTextLayer={true}
+						textLayerStyle={{
+							cursor: "text",
+							color: "transparent",
+							userSelect:"text"
+						}}
+						textLayerClassName={"text-layer"}
 					/>
 				</div>
 				

@@ -1,20 +1,19 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { TypeManagement } from 'src/ts/helpers/TypeManagement/TypeManagement';
-import useRefMutationObserver from './useRefMutationObserver';
 
-export default function useSelectorIntersectionObserver(
+export default function useSelectorResizeObserver(
     ref: Element, 
     selector: string,
-    callback: IntersectionObserverCallback,
-    options?: IntersectionObserverInit
+    callback: ResizeObserverCallback,
+    options?: ResizeObserverOptions
 ) {
     useEffect(() => {
         if (ref != undefined) {
             //mount
-            const observer = new IntersectionObserver(callback, options);
+            const observer = new ResizeObserver(callback);
             document.querySelectorAll(selector).forEach(node => {
                 if ((node as Element).matches(selector)) {
-                    observer.observe(node)
+                    observer.observe(node, options)
                 }
             });
             
@@ -23,7 +22,7 @@ export default function useSelectorIntersectionObserver(
                 mutations.forEach((mutation) => {
                     mutation.addedNodes.forEach(node => {
                         if ((node as Element).matches(selector)) {
-                            observer.observe(node as Element);
+                            observer.observe(node as Element, options);
                         }
                     });
                 });

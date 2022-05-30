@@ -3,11 +3,11 @@ import "./book-player-info.scss";
 
 import Heading from "src/tsx/helpers/Heading";
 import PageBanner from "src/tsx/layout/PageBanner";
-import useRefResizeObserver from "src/tsx/hooks/useRefResizeObserver";
-import useRefEventListener from "src/tsx/hooks/useRefEventListener";
-import useWindowResize from "src/tsx/hooks/useWindowResize";
+import useWindowResize from "src/tsx/hooks/DOM/useWindowResize";
 import EventManagement from "src/ts/helpers/EventManagement";
 import DOMManagement from "src/ts/helpers/DOMManagement";
+import useComputedUnit, { UnitDimension } from "src/tsx/hooks/ComputedStyle/useComputedUnit";
+import useGetComputedStyle from "src/tsx/hooks/ComputedStyle/useGetComputedStyle";
 
 export default function BookPlayerInfo({
 	title = "",
@@ -32,25 +32,21 @@ export default function BookPlayerInfo({
     const drawerRef = useRef<HTMLDivElement>(null!);
     const descriptionRef = useRef<HTMLDivElement>(null!);
 
+	//style
+	const pxMinDescriptionHeight = useComputedUnit(descriptionRef.current, useGetComputedStyle(descriptionRef.current, "--max-info-desc"), UnitDimension.Height);
+	
     //state
-    const [windowWidth, windowHeight] = useWindowResize(() => {});
+    const [windowWidth, windowHeight] = useWindowResize();
     const [overflow, setOverflow] = useState<boolean>(false);
 	useEffect(() => {
-		setOverflow(DOMManagement.overflowY(descriptionRef.current));
-	}, [description, windowWidth, windowHeight]);
+		setOverflow(descriptionRef.current.scrollHeight > pxMinDescriptionHeight);
+	}, [description, windowWidth, windowHeight, pxMinDescriptionHeight, descriptionRef.current, descriptionRef.current?.scrollHeight]);
 	const [expanded, setExpanded] = useState<boolean>(false);
-
-	//events
-	useRefEventListener(drawerRef.current, "click", () => {
-		setExpanded(prev => !prev);
-	});
 
 	return (
 		<PageBanner 
             banner={{ 
-                className: `book-player-info ${className ?? ""} ${overflow ? "-overflow" : ""} ${expanded ? "-expand" : ""}`,
-                // @ts-ignore
-                style: {"--min-info-desc": `${descriptionRef.current?.scrollHeight}px`}
+                className: `book-player-info ${className ?? ""} ${overflow ? "-overflow" : ""} ${expanded ? "-expand" : ""}`
 			}} 
             ref={bookPlayerInfoRef}
         >
@@ -69,10 +65,23 @@ export default function BookPlayerInfo({
 						<span key={i}>{tag}</span>
 					))}
 				</div>
-				<div className="description" ref={descriptionRef}>{description}</div>
-				<div className="drawer" ref={drawerRef}>
-					<span className="text"></span>
+				<div 
+					className="description" 
+					ref={descriptionRef}
+					style={{
+						height: !overflow ? `auto` : !expanded ? pxMinDescriptionHeight : descriptionRef.current.scrollHeight,
+						overflowY: "hidden"
+					}}
+				>
+					{description}
 				</div>
+				{overflow && <div 
+					className="drawer" 
+					ref={drawerRef}
+					onClick={e => setExpanded(expanded => !expanded)}
+				>
+					<span className="text">{!expanded ? "EXPAND" : "COLLAPSE"}</span>
+				</div>}
 			</div>
 		</PageBanner>
 	);

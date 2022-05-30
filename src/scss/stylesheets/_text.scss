@@ -20,6 +20,15 @@
     }
 }
 
+*::selection {
+    color: var(--col-black);
+    background-color: var(--col-gold);
+}
+*::-moz-selection {
+    color: var(--col-black);
+    background-color: var(--col-gold);
+}
+
 @include styles.total-heading {
     color: var(--col-gold-dim);
 

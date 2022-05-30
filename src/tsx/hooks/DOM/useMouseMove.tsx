@@ -1,6 +1,6 @@
 import { debug } from 'console';
 import React, { useEffect, useState } from 'react';
-import useRefEventListener from './useRefEventListener';
+import useRefEventListener from '../EventListener/useRefEventListener';
 
 export default function useWindowResize(callback?: (mouseX?: number, mouseY?: number) => void) {
     const [position, setPosition] = useState<[number, number]>([0, 0]);

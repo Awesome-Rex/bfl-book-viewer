@@ -8,7 +8,7 @@
 @use "~src/scss/stylesheets/form";
 
 .book-player {
-    cursor: crosshair;
+    // cursor: crosshair;
     user-select: none;
     -webkit-tap-highlight-color: transparent;
 
@@ -129,7 +129,7 @@
     }
 
     &.-hover {
-        pointer-events: all;
+        // pointer-events: all;
 
         cursor: pointer;
 
@@ -168,5 +168,16 @@
                 opacity: 1;
             }
         }
+    }
+}
+
+.book-player .text-layer {
+    &::selection {
+        color: var(--col-black);
+        background: var(--col-gold);
+    }
+    &::-moz-selection {
+        color: var(--col-black);
+        background: var(--col-gold);
     }
 }

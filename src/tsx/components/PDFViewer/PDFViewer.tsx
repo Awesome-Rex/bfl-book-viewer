@@ -1,17 +1,18 @@
-import React, { CSSProperties, ForwardedRef, forwardRef, LegacyRef, MutableRefObject, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
-import handleRef from 'src/tsx/hooks/handleRef';
-import useRefResizeObserver from 'src/tsx/hooks/useRefResizeObserver';
-
 import {Document, Page, pdfjs} from "react-pdf/dist/esm/entry.webpack";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import 'react-pdf/dist/esm/Page/TextLayer';
+import path from "path";
+import CopyWebpackPlugin from 'copy-webpack-plugin';
 // import {Document, Page, pdfjs} from "react-pdf";
 // import pdfjsLib from 'public/vendors/pdfjs-dist/web/viewer';
 // pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
+
+import React, { CSSProperties, ForwardedRef, forwardRef, LegacyRef, MutableRefObject, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
+import handleRef from 'src/tsx/hooks/Basic/handleRef';
+
 import styles from "./pdf-viewer.module.scss";
-import useSelectorResizeObserver from 'src/tsx/hooks/useSelectorResizeObserver';
-//import "./pdf-viewer.scss";
+import useRefResizeObserver from "src/tsx/hooks/ResizeObserver/useRefResizeObserver";
 
 const PDFViewer = forwardRef(({
     src, 
@@ -24,6 +25,8 @@ const PDFViewer = forwardRef(({
 
     renderAnnotationLayer = false,
     renderTextLayer = false,
+    textLayerStyle,
+    textLayerClassName,
 
     firstFiller,
     lastFiller,
@@ -41,6 +44,8 @@ const PDFViewer = forwardRef(({
 
     renderAnnotationLayer?: boolean,
     renderTextLayer?: boolean,
+    textLayerStyle?: CSSProperties,
+    textLayerClassName?: string,
 
     firstFiller?: React.ReactNode,
     lastFiller?: React.ReactNode,
@@ -71,6 +76,16 @@ const PDFViewer = forwardRef(({
         if (!doubleSided) pageCanvasRefs.current = [null];
         if (doubleSided) pageCanvasRefs.current = [null, null];
     }, [source, doubleSided]);
+
+    // useLayoutEffect(() => {
+    //     console.log("page refs change");
+    //     pageRefs.current.forEach((pageRef, i, pageRefs) => {
+    //         pageRef?.querySelectorAll(":scope .react-pdf__Page__textContent > *").forEach((spanRef, i, text) => {
+    //             console.log("line");
+    //             spanRef.
+    //         });
+    //     });
+    // }, [JSON.stringify(currentPages)]);
 
     // book info
     const totalPages = useRef<number>(0);
@@ -181,6 +196,9 @@ const PDFViewer = forwardRef(({
                         onLoadSuccess={load} 
                         className={`${styles.document} ${styles.view}`}
                         inputRef={handleRef([documentRef], ref)}
+                        options={{
+                            standardFontDataUrl: "standard_fonts",
+                        }}
                     >
                         {!doubleSided ? ( 
                             <> {/* single page per view */}
@@ -200,6 +218,9 @@ const PDFViewer = forwardRef(({
                                     className={styles.page} 
                                     width={!pxWidth ? undefined : !half ? pxWidth : pxWidth * 0.5} 
                                     height={!pxHeight ? undefined : pxHeight}
+                                    customTextRenderer={({str: text, itemIndex: index}) => {
+                                        return (<span className={textLayerClassName} style={{all: "revert", ...textLayerStyle}}>{text}</span>)
+                                    }}
                                 />
                                 {half && last && <div 
                                     className={styles.filler} 
@@ -220,6 +241,9 @@ const PDFViewer = forwardRef(({
                                     className={styles.page} 
                                     width={!pxWidth ? undefined : pxWidth * 0.5} 
                                     height={pxHeight}
+                                    customTextRenderer={({str: text, itemIndex: index}) => {
+                                        return (<span className={textLayerClassName} style={{all: "revert", ...textLayerStyle}}>{text}</span>)
+                                    }}
                                 />) : (<div 
                                     className={styles.filler} 
                                     style={{
@@ -236,6 +260,9 @@ const PDFViewer = forwardRef(({
                                     className={styles.page} 
                                     width={!pxWidth ? undefined : pxWidth * 0.5}
                                     height={pxHeight}
+                                    customTextRenderer={({str: text, itemIndex: index}) => {
+                                        return (<span className={textLayerClassName} style={{all: "revert", ...textLayerStyle}}>{text}</span>)
+                                    }}
                                 />) : (<div 
                                     className={styles.filler} 
                                     style={{

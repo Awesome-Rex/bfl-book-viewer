@@ -21,6 +21,7 @@
 
     .slider { //background-color
         pointer-events: auto;
+        touch-action: none;
 
         --range-fill: var(--col-purple-dark);
         --range-remain: transparent;

@@ -1,5 +1,7 @@
 import React, { CSSProperties, useEffect, useLayoutEffect, useRef, useState } from 'react'
-import useWindowResize from 'src/tsx/hooks/useWindowResize';
+import useWindowResize from 'src/tsx/hooks/DOM/useWindowResize';
+
+
 import "./rect-link.scss";
 
 export default function RectLink(

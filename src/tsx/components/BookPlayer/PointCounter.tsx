@@ -1,7 +1,6 @@
 import React, { ForwardedRef, forwardRef, useContext, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { PageCollection, PageLayout, PageOffset } from "src/ts/models/BookSource";
-import handleRef from "src/tsx/hooks/handleRef";
-import useForceUpdate from "src/tsx/hooks/useForceUpdate";
+import handleRef from "src/tsx/hooks/Basic/handleRef";
 import { BookPlayerContext } from "./BookPlayer";
 
 import "./point-counter.scss";

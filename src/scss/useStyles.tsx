@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useRef } from "react";
-import useGlobalEventListener from "src/tsx/hooks/useGlobalEventListener";
-import useGlobalMutationObserver from "src/tsx/hooks/useGlobalMutationObserver";
-import useRefMutationObserver from "src/tsx/hooks/useRefMutationObserver";
+import useGlobalEventListener from "src/tsx/hooks/EventListener/useGlobalEventListener";
+import useGlobalMutationObserver from "src/tsx/hooks/MutationObserver/useGlobalMutationObserver";
 
 import "./main.scss"
 

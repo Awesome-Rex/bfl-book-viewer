@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import DOMManagement from 'src/ts/helpers/DOMManagement';
-import useRefEventListener from 'src/tsx/hooks/useRefEventListener';
+import useRefEventListener from 'src/tsx/hooks/EventListener/useRefEventListener';
 import { BookPlayerContext } from './BookPlayer';
 import PointCounter from './PointCounter';
 

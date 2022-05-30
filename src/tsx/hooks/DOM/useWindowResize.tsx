@@ -1,6 +1,6 @@
 import { debug } from 'console';
 import React, { useEffect, useReducer, useState } from 'react';
-import useRefEventListener from './useRefEventListener';
+import useRefEventListener from '../EventListener/useRefEventListener';
 
 export default function useWindowResize(callback?: (width?: number, height?: number) => void, options?: boolean | AddEventListenerOptions | undefined) {
     const [size, dispatchSize] = useReducer((state: [number, number]) => {

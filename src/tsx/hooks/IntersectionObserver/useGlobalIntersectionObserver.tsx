@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { TypeManagement } from 'src/ts/helpers/TypeManagement/TypeManagement';
-import useRefMutationObserver from './useRefMutationObserver';
 
 export default function useGlobalIntersectionObserver(
     selector: string,

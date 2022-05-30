@@ -1,8 +1,6 @@
 import React from "react";
 import "./footer.scss";
 
-import _arrowOutlineUpPATH from "src/assets/images/ArrowOutlineUp.svg";
-
 export default function Footer({ }) {
     return (
         <footer id="footer" className="-theme-dark">
@@ -11,9 +9,11 @@ export default function Footer({ }) {
                     <div className="description">
                         {/* footer */}
                         <p>Toll-free (844) 72-BOOKS</p>
-
+                        {/* <br/> */}
                         <p>With support from The Youth Opportunities Fund = Ontario Trillium Foundation and ACSA</p>
+                        {/* <br/> */}
                         <p>© 2020 The Blackstone Foundation Library.</p>
+                        {/* <br/> */}
                     </div>
                     {/* <div className="social">
 

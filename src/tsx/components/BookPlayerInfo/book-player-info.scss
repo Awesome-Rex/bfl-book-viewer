@@ -9,7 +9,8 @@
 // @use "./../functions";
 
 .book-player-info {
-    @include breakpoints.min {
+    & {
+    // @include breakpoints.min {
         position: relative;
         padding: 1em 1em;
 
@@ -98,90 +99,19 @@
                 box-sizing: border-box;
 
                 max-width: 75ch;
-                max-height: var(--max-info-desc);
+
+                text-align: justify;
                 
                 * {
                     color: inherit;
                 }
-            }
 
-            > .drawer {
-                display: none;
-            }
-        }
-    }
-
-    @include breakpoints.sm {
-        > div {
-            flex-direction: row;
-            justify-content: center;
-            align-items:flex-start;
-        }
-
-        .image {
-            margin-bottom: 0;
-
-            width: var(--min-book-info);
-
-            img {
-                float: right;
-            }
-        }
-
-        .info {
-            > .title {
-                text-align: left;
-
-                margin-bottom: -2px;
-                border: var(--line-width) solid;
-                padding: 0.5rem;
-            }
-
-            > .tags {
-                justify-content: flex-start;
-
-                column-gap: 0.5em;
-                row-gap: 0.25em;
-    
-                margin-top: 0;
-                margin-bottom: 1em;
-    
-                padding-left: 1em;
-                padding-right: 1em;
-
-                > * {
-                    flex-grow: 0;
+                > *:first-child {
+                    margin-top:0;
                 }
             }
 
-            > .description {
-                // padding-left: 1em;
-                margin-left: 1em;
-            }
-        }
-    }
-
-    @include breakpoints.lg {
-        .image {
-            width: var(--max-book-info);
-        }
-    }
-
-    //description expand/collapse
-    &.-overflow {
-        & {
-            padding-bottom: 1em !important;
-
-            .info {
-                > .description {
-                    overflow-y: hidden;
-
-                    mask-image: linear-gradient(to bottom, white calc(100% - 6em), var(--end-col));
-                    -webkit-mask-image: linear-gradient(to bottom, white calc(100% - 6em), var(--end-col));
-                }
-            }
-
-            .info > .drawer {
+            .drawer {
                 cursor: pointer;
                 user-select: none;
                 -webkit-tap-highlight-color: transparent;
@@ -241,37 +171,97 @@
                 }
             }
         }
+    }
 
-        &:not(.-expand) {
-            .info > .drawer .text::after {
-                content: "EXPAND";
+    @include breakpoints.sm {
+        > div {
+            flex-direction: row;
+            justify-content: center;
+            align-items:flex-start;
+        }
+
+        .image {
+            margin-bottom: 0;
+
+            width: var(--min-book-info);
+
+            img {
+                float: right;
             }
+        }
+
+        .info {
+            > .title {
+                text-align: left;
+
+                margin-bottom: -2px;
+                border: var(--line-width) solid;
+                padding: 0.5rem;
+            }
+
+            > .tags {
+                justify-content: flex-start;
+
+                column-gap: 0.5em;
+                row-gap: 0.25em;
+    
+                margin-top: 0;
+                margin-bottom: 1em;
+    
+                padding-left: 1em;
+                padding-right: 1em;
+
+                > * {
+                    flex-grow: 0;
+                }
+            }
+
+            > .description {
+                // padding-left: 1em;
+                margin-left: 1em;
+
+                text-align: left;
+            }
+        }
+    }
+
+    @include breakpoints.lg {
+        .image {
+            width: var(--max-book-info);
+        }
+    }
+
+    //description expand/collapse
+    &.-overflow {
+        & {
+            padding-bottom: 1em !important;
 
             .info {
                 > .description {
-                    height: var(--max-info-desc);
-                    max-height: var(--max-info-desc);
+                    overflow-y: hidden;
 
+                    mask-image: linear-gradient(to bottom, white calc(100% - 6em), var(--end-col));
+                    -webkit-mask-image: linear-gradient(to bottom, white calc(100% - 6em), var(--end-col));
+                }
+            }
+        }
+
+        &:not(.-expand), & {
+            .info {
+                > .description {
                     --end-col: hsla(0, 0%, 100%, 0%);
 
-                    transition: height 1000ms ease, max-height 1000ms ease, --end-col 1000ms; //collapse
+                    transition: height 1000ms ease, max-height 1000ms ease//, --end-col 1000ms; //collapse
                 }
             }
         }
     
         &.-expand {
-            .info > .drawer .text::after {
-                content: "COLLAPSE";
-            }
-
             .info {
                 > .description {
-                    height: var(--min-info-desc);
-                    max-height: var(--min-info-desc);
-
                     --end-col: hsl(0, 0%, 100%, 100%);
 
-                    transition: height 1000ms ease, max-height 1000ms ease, --end-col 1000ms; //expand
+                    transition: height 1000ms ease, max-height 1000ms ease//, --end-col 1000ms; //expand
                 }
             }
         }
