@@ -1,0 +1,35 @@
+{
+  "files": {
+    "main.css": "/bfl-book-viewer/static/css/main.1d027a69.css",
+    "main.js": "/bfl-book-viewer/static/js/main.f37f4f3b.js",
+    "static/js/787.0d68ebc0.chunk.js": "/bfl-book-viewer/static/js/787.0d68ebc0.chunk.js",
+    "static/media/Abe the Service Dog.pdf": "/bfl-book-viewer/static/media/Abe the Service Dog.de0d7cabbdca46eda24d.pdf",
+    "static/media/The Cat in the Hat (_PAGES_).pdf": "/bfl-book-viewer/static/media/The Cat in the Hat (_PAGES_).2661fa17544305390bc3.pdf",
+    "static/media/The Green Fern Zoo (_PAGES_).pdf": "/bfl-book-viewer/static/media/The Green Fern Zoo (_PAGES_).2e03d6957bfb1c3fc906.pdf",
+    "pdf.worker.js": "/bfl-book-viewer/e7e915313973ba1d49f9bb2a1998626e.js",
+    "static/media/Asap-VariableFont_wght.ttf": "/bfl-book-viewer/static/media/Asap-VariableFont_wght.e945e39bed9fd5e5ed9b.ttf",
+    "static/media/Roboto-MediumItalic.ttf": "/bfl-book-viewer/static/media/Roboto-MediumItalic.56a82359ebe22eaae14e.ttf",
+    "static/media/Roboto-ThinItalic.ttf": "/bfl-book-viewer/static/media/Roboto-ThinItalic.026cbce13cda4ab885bf.ttf",
+    "static/media/Roboto-BoldItalic.ttf": "/bfl-book-viewer/static/media/Roboto-BoldItalic.60c1f67b002e61ad0fe4.ttf",
+    "static/media/Roboto-Italic.ttf": "/bfl-book-viewer/static/media/Roboto-Italic.beb7fe13e61b9e683c37.ttf",
+    "static/media/Roboto-Medium.ttf": "/bfl-book-viewer/static/media/Roboto-Medium.7429a63c09f79a1760b0.ttf",
+    "static/media/Roboto-Thin.ttf": "/bfl-book-viewer/static/media/Roboto-Thin.1711b41f3ae4cb322eea.ttf",
+    "static/media/Roboto-Regular.ttf": "/bfl-book-viewer/static/media/Roboto-Regular.a8d6ac03c7b96b7acb62.ttf",
+    "static/media/Roboto-Bold.ttf": "/bfl-book-viewer/static/media/Roboto-Bold.75371f53f06181df75f1.ttf",
+    "static/media/Mouse-Cursor.svg": "/bfl-book-viewer/static/media/Mouse-Cursor.2ff7f0d1493777f93601c54b53ce7321.svg",
+    "static/media/Hamburger.svg": "/bfl-book-viewer/static/media/Hamburger.22a97c1a8f7ef47fb0f9.svg",
+    "static/media/ArrowOutlineUp.svg": "/bfl-book-viewer/static/media/ArrowOutlineUp.c1704ac34b553b9dfb83.svg",
+    "static/media/PlusInvert.svg": "/bfl-book-viewer/static/media/PlusInvert.255bf382579329d61714.svg",
+    "index.html": "/bfl-book-viewer/index.html",
+    "static/media/MinusInvert.svg": "/bfl-book-viewer/static/media/MinusInvert.c4e93333c0e9f03241ef.svg",
+    "static/media/ArrowLeft.svg": "/bfl-book-viewer/static/media/ArrowLeft.5bdfd4805434805832fed628f80b4bbd.svg",
+    "static/media/ArrowRight.svg": "/bfl-book-viewer/static/media/ArrowRight.6d8067f50d454e7893bd8c7f2db7a750.svg",
+    "main.1d027a69.css.map": "/bfl-book-viewer/static/css/main.1d027a69.css.map",
+    "main.f37f4f3b.js.map": "/bfl-book-viewer/static/js/main.f37f4f3b.js.map",
+    "787.0d68ebc0.chunk.js.map": "/bfl-book-viewer/static/js/787.0d68ebc0.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.1d027a69.css",
+    "static/js/main.f37f4f3b.js"
+  ]
+}
