@@ -1,5 +1,5 @@
 {
-  "homepage": "https://Awesome-Rex.github.io/bfl-book-viewer",
+  "homepage": "http://Awesome-Rex.github.io/bfl-book-viewer",
   "name": "bfl-book-viewer",
   "version": "0.1.0",
   "private": true,
@@ -19,11 +19,11 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
+    "webpack-start": "react-scripts start",
     "predeploy": "react-scripts build",
     "deploy": "gh-pages -d build",
     "gh-pages-predeploy": "react-scripts build",
     "gh-pages-deploy": "gh-pages -d build",
-    "webpack-start": "react-scripts start",
     "webpack-build": "react-scripts build",
     "webpack-test": "react-scripts test",
     "webpack-eject": "react-scripts eject",
