@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/bfl-book-viewer/static/css/main.1d027a69.css",
-    "main.js": "/bfl-book-viewer/static/js/main.f37f4f3b.js",
+    "main.css": "/bfl-book-viewer/static/css/main.c2720279.css",
+    "main.js": "/bfl-book-viewer/static/js/main.c817e912.js",
     "static/js/787.0d68ebc0.chunk.js": "/bfl-book-viewer/static/js/787.0d68ebc0.chunk.js",
     "static/media/Abe the Service Dog.pdf": "/bfl-book-viewer/static/media/Abe the Service Dog.de0d7cabbdca46eda24d.pdf",
     "static/media/The Cat in the Hat (_PAGES_).pdf": "/bfl-book-viewer/static/media/The Cat in the Hat (_PAGES_).2661fa17544305390bc3.pdf",
@@ -24,12 +24,12 @@
     "static/media/MinusInvert.svg": "/bfl-book-viewer/static/media/MinusInvert.c4e93333c0e9f03241ef.svg",
     "static/media/ArrowLeft.svg": "/bfl-book-viewer/static/media/ArrowLeft.5bdfd4805434805832fed628f80b4bbd.svg",
     "static/media/ArrowRight.svg": "/bfl-book-viewer/static/media/ArrowRight.6d8067f50d454e7893bd8c7f2db7a750.svg",
-    "main.1d027a69.css.map": "/bfl-book-viewer/static/css/main.1d027a69.css.map",
-    "main.f37f4f3b.js.map": "/bfl-book-viewer/static/js/main.f37f4f3b.js.map",
+    "main.c2720279.css.map": "/bfl-book-viewer/static/css/main.c2720279.css.map",
+    "main.c817e912.js.map": "/bfl-book-viewer/static/js/main.c817e912.js.map",
     "787.0d68ebc0.chunk.js.map": "/bfl-book-viewer/static/js/787.0d68ebc0.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.1d027a69.css",
-    "static/js/main.f37f4f3b.js"
+    "static/css/main.c2720279.css",
+    "static/js/main.c817e912.js"
   ]
 }
