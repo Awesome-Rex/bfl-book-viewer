@@ -7,6 +7,7 @@ import PointCounter from './PointCounter';
 import "./progress.scss";
 
 export default function Progress() {
+
     const context = useContext(BookPlayerContext);
 
     useRefEventListener(document, "mousemove", e => {
@@ -29,18 +30,15 @@ export default function Progress() {
                 type="range" 
                 min={context.progress.source.getViewRange().min}
                 max={context.progress.source.getViewRange().max}
-                value={context.input.currentView}
+                value={context.input.entryCurrentView}
                 onChange={e => {
-                    context.input.setCurrentView(parseFloat((e.target as HTMLInputElement).value));
-                    // context.setProgress(progress => {
-                    //     progress.currentView = Math.round(parseFloat((e.target as HTMLInputElement).value));
-                    //     return progress;
-                    // });
+                    context.input.setEntryCurrentView(parseFloat((e.target as HTMLInputElement).value));
 
                     context.setProgressActive(true);
                 }}
                 onPointerUp={e => {
-                    context.input.setCurrentView(Math.round(parseFloat((e.target as HTMLInputElement).value)));
+                    context.input.setEntryCurrentView(Math.round(parseFloat((e.target as HTMLInputElement).value)));
+                    
                     context.setProgress(progress => {
                         progress.currentView = Math.round(parseFloat((e.target as HTMLInputElement).value));
                         return progress;
@@ -53,9 +51,10 @@ export default function Progress() {
                 step={0.01}
                 ref={context.sliderRef}
             />
+            <span className="percent -theme-dark">{Math.round(context.progress.currentPageFullProgress * 100)}%</span>
             <PointCounter 
                 style={{
-                    left: `clamp(${context.pointCounterRef.current?.offsetWidth}px / 2 + 0.5rem, ${(context.input.currentView / context.progress.source.getTotalViews()) * 100}%, 100% - ${context.pointCounterRef.current?.offsetWidth}px / 2 - 0.5rem)`
+                    left: `clamp(${context.pointCounterRef.current?.offsetWidth}px / 2 + 0.5rem, ${(context.input.entryCurrentView / context.progress.source.getTotalViews()) * 100}%, 100% - ${context.pointCounterRef.current?.offsetWidth}px / 2 - 0.5rem)`
                 }}
                 ref={context.pointCounterRef}
             />

@@ -8,7 +8,7 @@
 @use "~src/scss/stylesheets/form";
 
 .book-player {
-    // cursor: crosshair;
+    // cursor: crosshair; // controleld by component
     user-select: none;
     -webkit-tap-highlight-color: transparent;
 

@@ -25,6 +25,8 @@ import ReaderInfo from "./ReaderInfo";
 import EditorInfo from "./EditorInfo";
 import books from "./ResourceBooks";
 import useWindowResize from "src/tsx/hooks/DOM/useWindowResize";
+import useComputedUnitRatio from "src/tsx/hooks/ComputedStyle/useComputedUnitRatio";
+import Filler from "./Filler";
 
 export const BookViewerContext = createContext<{
 	progress: BookProgress,
@@ -127,36 +129,26 @@ export default function BookViewer() {
 						setProgress={setProgress}
 						ref={bookPlayerRef}
 						firstFiller={
-							<div className="page-filler -theme-dark">
-								<div className="content">
-									<img className="icon" src="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/google/313/sparkles_2728.png"/>
-									<div className="textual">
-										<p>We believe that when a young mind comes across literature that inspires and encourages the journey of self-discovery, there is a spark ignited which when guided and nurtured, brings about a positive reform within Our Community.</p>
-										<p><strong>We are committed to igniting that flame.</strong></p>
-									</div>
-								</div>
-							</div>
+							<Filler icon="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/google/313/sparkles_2728.png">
+								<p>We believe that when a young mind comes across literature that inspires and encourages the journey of self-discovery, there is a spark ignited which when guided and nurtured, brings about a positive reform within Our Community.</p>
+								<p><strong>We are committed to igniting that flame.</strong></p>
+							</Filler>
 						}
 						lastFiller={
-							<div className="page-filler -theme-dark">
-								<div className="content">
-									<img className="icon" src="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/google/313/party-popper_1f389.png"/>
-									<div className="textual">
-										<p><strong>You just finished reading <i>{book.title}</i> by {author?.name}.</strong></p>
-										<p><strong>We hope you enjoyed the book!</strong></p>
-										{/* <ul>
-											<li>Looking for more books? <a href="#">Click here.</a></li>
-											<li>Looking for more books? <a href="#">Click here.</a></li>
-										</ul> */}
-										{/* <br/> */}
-										<hr/>
-										{/* <br/> */}
-										<p>The Blackstone Foundation Library is committed to ensuring access to culturally-relevant literature, mentorship opportunities and vital support systems as well as healthy engagement opportunities in safe, enabling spaces.</p>
-										<p>Together, we are challenging the popular narratives and forging a desired Black future.</p>
-										{/* <p style={{paddingLeft: "2rem"}}>We have come to the undeniable truth that knowledge is power. In the Black community, knowledge of self is the source of that power; THIS IS THE HEART BEHIND BLACKSTONE. - F.C</p> */}
-									</div>
-								</div>
-							</div>
+							<Filler icon="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/google/313/party-popper_1f389.png">
+								<p><strong>You just finished reading <i>{book.title}</i> by {author?.name}.</strong></p>
+								<p><strong>We hope you enjoyed the book!</strong></p>
+								{/* <ul>
+									<li>Looking for more books? <a href="#">Click here.</a></li>
+									<li>Looking for more books? <a href="#">Click here.</a></li>
+								</ul> */}
+								{/* <br/> */}
+								<hr/>
+								{/* <br/> */}
+								<p>The Blackstone Foundation Library is committed to ensuring access to culturally-relevant literature, mentorship opportunities and vital support systems as well as healthy engagement opportunities in safe, enabling spaces.</p>
+								<p>Together, we are challenging the popular narratives and forging a desired Black future.</p>
+								{/* <p style={{paddingLeft: "2rem"}}>We have come to the undeniable truth that knowledge is power. In the Black community, knowledge of self is the source of that power; THIS IS THE HEART BEHIND BLACKSTONE. - F.C</p> */}
+							</Filler>
 						}
 					/>
 				</ScrollContainer>

@@ -6,7 +6,8 @@
 }
 
 :root {
-    --drop-col: rgb(0, 0, 0, 0.2);
+    //--drop-col: rgb(0, 0, 0, 0.2);
+    --drop-col: rgb(0, 0, 0, 0.25);
     --drop-out: 1px 1px 12px var(--drop-col); //--drop-out: 1px 1px 12px rgb(0, 0, 0, 0.5);
     --drop-in: inset var(--drop-out);
 }

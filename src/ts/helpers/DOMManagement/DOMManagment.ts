@@ -43,4 +43,11 @@ export namespace DOMManagement {
     export function gridColumns(element: HTMLElement): number {
         return window.getComputedStyle(element).getPropertyValue("grid-template-columns").split(" ").length;
     }
+
+    export function streamlineUnits(units: string | number | undefined, defaultMeasure: string | number | "auto" | "none" | "0" | 0 = "auto"): string {
+        if (typeof units === "string") return units;
+        if (typeof units === "number") return `${units}px`;
+        if (typeof units === "undefined") return streamlineUnits(defaultMeasure);
+        return undefined!;
+    }
 }

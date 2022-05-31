@@ -13,6 +13,7 @@ import handleRef from 'src/tsx/hooks/Basic/handleRef';
 
 import styles from "./pdf-viewer.module.scss";
 import useRefResizeObserver from "src/tsx/hooks/ResizeObserver/useRefResizeObserver";
+import depArray from "src/tsx/hooks/Basic/depArray";
 
 const PDFViewer = forwardRef(({
     src, 
@@ -56,7 +57,7 @@ const PDFViewer = forwardRef(({
 }, ref: ForwardedRef<HTMLDivElement>) => { //+++++++++++++++++ useEffect on array prop will always activate (solved with ...)
     // source
     const source = src;
-    useEffect(() => {
+    useLayoutEffect(() => {
         setPxSize([0, 0]);
         setPxPageSize([0, 0]);
     }, [source]);
@@ -77,16 +78,6 @@ const PDFViewer = forwardRef(({
         if (doubleSided) pageCanvasRefs.current = [null, null];
     }, [source, doubleSided]);
 
-    // useLayoutEffect(() => {
-    //     console.log("page refs change");
-    //     pageRefs.current.forEach((pageRef, i, pageRefs) => {
-    //         pageRef?.querySelectorAll(":scope .react-pdf__Page__textContent > *").forEach((spanRef, i, text) => {
-    //             console.log("line");
-    //             spanRef.
-    //         });
-    //     });
-    // }, [JSON.stringify(currentPages)]);
-
     // book info
     const totalPages = useRef<number>(0);
 
@@ -101,7 +92,7 @@ const PDFViewer = forwardRef(({
         setFirst(first);
         setLast(last);
         setHalf((first && halfFirst) || (last && halfLast));
-    }, [JSON.stringify(currentPages), totalPages.current, doubleSided, source]);
+    }, [depArray(currentPages), totalPages.current, doubleSided, source]);
 
     // layout info
     const [[pxWidth, pxHeight], setPxSize] = useState<[number | undefined, number | undefined]>([undefined, undefined]);
@@ -135,11 +126,11 @@ const PDFViewer = forwardRef(({
         else if (definedWidth && !definedHeight)    setPxSize([calcWidth, undefined]);
         else if (definedHeight && !definedWidth)    setPxSize([undefined, calcHeight]);
     }, [viewerRef.current, containerRef.current]);
-    useLayoutEffect(() => resetPxSize(), [viewerRef, JSON.stringify(currentPages), pageRefs, source]);
+    useLayoutEffect(() => resetPxSize(), [viewerRef, depArray(currentPages), pageRefs, source]);
     useRefResizeObserver(viewerRef.current, (entries, observer) => resetPxSize());
     
     const [[pxPageWidth, pxPageHeight], setPxPageSize] = useState<[number, number]>([0, 0]);
-    useEffect(() => {
+    useLayoutEffect(() => {
         if (
             (pxHeight != undefined && 
                 (
@@ -156,10 +147,28 @@ const PDFViewer = forwardRef(({
             )
         ) {
             const pageCanvasRef = pageCanvasRefs.current.find(ref => ref != undefined);
-            if (pageCanvasRef != undefined) setPxPageSize([pageCanvasRef.clientWidth, pageCanvasRef.clientHeight]);
+            if (
+                pageCanvasRef != undefined// && 
+                //pageCanvasRef.clientWidth >= 0 &&
+                //pageCanvasRef.clientHeight >= 0 
+            ) {
+                setPxPageSize([pageCanvasRef.clientWidth, pageCanvasRef.clientHeight]);
+            }
         }
-    }, [pxWidth, pxHeight, doubleSided, half, JSON.stringify(pageCanvasRefs.current.map(ref => [ref?.clientWidth, ref?.clientHeight]))]);
+    }, [pxWidth, pxHeight, doubleSided, half, depArray(pageCanvasRefs.current, ref => [ref?.clientWidth, ref?.clientHeight])]);
 
+    const [[prevPxWidth, prevPxHeight], setPrevPxSize] = useState<[number, number]>([0, 0]);
+    const resetPrevPxSize = useCallback(() => {
+        if (
+            containerRef.current.clientWidth > 0 && 
+            containerRef.current.clientHeight > 0
+        ) {
+            setPrevPxSize([containerRef.current.clientWidth, containerRef.current.clientHeight]);
+        }
+    }, [containerRef.current]);
+    useLayoutEffect(() => resetPrevPxSize(), [depArray(currentPages)]);
+    useRefResizeObserver(containerRef.current, (entries, observer) => resetPrevPxSize());
+    
     // onload function
     const load = (doc: pdfjs.PDFDocumentProxy) => {
         const {numPages} = doc;
@@ -169,7 +178,14 @@ const PDFViewer = forwardRef(({
             totalPages.current = numPages;
         }
     }
-
+    
+	const pagesLoading = useRef<boolean[]>([true]); // currently unused
+    useEffect(() => {
+        if (!doubleSided) pagesLoading.current = [true];
+        if (doubleSided) pagesLoading.current = [true, true];
+    }, [source, doubleSided]);
+    const loading = useMemo(() => pagesLoading.current.reduce((a, b) => a && b), [depArray(pagesLoading.current)]); // currently unused
+    
     const pageClamp = (page: number) => {
         if (page < 1) return 1;
         if (page > totalPages.current && totalPages.current > 0) return totalPages.current;
@@ -178,20 +194,20 @@ const PDFViewer = forwardRef(({
     };
 
     return (
-        <div
+        <div // whole div
             className={`${styles.viewer} ${className}`}
             style={style}
             ref={viewerRef}
         >
-            <div 
+            <div // flex container
                 className={styles.container}
                 ref={containerRef}
             >
-                <div 
+                <div // flex contents (centered within container)
                     className={styles.dimensions} 
                     ref={dimensionRef} 
                 >
-                    <Document 
+                    <Document // contents
                         file={source} 
                         onLoadSuccess={load} 
                         className={`${styles.document} ${styles.view}`}
@@ -216,11 +232,22 @@ const PDFViewer = forwardRef(({
                                     inputRef={node => pageRefs.current[0] = node} 
                                     canvasRef={node => pageCanvasRefs.current[0] = node}
                                     className={styles.page} 
-                                    width={!pxWidth ? undefined : !half ? pxWidth : pxWidth * 0.5} 
-                                    height={!pxHeight ? undefined : pxHeight}
+                                    width={pxWidth == undefined ? undefined : !half ? pxWidth : pxWidth * 0.5} 
+                                    height={pxHeight == undefined ? undefined : pxHeight}
                                     customTextRenderer={({str: text, itemIndex: index}) => {
                                         return (<span className={textLayerClassName} style={{all: "revert", ...textLayerStyle}}>{text}</span>)
                                     }}
+                                    loading={() => {
+                                        pagesLoading.current[0] = true;
+                                        return (<div
+                                            style={{
+                                                display: "inline-block",
+                                                width: !half ? prevPxWidth : prevPxWidth * 0.5,
+                                                height: prevPxHeight
+                                            }}
+                                        />);
+                                    }}
+                                    onLoadSuccess={(page) => pagesLoading.current[0] = false}
                                 />
                                 {half && last && <div 
                                     className={styles.filler} 
@@ -239,11 +266,22 @@ const PDFViewer = forwardRef(({
                                     inputRef={node => pageRefs.current[0] = node} 
                                     canvasRef={node => pageCanvasRefs.current[0] = node}
                                     className={styles.page} 
-                                    width={!pxWidth ? undefined : pxWidth * 0.5} 
-                                    height={pxHeight}
+                                    width={pxWidth == undefined ? undefined : pxWidth * 0.5} 
+                                    height={pxHeight == undefined ? undefined : pxHeight}
                                     customTextRenderer={({str: text, itemIndex: index}) => {
                                         return (<span className={textLayerClassName} style={{all: "revert", ...textLayerStyle}}>{text}</span>)
                                     }}
+                                    loading={() => {
+                                        pagesLoading.current[0] = true;
+                                        return (<div
+                                            style={{
+                                                display: "inline-block",
+                                                width: prevPxWidth * 0.5,
+                                                height: prevPxHeight
+                                            }}
+                                        />);
+                                    }}
+                                    onLoadSuccess={(page) => pagesLoading.current[0] = false}
                                 />) : (<div 
                                     className={styles.filler} 
                                     style={{
@@ -258,11 +296,22 @@ const PDFViewer = forwardRef(({
                                     inputRef={node => pageRefs.current[1] = node} 
                                     canvasRef={node => pageCanvasRefs.current[1] = node}
                                     className={styles.page} 
-                                    width={!pxWidth ? undefined : pxWidth * 0.5}
-                                    height={pxHeight}
+                                    width={pxWidth == undefined ? undefined : pxWidth * 0.5} 
+                                    height={pxHeight == undefined ? undefined : pxHeight}
                                     customTextRenderer={({str: text, itemIndex: index}) => {
                                         return (<span className={textLayerClassName} style={{all: "revert", ...textLayerStyle}}>{text}</span>)
                                     }}
+                                    loading={() => {
+                                        pagesLoading.current[1] = true;
+                                        return (<div
+                                            style={{
+                                                display: "inline-block",
+                                                width: prevPxWidth * 0.5,
+                                                height: prevPxHeight
+                                            }}
+                                        />);
+                                    }}
+                                    onLoadSuccess={(page) => pagesLoading.current[1] = false}
                                 />) : (<div 
                                     className={styles.filler} 
                                     style={{

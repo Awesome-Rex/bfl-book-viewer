@@ -1,4 +1,4 @@
-import React, { createContext, ForwardedRef, forwardRef, MutableRefObject, useContext, useEffect, useLayoutEffect, useRef, useState } from "react";
+import React, { createContext, ForwardedRef, forwardRef, MutableRefObject, useContext, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import "./book-player.scss";
 
 // https://jakearchibald.github.io/svgomg/
@@ -32,7 +32,9 @@ export const BookPlayerContext = createContext<{
 
 	input: {
 		currentView: number, setCurrentView: React.Dispatch<React.SetStateAction<number>>,
-		currentPages: number[], setCurrentPages: React.Dispatch<React.SetStateAction<number[]>>
+		entryCurrentView: number, setEntryCurrentView: React.Dispatch<React.SetStateAction<number>>,
+		currentPages: number[], setCurrentPages: React.Dispatch<React.SetStateAction<number[]>>,
+		entryCurrentPages: number[], setEntryCurrentPages: React.Dispatch<React.SetStateAction<number[]>>
 	}
 }>(undefined!);
 
@@ -50,34 +52,6 @@ const BookPlayer = ({
 }, ref: ForwardedRef<HTMLDivElement>) => {
 	// PROPS
 	const {book, author, reader, editor, source} = progress;
-	// useEffect(() => {
-	// 	console.log(source)
-		
-	// 	console.log("%c view", "font-weight: bold; font-size: 1.5em;")
-	// 	console.log(source.getViewRange())
-	// 	console.log(source.getViewRange())
-	// 	console.log(source.getTotalViews())
-		
-	// 	console.log("%c raw", "font-weight: bold; font-size: 1.5em;")
-	// 	console.log(source.getPageRange(PageCollection.Raw, PageOffset.Offset))
-	// 	console.log(source.getPageRange(PageCollection.Raw, PageOffset.Start))
-	// 	console.log(source.getTotalPages(PageCollection.Raw))
-
-	// 	console.log("%c full", "font-weight: bold; font-size: 1.5em;")
-	// 	console.log(source.getPageRange(PageCollection.Full, PageOffset.Offset))
-	// 	console.log(source.getPageRange(PageCollection.Full, PageOffset.Start))
-	// 	console.log(source.getTotalPages(PageCollection.Full))
-		
-	// 	console.log("%c source", "font-weight: bold; font-size: 1.5em;")
-	// 	console.log(source.getPageRange(PageCollection.Source, PageOffset.Offset))
-	// 	console.log(source.getPageRange(PageCollection.Source, PageOffset.Start))
-	// 	console.log(source.getTotalPages(PageCollection.Source))
-
-	// 	console.log("%c defined", "font-weight: bold; font-size: 1.5em;")
-	// 	console.log(source.getPageRange(PageCollection.Defined, PageOffset.Offset))
-	// 	console.log(source.getPageRange(PageCollection.Defined, PageOffset.Start))
-	// 	console.log(source.getTotalPages(PageCollection.Defined))
-	// }, [])
 
 	// REFS
 	const viewerRef = useRef<HTMLDivElement>(null!);
@@ -94,14 +68,32 @@ const BookPlayer = ({
     const pointCounterRef = useRef<HTMLDivElement>(null!);
 
 	// STATE
-	const [currentView, setCurrentView] = useState<number>(progress.currentView);
+	const [entryCurrentView, setEntryCurrentView] = useState<number>(progress.currentView);
 	useEffect(() => {
         setCurrentView(progress.currentView);
     }, [progress.currentView]);
+	const [currentView, setCurrentView] = useMemo(() => [
+		Math.round(entryCurrentView),
+		setEntryCurrentView
+	], [entryCurrentView]);
+
 	const [currentPages, setCurrentPages] = useState<number[]>(progress.currentPages);
+	useEffect(() => {
+		setCurrentPages(progress.source.viewToPages(Math.round(currentView), PageCollection.Full, PageOffset.Offset));
+	}, [currentView]);
 	useEffect(() => {
 		setCurrentPages(progress.currentPages);
 	}, [progress.currentView]);
+
+	const [entryCurrentPages, setEntryCurrentPages] = useState<number[]>([0]);
+	useEffect(() => {
+		// entryStringCurrentPages(context.progress.currentPages.map(page => page.toString()))
+		setEntryCurrentPages(progress.currentPages);
+	}, [progress.source]);
+	useEffect(() => {
+		// entryStringCurrentPages(context.progress.source.viewToPages(Math.round(context.input.currentView)).map(page => page.toString()));
+		setEntryCurrentPages(progress.source.viewToPages(Math.round(currentView)));
+	}, [currentView]);
 
 	const usePageTurnHover = () => {
 		const [next, setNext] = useState<boolean>(false);
@@ -180,7 +172,7 @@ const BookPlayer = ({
 
 	// DATA
 	const [totalPages, setTotalPages] = useState<number>(undefined!);
-
+	
 	// EVENTS
 	useRefEventListener(document, "mousemove", e => { //page zone hover
 		for (let [side, ref] of Object.entries(pageZoneRef)) {
@@ -245,7 +237,9 @@ const BookPlayer = ({
 
 			input: {
 				currentView, setCurrentView,
+				entryCurrentView, setEntryCurrentView,
 				currentPages, setCurrentPages,
+				entryCurrentPages, setEntryCurrentPages
 			}
         }}>
 			<div ref={ref} className="book-player" style={{cursor: !pageTurnHover.next && !pageTurnHover.prev ? "crosshair" : "pointer"}}>
@@ -255,7 +249,7 @@ const BookPlayer = ({
 						doubleSided={source.pageLayout == PageLayout.Half} 
 						halfFirst={source.halfFirst}
 						halfLast={source.halfLast}
-						currentPages={source.pageToRaw(progress.currentPage, PageCollection.Full, PageOffset.Offset)}//{source.pageLayout == PageLayout.Half ? progress.currentPages : [progress.currentView]}
+						currentPages={source.pageToRaw(progress.currentPage, PageCollection.Full, PageOffset.Offset)}
 						setTotalPages={setTotalPages}
 						ref={viewerRef}
 						renderAnnotationLayer={false}

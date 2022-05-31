@@ -2,6 +2,7 @@ import React, { ForwardedRef, forwardRef, useContext, useEffect, useLayoutEffect
 import { PageCollection, PageLayout, PageOffset } from "src/ts/models/BookSource";
 import handleRef from "src/tsx/hooks/Basic/handleRef";
 import { BookPlayerContext } from "./BookPlayer";
+import PageEntry from "./PageEntry";
 
 import "./point-counter.scss";
 
@@ -10,11 +11,29 @@ const PointCounter = forwardRef(({
 }: {
 	style?: React.CSSProperties
 }, ref?: ForwardedRef<HTMLDivElement>) => {
+	// context
 	const context = useContext(BookPlayerContext);
 
+	// refs
+
+	// state
+
+	// functions
 	const validateNaN = (valid: number, invalid: number = 1) => {
 		if (!isNaN(valid)) return valid;
 		else return invalid;
+	}
+
+	// const validateNumber = (valid: string, invalid: number = 1) => {
+	// 	if (!isNaN(valid)) return parseInt(valid);
+	// 	else return invalid;
+	// }
+
+	const enterPage = (page: number) => {
+		context.setProgress(progress => {
+			progress.setCurrentPage(page);
+			return progress;
+		});
 	}
 
 	return (
@@ -32,68 +51,17 @@ const PointCounter = forwardRef(({
 				<span>
 					{context.progress.source.pageLayout == PageLayout.Single ? (
 						<>
-							<input 
-								className="page" 
-								type="number"
-								value={validateNaN(context.input.currentPages[0], 1)}
-								// min={context.progress.source.getPageRange(PageCollection.Full, PageOffset.Offset).min}
-								// max={context.progress.source.getPageRange(PageCollection.Full, PageOffset.Offset).max}
-								onInput={e => context.input.setCurrentPages([parseInt((e.target as HTMLInputElement).value)])}
-								onKeyUp={e => {
-									if (e.key === "Enter") context.setProgress(progress => {
-										progress.setCurrentPage(parseInt((e.target as HTMLInputElement).value));
-										return progress;
-									})
-								}}
-								onBlur={e => context.setProgress(progress => {
-									progress.setCurrentPage(parseInt(e.target.value));
-									return progress;
-								})}
-							/>
+							<PageEntry index={0}/>
 						</>
 					) : (
 						<>
-							<input 
-								className="page" 
-								type="number"
-								value={validateNaN(context.input.currentPages[0], 1)}
-								min={context.progress.source.getPageRange(PageCollection.Full, PageOffset.Offset).min}
-								max={context.progress.source.getPageRange(PageCollection.Full, PageOffset.Offset).max}
-								onInput={e => context.input.setCurrentPages(currentPages => [parseInt((e.target as HTMLInputElement).value), currentPages[1]])}
-								onKeyUp={e => {
-									if (e.key === "Enter") context.setProgress(progress => {
-										progress.setCurrentPage(parseInt((e.target as HTMLInputElement).value));
-										return progress;
-									})
-								}}
-								onBlur={e => context.setProgress(progress => {
-									progress.setCurrentPage(parseInt(e.target.value));
-									return progress;
-								})}
-							/>
-							<span className="dash static"><span/></span>
-							<input 
-								className="page" 
-								type="number"
-								value={validateNaN(context.input.currentPages[1], 1)}
-								min={context.progress.source.getPageRange(PageCollection.Full, PageOffset.Offset).min}
-								max={context.progress.source.getPageRange(PageCollection.Full, PageOffset.Offset).max}
-								onInput={e => context.input.setCurrentPages(currentPages => [currentPages[0], parseInt((e.target as HTMLInputElement).value)])}
-								onKeyUp={e => {
-									if (e.key === "Enter") context.setProgress(progress => {
-										progress.setCurrentPage(parseInt((e.target as HTMLInputElement).value));
-										return progress;
-									})
-								}}
-								onBlur={e => context.setProgress(progress => {
-									progress.setCurrentPage(parseInt(e.target.value));
-									return progress;
-								})}
-							/>
+							<PageEntry index={0}/>
+							<span className={`dash static entry ${!context.progress.source.pageIncluded(context.input.currentPages[0], PageCollection.Defined) && "-excluded"}`}><span/></span>
+							<PageEntry index={1}/>
 						</>
 					)}
 					<span className="divide static"><span/></span>
-					<span className="max">{context.progress.source.getPageRange(PageCollection.Source, PageOffset.Offset).max}</span>
+					<span className="max">{context.progress.source.getPageRange(PageCollection.Defined, PageOffset.Offset).max}</span>
 				</span>
 			</div>
 		</div>

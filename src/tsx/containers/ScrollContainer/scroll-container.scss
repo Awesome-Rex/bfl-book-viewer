@@ -6,6 +6,8 @@
     --reserve-bottom: 1em;
     --reserve-left: 1em;
     --reverse-right: 1em;
+
+    touch-action: none;
     
     &-x {
         overflow-x: scroll;

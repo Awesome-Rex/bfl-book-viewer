@@ -1,4 +1,5 @@
-import React, { useLayoutEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
+import DOMManagement from "src/ts/helpers/DOMManagement";
 import useRefResizeObserver from "../ResizeObserver/useRefResizeObserver";
 
 export enum UnitDimension {
@@ -6,33 +7,39 @@ export enum UnitDimension {
     Height = "height"
 };
 
-export default function useComputedUnit(ref: HTMLElement, units: string | number | undefined, dimension: UnitDimension = UnitDimension.Width): number {
+export default function useComputedUnit(
+    context: HTMLElement, 
+    measure: string | number | undefined, 
+    dimension: UnitDimension = UnitDimension.Width
+): number {
     const dimensionRef = useRef<HTMLElement>((() => {
-        const ref = document.createElement("div");
+        const ref = document.createElement("i");
         ref.style.display = "inline-block";
         ref.style.position = "absolute";
         ref.style.visibility = "hidden";
+        ref.style.fontStyle = "normal";
         
         return ref;
     })());
-    const [measure, setMeasure] = useState<number>(0);
-    
-    useLayoutEffect(() => {
-        dimensionRef.current.remove();
-        if (ref && dimensionRef) ref.parentElement?.appendChild(dimensionRef.current);
-    }, [ref]);
+    const [pxMeasure, setPxMeasure] = useState<number>(0);
 
-    useLayoutEffect(() => {
-        if (dimension == UnitDimension.Width) dimensionRef.current.style.width = units != undefined ? units.toString() : "auto";
-        if (dimension == UnitDimension.Height) dimensionRef.current.style.height = units != undefined ? units.toString() : "auto";
-    }, [dimensionRef.current, units, dimension]);
-    useRefResizeObserver(dimensionRef.current, () => {
-        setMeasure(
+    useLayoutEffect(() => { // add to dom
+        dimensionRef.current.remove();
+        context?.parentElement?.appendChild(dimensionRef.current);
+    }, [context]);
+    
+    useLayoutEffect(() => { // set dimensions
+        if (dimension == UnitDimension.Width) dimensionRef.current.style.width = DOMManagement.streamlineUnits(measure);
+        if (dimension == UnitDimension.Height) dimensionRef.current.style.height = DOMManagement.streamlineUnits(measure);
+    }, [measure, dimension])
+
+    useRefResizeObserver(dimensionRef.current, () => { // record dimensions
+        setPxMeasure(
             dimension == UnitDimension.Width ? dimensionRef.current.clientWidth :
             dimension == UnitDimension.Height ? dimensionRef.current.clientHeight : 
             0
         );
     });
 
-    return measure;
+    return pxMeasure; // returns dimensions
 }

@@ -77,6 +77,23 @@
     
         transition: opacity 80ms linear, bottom 120ms ease;
     }
+    .percent {
+        font-weight: bold;
+        font-size: 1rem;
+
+        right: 0.5rem;
+
+        @include effects.drop-out(true);
+
+
+        position: absolute;
+
+        bottom: 0;
+
+        opacity: 0;
+
+        transition: opacity 80ms linear, bottom 120ms ease;
+    }
     .zone {
         // pointer-events: auto;
         pointer-events: none;
@@ -130,7 +147,7 @@
             }
         }
     }
-    @mixin -hover {
+    @mixin -hover { // slider visual change on hover
         .slider {
             height: var(--progress-max);
         }
@@ -156,7 +173,7 @@
             height: var(--point-max);
         }
     }
-    &:is(.-near, .-hover, .-active)/*:not(.-touch)*/ {
+    &:is(.-near, .-hover, .-active)/*:not(.-touch)*/ { // near or hover or active
         .point-counter {
             bottom: 1rem;
 
@@ -165,12 +182,20 @@
             // animation-delay: 2s;
             transition: opacity 80ms linear, bottom 120ms ease;
         }
+
+        .percent {
+            bottom: 0.5rem;
+
+            opacity: 1;
+
+            transition: opacity 80ms linear, bottom 120ms ease;
+        }
     }
 
-    @include mixins.hover-mobile {
+    @include mixins.hover-mobile { // ensure progress bar always shows on mobile
         @include -hover;
 
-        .point-counter {
+        .point-counter { // point counter has longer delay
             transition: opacity 80ms linear 1.5s, bottom 120ms ease 1.5s;
         }
     }
