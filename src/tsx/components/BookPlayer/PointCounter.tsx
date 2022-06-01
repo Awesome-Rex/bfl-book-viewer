@@ -46,6 +46,9 @@ const PointCounter = forwardRef(({
 
 			onFocus={() => context.switchProgressNear.lockOn()}
 			onBlur={() => context.switchProgressNear.unlock()}
+
+			onPointerOver={() => context.interact.setWidgetHover(prev => prev || true)}
+			onPointerOut={() => context.interact.setWidgetHover(prev => prev || false)}
 		>
 			<div className="head">
 				<span>

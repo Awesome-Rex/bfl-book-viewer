@@ -17,6 +17,7 @@ import EventManagement from "src/ts/helpers/EventManagement";
 import { PageRange } from "src/ts/models/PageRange";
 import useRefEventListener from "src/tsx/hooks/EventListener/useRefEventListener";
 import useSwitchCallback, { SwitchRef } from "src/tsx/hooks/Utility/useSwitchCallback";
+import PageTurn from "./PageTurn";
 
 export const BookPlayerContext = createContext<{
 	sliderRef: MutableRefObject<HTMLInputElement>,
@@ -35,6 +36,12 @@ export const BookPlayerContext = createContext<{
 		entryCurrentView: number, setEntryCurrentView: React.Dispatch<React.SetStateAction<number>>,
 		currentPages: number[], setCurrentPages: React.Dispatch<React.SetStateAction<number[]>>,
 		entryCurrentPages: number[], setEntryCurrentPages: React.Dispatch<React.SetStateAction<number[]>>
+	},
+
+	interact: {
+		previewHover: boolean, // </React.SetStateAction>setPreviewHover: React.Dispatch<React.SetStateAction<boolean>>,
+		widgetHover: boolean, setWidgetHover: React.Dispatch<React.SetStateAction<boolean>>,
+		pageTurnHover: boolean, setPageTurnHover: React.Dispatch<React.SetStateAction<boolean>>
 	}
 }>(undefined!);
 
@@ -54,20 +61,17 @@ const BookPlayer = ({
 	const {book, author, reader, editor, source} = progress;
 
 	// REFS
+	const previewRef = useRef<HTMLDivElement>(null!);
 	const viewerRef = useRef<HTMLDivElement>(null!);
-	const pageTurnRef = {
-		next: useRef<HTMLDivElement>(null!),
-		prev: useRef<HTMLDivElement>(null!)
-	};
-	const pageZoneRef = {
-		next: useRef<HTMLDivElement>(null!),
-		prev: useRef<HTMLDivElement>(null!)
-	};
 	const sliderRef = useRef<HTMLInputElement>(null!);
     const progressZoneRef = useRef<HTMLDivElement>(null!);
     const pointCounterRef = useRef<HTMLDivElement>(null!);
 
 	// STATE
+	const [previewHover, setPreviewHover] = useState<boolean>(false);
+	const [widgetHover, setWidgetHover] = useState<boolean>(false);
+
+	// INPUT
 	const [entryCurrentView, setEntryCurrentView] = useState<number>(progress.currentView);
 	useEffect(() => {
         setCurrentView(progress.currentView);
@@ -95,71 +99,7 @@ const BookPlayer = ({
 		setEntryCurrentPages(progress.source.viewToPages(Math.round(currentView)));
 	}, [currentView]);
 
-	const usePageTurnHover = () => {
-		const [next, setNext] = useState<boolean>(false);
-		const [prev, setPrev] = useState<boolean>(false);
-		
-		return {
-			get next () { 
-				return next
-			},
-			set next(state) {
-				setNext(state);
-			},
-			get prev () { 
-				return prev
-			},
-			set prev(state) {
-				setPrev(state);
-			}
-		}
-	};
-	const pageTurnHover = usePageTurnHover();
-	const switchPageTurnHover = {
-		next: useSwitchCallback(() => {
-			pageTurnHover.next = true;
-		}, () => {
-			pageTurnHover.next = false;
-		}, false, false, 2000),
-		prev: useSwitchCallback(() => {
-			pageTurnHover.prev = true;
-		}, () => {
-			pageTurnHover.prev = false;
-		}, false, false, 2000),
-	};
-
-	const usePageTurnActive = () => {
-		const [next, setNext] = useState<boolean>(false);
-		const [prev, setPrev] = useState<boolean>(false);
-		
-		return {
-			get next () { 
-				return next
-			},
-			set next(state) {
-				setNext(state);
-			},
-			get prev () { 
-				return prev
-			},
-			set prev(state) {
-				setPrev(state);
-			}
-		}
-	};
-	const pageTurnActive = usePageTurnActive();
-	const switchPageTurnActive = {
-		next: useSwitchCallback(() => {
-			pageTurnActive.next = true;
-		}, () => {
-			pageTurnActive.next = false;
-		}, false, false),
-		prev: useSwitchCallback(() => {
-			pageTurnActive.prev = true;
-		}, () => {
-			pageTurnActive.prev = false;
-		}, false, false)
-	};
+	const [pageTurnHover, setPageTurnHover] = useState<boolean>(false);
 
 	const [progressNear, setProgressNear] = useState<boolean>(false);
 	const switchProgressNear = useSwitchCallback(() => {
@@ -172,56 +112,6 @@ const BookPlayer = ({
 
 	// DATA
 	const [totalPages, setTotalPages] = useState<number>(undefined!);
-	
-	// EVENTS
-	useRefEventListener(document, "mousemove", e => { //page zone hover
-		for (let [side, ref] of Object.entries(pageZoneRef)) {
-			if (DOMManagement.mouseHover(ref.current, e)) {
-				if (side == "next") switchPageTurnHover.next.burst(2000);
-				if (side == "prev") switchPageTurnHover.prev.burst(2000);
-			} else { // turn off hover when mouse leaves
-				if (side == "next") switchPageTurnHover.next.off();
-				if (side == "prev") switchPageTurnHover.prev.off();
-			}
-		}
-	});
-
-	useRefEventListener(document, "pointerdown", e => { // page zone active + press
-		for (let [side, ref] of Object.entries(pageZoneRef)) {
-			if (DOMManagement.mouseHover(ref.current, e)) {
-				if (side == "next") switchPageTurnActive.next.lockOn();
-				if (side == "prev") switchPageTurnActive.prev.lockOn();
-
-				if (side == "next") switchPageTurnHover.next.lockOn();
-				if (side == "prev") switchPageTurnHover.prev.lockOn();
-
-				document.addEventListener("pointerup", e => {
-					if (side == "next") switchPageTurnActive.next.lockOff();
-					if (side == "prev") switchPageTurnActive.prev.lockOff();
-
-					if (DOMManagement.mouseHover(ref.current, e)) {
-						// action
-						setProgress(progress => {
-							if (side == "next") progress.currentView += 1;
-							if (side == "prev") progress.currentView -= 1;
-
-							return progress;
-						});
-
-						switchProgressNear.burst(2000);
-						if (side == "next") {
-							switchPageTurnHover.next.unlock();
-							switchPageTurnHover.next.burst(2000, true);
-						}
-						if (side == "prev") {
-							switchPageTurnHover.prev.unlock();
-							switchPageTurnHover.prev.burst(2000, true);
-						}
-					}
-				}, {once: true});
-			}
-		}
-	});
 	
 	return (
 		<BookPlayerContext.Provider value={{
@@ -240,10 +130,28 @@ const BookPlayer = ({
 				entryCurrentView, setEntryCurrentView,
 				currentPages, setCurrentPages,
 				entryCurrentPages, setEntryCurrentPages
+			},
+
+			interact: {
+				previewHover,
+				widgetHover, setWidgetHover,
+				pageTurnHover, setPageTurnHover
 			}
         }}>
-			<div ref={ref} className="book-player" style={{cursor: !pageTurnHover.next && !pageTurnHover.prev ? "crosshair" : "pointer"}}>
-				<div className="page" draggable="false">
+			<div 
+				ref={ref} 
+				className="book-player" 
+				style={{
+					cursor: !pageTurnHover ? "crosshair" : "pointer"
+				}}
+				onPointerOver={() => setPreviewHover(true)}
+				onPointerOut={() => setPreviewHover(false)}
+			>
+				<div 
+					ref={previewRef}
+					className="preview" 
+					draggable="false"
+				>
 					<PDFViewer 
 						src={source.location} 
 						doubleSided={source.pageLayout == PageLayout.Half} 
@@ -264,33 +172,8 @@ const BookPlayer = ({
 						textLayerClassName={"text-layer"}
 					/>
 				</div>
-				
-				<div 
-					className={`page-turn next ${pageTurnHover.next ? "-hover" : ""} ${pageTurnActive.next ? "-active" : ""}`} 
-					style={{width: source.pageLayout != PageLayout.Single ? "50%" : "100%"}}
-					ref={pageTurnRef.next}
-				>
-					<div className="background"></div>
-					
-					<div className="zone" ref={pageZoneRef.next}></div>
-					
-					<div className="active"></div>
-					<img className="arrow" src={_arrowRightPATH} alt="" />
-				</div>
-				
-				<div 
-					className={`page-turn prev ${pageTurnHover.prev ? "-hover" : ""}  ${pageTurnActive.prev ? "-active" : ""}`}
-					style={{width: source.pageLayout != PageLayout.Single ? "50%" : "100%"}}
-					ref={pageTurnRef.prev}
-				>
-					<div className="background"></div>
-
-					<div className="zone" ref={pageZoneRef.prev}></div>
-
-					<div className="active"></div>
-					<img className="arrow" src={_arrowLeftPATH} alt="" />
-				</div>
-
+				<PageTurn className="next" modify={1} arrowImage={_arrowRightPATH}/>
+				<PageTurn className="prev" modify={-1} arrowImage={_arrowLeftPATH}/>
 				<Progress />
 			</div>
 		</BookPlayerContext.Provider>

@@ -27,7 +27,7 @@ export default function ZoomToolbar({zoom, setZoom}: {zoom: number, setZoom: Rea
                 className="slider" 
                 min="0" 
                 max="1" 
-                step="0.01" 
+                step="0.0001" 
                 value={zoom}
                 onChange={e => setZoom(parseFloat(e.target.value))}
                 // value={value} 

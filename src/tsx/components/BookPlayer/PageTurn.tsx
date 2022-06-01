@@ -5,7 +5,17 @@ import useRefEventListener from "src/tsx/hooks/EventListener/useRefEventListener
 import useSwitchCallback from "src/tsx/hooks/Utility/useSwitchCallback";
 import { BookPlayerContext } from "./BookPlayer";
 
-export default function PageTurn({modify, arrowImage}: {modify: number, arrowImage: string}) {
+export default function PageTurn({
+    modify, 
+    arrowImage,
+
+    className
+}: {
+    modify: number, 
+    arrowImage: string,
+
+    className: string
+}) {
     // context
     const context = useContext(BookPlayerContext);
 
@@ -17,8 +27,10 @@ export default function PageTurn({modify, arrowImage}: {modify: number, arrowIma
     const [hover, setHover] = useState<boolean>(false);
     const switchHover = useSwitchCallback(() => {
         setHover(true)
+        context.interact.setPageTurnHover(prev => prev || true);
     }, () => {
         setHover(false)
+        context.interact.setPageTurnHover(prev => prev || false);
     }, false, false, 2000);
     const [active, setActive] = useState<boolean>(false);
     const switchActive = useSwitchCallback(() => {
@@ -31,7 +43,7 @@ export default function PageTurn({modify, arrowImage}: {modify: number, arrowIma
 
     // events
     useRefEventListener(document, "mousemove", e => { //page zone hover
-		if (DOMManagement.mouseHover(pageZoneRef.current, e)) {
+		if (DOMManagement.mouseHover(pageZoneRef.current, e)/* && !context.interact.widgetHover*/) {
             switchHover.burst(2000);
         } else { // turn off hover when mouse leaves
             switchHover.off();
@@ -39,15 +51,14 @@ export default function PageTurn({modify, arrowImage}: {modify: number, arrowIma
 	});
 
 	useRefEventListener(document, "pointerdown", e => { // page zone active + press
-		if (DOMManagement.mouseHover(pageZoneRef.current, e)) {
+		if (DOMManagement.mouseHover(pageZoneRef.current, e)/* && !context.interact.widgetHover*/) {
             switchActive.lockOn();
             switchHover.lockOn();
 
             document.addEventListener("pointerup", e => {
                 switchActive.lockOff();
 
-                if (DOMManagement.mouseHover(pageZoneRef.current, e)) {
-                    // action
+                if (DOMManagement.mouseHover(pageZoneRef.current, e)/* && !context.interact.widgetHover*/) {
                     context.setProgress(progress => {
                         progress.currentView += modify;
                         return progress;
@@ -63,7 +74,7 @@ export default function PageTurn({modify, arrowImage}: {modify: number, arrowIma
 
     return (
         <div 
-            className={`page-turn next ${hover ? "-hover" : ""} ${active ? "-active" : ""}`} 
+            className={`page-turn ${className ?? ""} ${hover ? "-hover" : ""} ${active ? "-active" : ""}`} 
             style={{width: context.progress.source.pageLayout != PageLayout.Single ? "50%" : "100%"}}
             ref={pageTurnRef}
         >

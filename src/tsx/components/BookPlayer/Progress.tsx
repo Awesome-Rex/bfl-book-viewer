@@ -20,7 +20,9 @@ export default function Progress() {
     });
 
     return (
-        <div className={`progress ${context.progressNear ? "-near" : ""} ${context.progressHover ? "-hover" : ""} ${context.progressActive ? "-active" : ""}`}>
+        <div 
+            className={`progress ${context.progressNear ? "-near" : ""} ${context.progressHover ? "-hover" : ""} ${context.progressActive ? "-active" : ""}`}
+        >
             <div className="background"></div>
 
             <div className="zone" ref={context.progressZoneRef}></div>
@@ -46,8 +48,14 @@ export default function Progress() {
                     
                     context.setProgressActive(false);
                 }}
-                onPointerOver={e => context.setProgressHover(true)}
-                onPointerLeave={e => context.setProgressHover(false)}
+                onPointerOver={e => {
+                    context.setProgressHover(true);
+                    context.interact.setWidgetHover(prev => prev || true);
+                }}
+                onPointerOut={e => {
+                    context.setProgressHover(false);
+                    context.interact.setWidgetHover(prev => prev || false);
+                }}
                 step={0.01}
                 ref={context.sliderRef}
             />
